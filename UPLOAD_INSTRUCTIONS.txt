@@ -1,0 +1,6 @@
+1. Extract the ZIP.
+2. Open the extracted ApprenticePlus_v1_2_0_GitHub folder.
+3. Select ALL items inside it, including the courses folder.
+4. Drag them into a NEW empty GitHub repository upload page.
+5. Before committing, confirm GitHub shows courses/brick/index.html, courses/site/index.html and courses/bench/index.html.
+6. Enable Pages from main / root.
