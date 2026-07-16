@@ -1,0 +1,1 @@
+Fixed missing function reference so Home and Assignments render correctly.

@@ -1561,7 +1561,7 @@ function drawHighlightedText(pdf,text,prompts,x,y,maxWidth,lineHeight=4.2,newPag
 
 
 function ensureUnifiedAssignmentEvidence(evidence={},assignment=null){
-  evidence=ensurePortfolioReflection(ensureCombinedEvidence(evidence,assignment));
+  evidence=ensureCombinedEvidence(evidence,assignment);
   if(!evidence._unifiedStatementMigrated){
     const existingReflection=String(evidence.reflection||"").trim();
     const existingStatement=String(evidence.description||"").trim();
