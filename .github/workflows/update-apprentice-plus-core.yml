@@ -1,0 +1,35 @@
+name: Update Apprentice Plus Core
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Replace Apprentice Plus core
+        shell: bash
+        run: |
+          set -e
+          ZIP_FILE=$(find . -maxdepth 1 -type f -name 'ApprenticePlus_Core_v2_Update*.zip' | head -n 1)
+          test -n "$ZIP_FILE"
+          rm -rf /tmp/applus-core
+          mkdir -p /tmp/applus-core
+          unzip -q "$ZIP_FILE" -d /tmp/applus-core
+          cp -a /tmp/applus-core/. .
+          rm -f ApprenticePlus_Core_v2_Update*.zip
+
+      - name: Commit update
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Update Apprentice Plus core to v2" || exit 0
+          git push
