@@ -42,7 +42,7 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     };
 
     // -----------------------------------------------------------------
-    // PAGE 1 — six evidence spaces in a 3 x 2 table.
+    // PAGE 1 — nine evidence spaces in a 3 x 3 table.
     // -----------------------------------------------------------------
     addHeader(pdf,"Assignment Evidence Sheet",`Assignment ${assignment.id}`);
 
@@ -66,16 +66,16 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
 
     const evidenceItems=(evidence.evidenceItems||[])
       .filter(item=>item&&item.key)
-      .slice(0,6);
+      .slice(0,9);
 
     const columns=3;
-    const rows=2;
+    const rows=3;
     const gap=5;
     const cellW=(contentW-(gap*(columns-1)))/columns;
     const availableH=pageH-gridY-18;
     const cellH=(availableH-gap)/rows;
 
-    for(let index=0; index<6; index++){
+    for(let index=0; index<9; index++){
       const row=Math.floor(index/columns);
       const column=index%columns;
       const x=margin+(column*(cellW+gap));
@@ -160,32 +160,18 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     ],y);
 
     y=ensure(22,y);
-    y=sectionTitle(pdf,"Learner Activity Statement",y);
+    y=sectionTitle(pdf,"Assignment Statement",y);
     pdf.setFontSize(8.5);
     y=drawHighlightedText(
       pdf,
       evidence.description||"",
-      assignmentEvidencePrompts(assignment),
+      assignmentUnifiedPrompts(assignment),
       margin,
       y,
       contentW,
       4.2,
       newTextPage
     )+7;
-
-    y=ensure(22,y);
-    y=sectionTitle(pdf,"Knowledge & Behaviour Reflection",y);
-    pdf.setFontSize(8.5);
-    y=drawHighlightedText(
-      pdf,
-      evidence.reflection||"",
-      combinedReflectionPrompts(assignment),
-      margin,
-      y,
-      contentW,
-      4.2,
-      newTextPage
-    )+8;
 
     y=ensure(32,y);
     y=sectionTitle(pdf,"KSBs Evidenced — Assessor Reference",y);

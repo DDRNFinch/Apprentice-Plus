@@ -677,40 +677,124 @@ function drawHighlightedText(pdf,text,prompts,x,y,maxWidth,lineHeight=4.2,newPag
 }
 
 
-function allRequiredPromptsMet(assignment,evidence){
-  const activity=assignmentEvidencePrompts(assignment);
-  const reflection=combinedReflectionPrompts(assignment);
-  return {
-    activityOk:activity.every(p=>promptMatchedWithAliases(evidence.description||"",p.term)),
-    reflectionOk:reflection.every(p=>promptMatchedWithAliases(evidence.reflection||"",p.term))
-  };
-}
 
-function ensurePortfolioReflection(evidence={}){
-  if(!evidence.reflection){
-    evidence.reflection=Object.values(evidence.answers||{}).filter(Boolean).join("\n\n");
+function ensureUnifiedAssignmentEvidence(evidence={},assignment=null){
+  evidence=ensurePortfolioReflection(ensureCombinedEvidence(evidence,assignment));
+  if(!evidence._unifiedStatementMigrated){
+    const existingReflection=String(evidence.reflection||"").trim();
+    const existingStatement=String(evidence.description||"").trim();
+    if(existingReflection&&!existingStatement.includes(existingReflection)){
+      evidence.description=[existingStatement,existingReflection].filter(Boolean).join("\n\n");
+    }
+    evidence._unifiedStatementMigrated=true;
   }
   return evidence;
 }
 
-function assignmentStatus(assignment,evidence={}){
-  evidence=ensurePortfolioReflection(ensureCombinedEvidence(evidence,assignment));
-  const itemCount=(evidence.evidenceItems||[]).filter(x=>x?.key).length;
-  const descriptionWords=wordCount(evidence.description);
-  const reflectionWords=wordCount(evidence.reflection);
-  const promptState=allRequiredPromptsMet(assignment,evidence);
-  const descriptionDone=descriptionWords>=150;
-  const reflectionDone=reflectionWords>=150;
-  const requiredDone=itemCount>=3&&descriptionDone&&promptState.activityOk;
-  const answersDone=reflectionDone&&promptState.reflectionOk;
-  const hasAny=itemCount>0||descriptionWords>0||reflectionWords>0;
-  const pdfGenerated=state.documents?.some(x=>x.type==="Assignment Evidence Pack"&&x.assignmentId===assignment.id);
+const accuratePromptRules=[
+  [/health and safety legislation|legislation|regulations?.*safety/i,{label:"Legislation",term:"legislation|||regulation|||health and safety act"}],
+  [/\bPPE\b|personal protective equipment/i,{label:"PPE",term:"ppe|||personal protective equipment"}],
+  [/\bRPE\b|respiratory protective equipment|silica|wood dust/i,{label:"RPE",term:"rpe|||respiratory protective equipment"}],
+  [/\bLEV\b|local exhaust ventilation|dust extraction/i,{label:"LEV",term:"lev|||local exhaust ventilation|||extraction"}],
+  [/risk assessment/i,{label:"Risk assessment",term:"risk assessment|||rams"}],
+  [/method statement|safe system/i,{label:"Method statement",term:"method statement|||safe system"}],
+  [/environment/i,{label:"Environment",term:"environment|||environmental"}],
+  [/reuse/i,{label:"Reuse",term:"reuse|||reused"}],
+  [/recycl/i,{label:"Recycling",term:"recycling|||recycle|||recycled"}],
+  [/waste/i,{label:"Waste",term:"waste"}],
+  [/material efficiency|materials? efficiently|reduce.*waste/i,{label:"Materials",term:"materials|||material efficiency"}],
+  [/thermal efficiency|airtightness|ventilation/i,{label:"Thermal efficiency",term:"thermal efficiency|||airtightness|||ventilation"}],
+  [/verbal communication|communication|terminology/i,{label:"Communication",term:"communication|||communicated|||terminology"}],
+  [/team working|teamwork|wider build team|colleagues/i,{label:"Teamwork",term:"teamwork|||team working|||colleagues|||working together"}],
+  [/equality|diversity|inclusion/i,{label:"Inclusion",term:"equality|||diversity|||inclusion|||inclusive"}],
+  [/wellbeing|mental health|physical wellbeing/i,{label:"Wellbeing",term:"wellbeing|||mental health|||support"}],
+  [/drawing|specification|digital design|modelling/i,{label:"Drawings",term:"drawing|||drawings|||specification|||model"}],
+  [/estimate|quantit|resource calculation/i,{label:"Quantities",term:"quantity|||quantities|||calculation|||estimate"}],
+  [/hand tools?|common.*tools?/i,{label:"Hand tools",term:"hand tools|||hand tool"}],
+  [/power tools?|disc cutter|mixer|drill|machinery/i,{label:"Power tools",term:"power tools|||power tool|||machinery"}],
+  [/maintenance|cleaned.*stored|sharpen/i,{label:"Maintenance",term:"maintenance|||maintained|||cleaned|||stored|||sharpened"}],
+  [/brick|block|timber|board|materials?.*characteristics/i,{label:"Materials",term:"materials|||brick|||block|||timber|||board"}],
+  [/mortar mixing|mortar|gauging/i,{label:"Mortar",term:"mortar|||mixing|||gauging"}],
+  [/building construction|foundation|floors?|roofs?|walls?/i,{label:"Construction",term:"construction|||foundation|||wall|||floor|||roof"}],
+  [/british standards?|building regulations?|warranty|standards? and tolerances?/i,{label:"Standards",term:"standards|||building regulations|||tolerance"}],
+  [/quality|tolerances?|workmanship/i,{label:"Quality",term:"quality|||tolerance|||workmanship"}],
+  [/modern methods?|prefabricated|offsite/i,{label:"Modern methods",term:"modern methods|||prefabricated|||offsite"}],
+  [/brick bonds?|bonding|stretcher bond|english bond|flemish bond/i,{label:"Bond",term:"bond|||bonding|||stretcher|||english bond|||flemish bond"}],
+  [/setting out|datum|profiles?|gauge rods?|squares?/i,{label:"Setting out",term:"setting out|||datum|||profile|||gauge rod"}],
+  [/joint finishes?|weather struck|recessed|half round|bucket handle|flush joint/i,{label:"Joint finish",term:"joint finish|||weather struck|||recessed|||bucket handle|||flush"}],
+  [/measure and cut|cutting|accurate cutting/i,{label:"Cutting",term:"cutting|||cut|||measured|||marked"}],
+  [/soldier course|brick on edge/i,{label:"Soldier course",term:"soldier course|||brick on edge"}],
+  [/cavity wall|wall ties?|insulation|dpc|cavity trays?|lintels?|weep holes?/i,{label:"Cavity components",term:"cavity|||wall tie|||insulation|||dpc|||lintel|||weep hole"}],
+  [/decorative brickwork|projecting brick|banding|piers?/i,{label:"Decorative work",term:"decorative|||banding|||pier|||projecting"}],
+  [/defects?|repair methods?|damaged brick/i,{label:"Repairs",term:"repair|||defect|||damaged"}],
+  [/expansion joints?|movement joints?/i,{label:"Movement joints",term:"expansion joint|||movement joint"}],
+  [/protect materials?|frost|water or damage/i,{label:"Protection",term:"protected|||protection|||frost|||damage"}],
+  [/raking cut|gable end/i,{label:"Raking cut",term:"raking cut|||gable|||slope"}],
+  [/first fix|stud wall|floor joist|roof/i,{label:"First fix",term:"first fix|||stud|||joist|||roof"}],
+  [/second fix|door|lining|skirting|architrave/i,{label:"Second fix",term:"second fix|||door|||lining|||skirting|||architrave"}],
+  [/stairs?|handrails?|spindles?|balustrade/i,{label:"Stairs",term:"stairs|||staircase|||handrail|||spindle|||balustrade"}],
+  [/cladding/i,{label:"Cladding",term:"cladding"}],
+  [/joints?|mortice|tenon|dovetail|housing/i,{label:"Joints",term:"joint|||mortice|||tenon|||dovetail|||housing"}],
+  [/adhesive|dowels?|biscuits?|connections?|fixings?/i,{label:"Fixings",term:"adhesive|||dowel|||biscuit|||fixing|||connection"}],
+  [/surface preparation|abrasives?|sanding/i,{label:"Surface preparation",term:"surface preparation|||abrasive|||sanding"}],
+  [/finish|ironmongery/i,{label:"Finish",term:"finish|||finishing|||ironmongery"}],
+  [/professional behaviour|ownership|continued learning|development opportunities/i,{label:"Professional development",term:"professional|||ownership|||development|||learning"}]
+];
+
+function accurateKnowledgePrompts(assignment){
+  const text=(assignment.statementQuestions||[]).join(" ");
+  const prompts=[];
+  accuratePromptRules.forEach(([pattern,prompt])=>{
+    if(pattern.test(text)&&!prompts.some(item=>item.label===prompt.label))prompts.push({...prompt});
+  });
+  return prompts.slice(0,4);
+}
+
+function assignmentUnifiedPrompts(assignment){
+  return uniquePrompts([
+    ...assignmentEvidencePrompts(assignment),
+    ...accurateKnowledgePrompts(assignment)
+  ]);
+}
+
+function assignmentEvidenceSummary(assignment){
+  const practical=assignmentEvidencePrompts(assignment).map(prompt=>prompt.label);
+  const theory=accurateKnowledgePrompts(assignment).map(prompt=>prompt.label);
+  return [...new Set([...practical,...theory])].slice(0,7);
+}
+
+function allRequiredPromptsMet(assignment,evidence){
+  const prompts=assignmentUnifiedPrompts(assignment);
   return {
-    photosDone:Math.min(itemCount,3),itemCount,descriptionWords,reflectionWords,
-    descriptionDone,reflectionDone,promptState,requiredDone,answersDone,hasAny,pdfGenerated,
-    complete:requiredDone&&answersDone
+    activityOk:prompts.every(prompt=>promptMatchedWithAliases(evidence.description||"",prompt.term)),
+    reflectionOk:true,
+    allOk:prompts.every(prompt=>promptMatchedWithAliases(evidence.description||"",prompt.term))
   };
 }
+
+function assignmentStatus(assignment,evidence={}){
+  evidence=ensureUnifiedAssignmentEvidence(evidence,assignment);
+  const items=(evidence.evidenceItems||[]).filter(item=>item?.key);
+  const photoCount=items.filter(item=>item.isImage).length;
+  const itemCount=items.length;
+  const statementWords=wordCount(evidence.description);
+  const promptState=allRequiredPromptsMet(assignment,evidence);
+  const statementDone=statementWords>=100;
+  const promptsDone=promptState.allOk;
+  const ready=photoCount>=3&&statementDone&&promptsDone;
+  const pdfGenerated=state.documents?.some(doc=>doc.type==="Assignment Evidence Pack"&&doc.assignmentId===assignment.id);
+  const hasAny=itemCount>0||statementWords>0;
+  return {
+    photosDone:Math.min(photoCount,3),photoCount,itemCount,
+    descriptionWords:statementWords,statementWords,
+    descriptionDone:statementDone,statementDone,
+    reflectionDone:true,answersDone:promptsDone,promptState,promptsDone,
+    requiredDone:ready,ready,hasAny,pdfGenerated,
+    complete:ready&&pdfGenerated
+  };
+}
+
+
 function shuffleQuestion(original){
   const correctText=original.options[original.answer];
   const unknown=original.options.find(x=>x.toLowerCase().includes("don't know"));
@@ -1764,120 +1848,101 @@ document.addEventListener("keydown",event=>{
   if(event.key==="ArrowRight")moveImagePreview(1);
 });
 
+
 function evidence(){
   let migrated=false;
-  assignments.forEach(a=>{
-    state.evidence[a.id] ||= {};
-    const before=JSON.stringify(state.evidence[a.id]);
-    ensurePortfolioReflection(ensureCombinedEvidence(state.evidence[a.id],a));
-    if(before!==JSON.stringify(state.evidence[a.id]))migrated=true;
+  assignments.forEach(assignment=>{
+    state.evidence[assignment.id] ||= {};
+    const before=JSON.stringify(state.evidence[assignment.id]);
+    ensureUnifiedAssignmentEvidence(state.evidence[assignment.id],assignment);
+    if(before!==JSON.stringify(state.evidence[assignment.id]))migrated=true;
   });
   if(migrated)saveState(state);
 
-  const complete=assignments.filter(a=>assignmentStatus(a,state.evidence[a.id]).complete).length;
+  const complete=assignments.filter(assignment=>assignmentStatus(assignment,state.evidence[assignment.id]).complete).length;
 
   view().innerHTML=`<section class="card sticky-progress">
     <div class="split"><b>Assignment progress</b><b>${Math.round(complete/assignments.length*100)}%</b></div>
     <div class="progress"><div style="width:${complete/assignments.length*100}%"></div></div>
   </section>
 
-  ${assignments.map(a=>{
-    const ev=ensurePortfolioReflection(ensureCombinedEvidence(state.evidence[a.id]||{},a));
-    const status=assignmentStatus(a,ev);
-    const evidencePrompts=assignmentEvidencePrompts(a);
-    const topics=reflectionTopics(a);
+  ${assignments.map(assignment=>{
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[assignment.id]||{},assignment);
+    const status=assignmentStatus(assignment,evidence);
+    const prompts=assignmentUnifiedPrompts(assignment);
+    const evidenceSummary=assignmentEvidenceSummary(assignment);
+    const generated=state.documents.find(doc=>doc.type==="Assignment Evidence Pack"&&doc.assignmentId===assignment.id);
 
-    return `<details class="card assignment" data-assignment-id="${a.id}" ${openAssignmentId===a.id?"open":""}>
+    return `<details class="card assignment streamlined-assignment" data-assignment-id="${assignment.id}" ${openAssignmentId===assignment.id?"open":""}>
       <summary>
-        <span class="number ${status.complete?"status-complete":(status.hasAny?"status-some":"status-none")}">${a.id}</span>
-        <span><b>${a.title}</b><small>${status.complete?"Complete":(status.hasAny?"In progress":"Not started")}</small></span>
+        <span class="number ${status.complete?"status-complete":(status.hasAny?"status-some":"status-none")}">${assignment.id}</span>
+        <span><b>${assignment.title} <em data-status-label="${assignment.id}">– ${status.complete?"Complete":(status.hasAny?"In progress":"Not started")}</em></b></span>
       </summary>
 
-      <div class="assignment-checklist">
-        <div class="assignment-check ${status.itemCount>=3?"done":""}">${status.itemCount>=3?"✓":"○"} 3 evidence items</div>
-        <div class="assignment-check ${status.descriptionDone?"done":""}">${status.descriptionDone?"✓":"○"} Activity statement</div>
-        <div class="assignment-check ${status.answersDone?"done":""}">${status.answersDone?"✓":"○"} K&B reflection</div>
-        <div class="assignment-check ${status.pdfGenerated?"done":""}">${status.pdfGenerated?"✓":"○"} PDF generated</div>
+      <div class="assignment-checklist compact-checklist">
+        <div data-check-photos="${assignment.id}" class="assignment-check ${status.photoCount>=3?"done":""}">${status.photoCount>=3?"✓":"○"} 3 Photos minimum</div>
+        <div data-check-statement="${assignment.id}" class="assignment-check ${status.statementDone?"done":""}">${status.statementDone?"✓":"○"} 100 word statement</div>
+        <div data-check-prompts="${assignment.id}" class="assignment-check ${status.promptsDone?"done":""}">${status.promptsDone?"✓":"○"} All Prompts met</div>
+        <div data-check-pdf="${assignment.id}" class="assignment-check ${status.pdfGenerated?"done":""}">${status.pdfGenerated?"✓":"○"} PDF generated</div>
       </div>
 
-      <div class="grid">
-        <label>Learner name<input value="${state.profile.learner||"Not set"}" disabled></label>
-        <label>Date<input type="date" data-date="${a.id}" value="${ev.date||""}"></label>
-      </div>
-
-      <section class="combined-upload ${status.requiredDone?"done":""}">
-        <div class="split">
-          <div>
-            <b>📎 Evidence required</b>
-            <ol class="evidence-required-list">
-              ${evidencePrompts.map(p=>`<li>${p.label}</li>`).join("")}
-              <li>+ Any supporting evidence</li>
-            </ol>
-          </div>
-          <span>${status.itemCount}/3 minimum</span>
+      <section class="combined-upload streamlined-evidence">
+        <div class="evidence-heading">
+          <b>📎 Evidence required</b>
+          <span data-photo-count="${assignment.id}">${status.photoCount}/3 minimum · 9 maximum</span>
         </div>
+        <p class="evidence-summary">${evidenceSummary.join(", ")}.</p>
 
-        <button class="secondary" data-toggle-upload="${a.id}">+ Add Photo or File</button>
-        <div class="upload-menu" data-upload-menu="${a.id}">
+        <button class="secondary" data-toggle-upload="${assignment.id}" ${status.itemCount>=9?"disabled":""}>+ Add Photo or File</button>
+        <div class="upload-menu" data-upload-menu="${assignment.id}">
           <label class="upload-choice primary-choice">📷 Take a Photo
-            <input type="file" accept="image/*" capture="environment" data-combined-upload="${a.id}">
+            <input type="file" accept="image/*" capture="environment" data-combined-upload="${assignment.id}">
           </label>
           <label class="upload-choice">🖼️ Upload Photos
-            <input type="file" accept="image/*" multiple data-combined-upload="${a.id}">
+            <input type="file" accept="image/*" multiple data-combined-upload="${assignment.id}">
           </label>
           <label class="upload-choice">📄 Upload Files
-            <input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv" multiple data-combined-upload="${a.id}">
+            <input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv" multiple data-combined-upload="${assignment.id}">
           </label>
-          <button type="button" class="secondary" data-close-upload="${a.id}">Cancel</button>
+          <button type="button" class="secondary" data-close-upload="${assignment.id}">Cancel</button>
         </div>
 
         <div class="evidence-file-list">
-          ${(ev.evidenceItems||[]).map((item,i)=>`
+          ${(evidence.evidenceItems||[]).slice(0,9).map((item,index)=>`
             <div class="evidence-thumb-card">
               ${item.isImage
-                ? `<button class="evidence-thumb-btn" data-preview-image="${a.id}-${i}" aria-label="Preview ${item.name||`evidence image ${i+1}`}">
-                    <img data-thumb-key="${item.key}" alt="${item.name||`Evidence image ${i+1}`}">
+                ? `<button class="evidence-thumb-btn" data-preview-image="${assignment.id}-${index}" aria-label="Preview ${item.name||`evidence image ${index+1}`}">
+                    <img data-thumb-key="${item.key}" alt="${item.name||`Evidence image ${index+1}`}">
                   </button>`
-                : `<button class="file-open-btn" data-open-file="${a.id}-${i}">📄 Open file</button>`}
+                : `<button class="file-open-btn" data-open-file="${assignment.id}-${index}">📄 Open file</button>`}
               <div class="evidence-thumb-meta">
-                <b>${item.name||`Evidence item ${i+1}`}</b>
+                <b>${item.name||`Evidence item ${index+1}`}</b>
                 <small>${item.isImage?"Photograph":(item.type||"File")}</small>
-                <span class="upload-ok">✓ Uploaded</span>
               </div>
-              <button class="danger" data-remove-combined="${a.id}-${i}">Remove</button>
+              <button class="danger" data-remove-combined="${assignment.id}-${index}">Remove</button>
             </div>`).join("")}
         </div>
 
         <h3>Explain how you completed this activity</h3>
         <p class="evidence-prompt">Explain what you did, how you completed the activity, the tools, equipment and materials used, how you worked safely, how you checked the finished work, and how you solved any problems.</p>
-        ${renderPromptGuide(evidencePrompts,ev.description||"",`skill-${a.id}`)}
-        <textarea class="prompt-textarea" data-description="${a.id}" maxlength="5000" placeholder="Write a detailed activity statement of at least 150 words.">${ev.description||""}</textarea>
-        <small class="char-count word-count" data-description-count="${a.id}">${wordCount(ev.description)} / 150 words minimum</small>
+        <div class="prompt-guide required-prompts">
+          <small><b>You MUST include these points in your answer.</b> They turn green when mentioned:</small>
+          <div class="prompt-chips">
+            ${prompts.map((prompt,index)=>`<span class="prompt-chip ${promptMatchedWithAliases(evidence.description||"",prompt.term)?"matched":""}" data-prompt-chip="unified-${assignment.id}-${index}" data-term="${prompt.term}">${prompt.label}</span>`).join("")}
+          </div>
+        </div>
+        <textarea class="prompt-textarea unified-statement" data-description="${assignment.id}" maxlength="7000" placeholder="Write one clear statement of at least 100 words.">${evidence.description||""}</textarea>
+        <small class="char-count word-count" data-description-count="${assignment.id}">${wordCount(evidence.description)} / 100 words minimum</small>
         <span class="autosave-note">Everything saves automatically</span>
       </section>
 
-      <section class="question-box">
-        <h3>Knowledge & Behaviour Reflection</h3>
-        <p><b>Explain the following topics using examples from your workplace experience:</b> ${reflectionTopicSentence(a)}.</p>
-        ${renderPromptGuide(combinedReflectionPrompts(a),ev.reflection||"",`reflection-${a.id}`)}
-
-        <p class="small">${status.requiredDone?"Your evidence section is complete. Continue with your theory reflection.":"You can read and begin the theory section now. PDF generation will unlock after all evidence and word-count requirements are complete."}</p>
-        <textarea class="reflection-textarea" data-reflection="${a.id}" maxlength="9000" placeholder="Write one clear reflection of at least 150 words that covers all topics and highlighted prompts.">${ev.reflection||""}</textarea>
-        <small class="char-count word-count" data-reflection-count="${a.id}">${wordCount(ev.reflection)} / 150 words minimum</small>
-        <span class="autosave-note">Your reflection saves automatically</span>
-      </section>
-
-      <div class="button-row">
+      <div class="button-row streamlined-pdf-row">
         <div>
-          <span class="autosave-note">Assignment progress saves automatically</span>
-          ${(()=>{
-            const generated=state.documents.find(x=>x.type==="Assignment Evidence Pack"&&x.assignmentId===a.id);
-            return generated
-              ? `<small class="pdf-generated-info"><b>PDF last generated on ${generatedDateTime(generated.date)}</b><br>PDF located in Portfolio &gt; Documents</small>`
-              : `<small class="pdf-generated-info">PDF not generated yet.<br>Generated PDFs will be located in Portfolio &gt; Documents</small>`;
-          })()}
+          ${generated
+            ? `<small class="pdf-generated-info"><b>PDF last generated on ${generatedDateTime(generated.date)}</b><br>PDF located in Portfolio &gt; Documents</small>`
+            : `<small class="pdf-generated-info">PDF not generated yet.<br>Generated PDFs will be located in Portfolio &gt; Documents</small>`}
         </div>
-        <button class="primary" data-pdf="${a.id}" ${status.complete?"":"disabled"}>Generate PDF</button>
+        <button class="primary" data-pdf="${assignment.id}" ${status.ready?"":"disabled"}>Generate PDF</button>
       </div>
     </details>`;
   }).join("")}`;
@@ -1889,172 +1954,208 @@ function evidence(){
     });
   });
 
-  view().querySelectorAll("[data-toggle-upload]").forEach(btn=>btn.onclick=()=>{
-    view().querySelector(`[data-upload-menu="${btn.dataset.toggleUpload}"]`)?.classList.toggle("open");
+  view().querySelectorAll("[data-toggle-upload]").forEach(button=>button.onclick=()=>{
+    view().querySelector(`[data-upload-menu="${button.dataset.toggleUpload}"]`)?.classList.toggle("open");
   });
-
-  view().querySelectorAll("[data-close-upload]").forEach(btn=>btn.onclick=()=>{
-    view().querySelector(`[data-upload-menu="${btn.dataset.closeUpload}"]`)?.classList.remove("open");
+  view().querySelectorAll("[data-close-upload]").forEach(button=>button.onclick=()=>{
+    view().querySelector(`[data-upload-menu="${button.dataset.closeUpload}"]`)?.classList.remove("open");
   });
 
   attachPreviewModalControls();
 
-  view().querySelectorAll("[data-thumb-key]").forEach(async img=>{
-    const source=await getImage(img.dataset.thumbKey);
-    if(source)img.src=source;
+  view().querySelectorAll("[data-thumb-key]").forEach(async image=>{
+    const source=await getImage(image.dataset.thumbKey);
+    if(source)image.src=source;
   });
 
-  view().querySelectorAll("[data-preview-image]").forEach(btn=>btn.onclick=async()=>{
-    const [id,index]=btn.dataset.previewImage.split("-").map(Number);
-    const assignment=assignments.find(x=>x.id===id);
-    const ev=ensurePortfolioReflection(ensureCombinedEvidence(state.evidence[id]||{},assignment));
-    const images=(ev.evidenceItems||[]).filter(x=>x.isImage);
-    const clicked=ev.evidenceItems[index];
-    const imageIndex=Math.max(0,images.findIndex(x=>x.key===clicked?.key));
+  view().querySelectorAll("[data-preview-image]").forEach(button=>button.onclick=async()=>{
+    const [id,index]=button.dataset.previewImage.split("-").map(Number);
+    const assignment=assignments.find(item=>item.id===id);
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id]||{},assignment);
+    const images=(evidence.evidenceItems||[]).filter(item=>item.isImage);
+    const clicked=evidence.evidenceItems[index];
+    const imageIndex=Math.max(0,images.findIndex(item=>item.key===clicked?.key));
     await openImagePreview(images,imageIndex);
   });
 
-  view().querySelectorAll("[data-open-file]").forEach(btn=>btn.onclick=async()=>{
-    const [id,index]=btn.dataset.openFile.split("-").map(Number);
-    const assignment=assignments.find(x=>x.id===id);
-    const ev=ensurePortfolioReflection(ensureCombinedEvidence(state.evidence[id]||{},assignment));
-    const item=ev.evidenceItems[index];
+  view().querySelectorAll("[data-open-file]").forEach(button=>button.onclick=async()=>{
+    const [id,index]=button.dataset.openFile.split("-").map(Number);
+    const assignment=assignments.find(item=>item.id===id);
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id]||{},assignment);
+    const item=evidence.evidenceItems[index];
     if(item)await openStoredFile(item);
   });
 
   view().querySelectorAll("[data-combined-upload]").forEach(input=>input.onchange=async()=>{
     const id=Number(input.dataset.combinedUpload);
-    const assignment=assignments.find(x=>x.id===id);
+    const assignment=assignments.find(item=>item.id===id);
     const files=[...(input.files||[])];
     if(!files.length)return;
-    state.evidence[id] ||= {};
-    const ev=ensurePortfolioReflection(ensureCombinedEvidence(state.evidence[id],assignment));
-    const labels=assignmentEvidencePrompts(assignment);
 
-    for(const file of files){
+    state.evidence[id] ||= {};
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id],assignment);
+    const available=Math.max(0,9-(evidence.evidenceItems||[]).length);
+    if(!available){
+      alert("A maximum of 9 evidence items can be added to each assignment.");
+      input.value="";
+      return;
+    }
+    const selected=files.slice(0,available);
+    if(files.length>available)alert(`Only ${available} more evidence item${available===1?"":"s"} can be added. The maximum is 9.`);
+
+    const labels=assignmentEvidencePrompts(assignment);
+    for(const file of selected){
       const isImage=file.type.startsWith("image/");
       const key=`assignment-combined-${id}-${Date.now()}-${Math.random().toString(36).slice(2,7)}`;
       if(isImage)await putImage(key,await resizeImage(file));
       else await putFile(key,file);
-
-      const requiredIndex=Math.min(ev.evidenceItems.length,2);
-      ev.evidenceItems.push({
+      const requiredIndex=Math.min(evidence.evidenceItems.length,2);
+      evidence.evidenceItems.push({
         key,imageKey:isImage?key:null,fileKey:isImage?null:key,
-        name:ev.evidenceItems.length<3?labels[requiredIndex].label:(file.name||`Supporting evidence ${ev.evidenceItems.length-2}`),
+        name:evidence.evidenceItems.length<3?labels[requiredIndex].label:(file.name||`Supporting evidence ${evidence.evidenceItems.length-2}`),
         type:file.type||"File",size:file.size||0,isImage
       });
     }
-    state.lastAssignment=id;saveState(state);refreshEvidenceKeepingPlace(id);
+    state.lastAssignment=id;
+    saveState(state);
+    refreshEvidenceKeepingPlace(id);
   });
 
-  view().querySelectorAll("[data-remove-combined]").forEach(btn=>btn.onclick=async()=>{
-    const [id,index]=btn.dataset.removeCombined.split("-").map(Number);
-    const a=assignments.find(x=>x.id===id);
-    const ev=ensurePortfolioReflection(ensureCombinedEvidence(state.evidence[id]||{},a));
-    const item=ev.evidenceItems[index];
-    if(item?.key){try{await deleteImage(item.key)}catch(e){}}
-    ev.evidenceItems.splice(index,1);
-    saveState(state);refreshEvidenceKeepingPlace(id);
+  view().querySelectorAll("[data-remove-combined]").forEach(button=>button.onclick=async()=>{
+    const [id,index]=button.dataset.removeCombined.split("-").map(Number);
+    const assignment=assignments.find(item=>item.id===id);
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id]||{},assignment);
+    const item=evidence.evidenceItems[index];
+    if(item?.key){try{await deleteImage(item.key)}catch(error){}}
+    evidence.evidenceItems.splice(index,1);
+    saveState(state);
+    refreshEvidenceKeepingPlace(id);
   });
 
   const timers={};
-  const updateChips=(prefix,text)=>{
-    view().querySelectorAll(`[data-prompt-chip^="${prefix}-"]`).forEach(chip=>{
-      chip.classList.toggle("matched",promptMatchedWithAliases(text,chip.dataset.term));
-    });
+
+  const setCheck=(selector,done,label)=>{
+    const element=view().querySelector(selector);
+    if(!element)return;
+    element.classList.toggle("done",done);
+    element.textContent=`${done?"✓":"○"} ${label}`;
+  };
+
+  const refreshIndicators=id=>{
+    const assignment=assignments.find(item=>item.id===Number(id));
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id]||{},assignment);
+    const status=assignmentStatus(assignment,evidence);
+
+    setCheck(`[data-check-photos="${id}"]`,status.photoCount>=3,"3 Photos minimum");
+    setCheck(`[data-check-statement="${id}"]`,status.statementDone,"100 word statement");
+    setCheck(`[data-check-prompts="${id}"]`,status.promptsDone,"All Prompts met");
+    setCheck(`[data-check-pdf="${id}"]`,status.pdfGenerated,"PDF generated");
+
+    const statusLabel=view().querySelector(`[data-status-label="${id}"]`);
+    if(statusLabel)statusLabel.textContent=`– ${status.complete?"Complete":(status.hasAny?"In progress":"Not started")}`;
+
+    const pdfButton=view().querySelector(`[data-pdf="${id}"]`);
+    if(pdfButton)pdfButton.disabled=!status.ready;
+
+    const number=view().querySelector(`[data-assignment-id="${id}"] .number`);
+    if(number){
+      number.classList.toggle("status-complete",status.complete);
+      number.classList.toggle("status-some",!status.complete&&status.hasAny);
+      number.classList.toggle("status-none",!status.hasAny);
+    }
   };
 
   const saveText=id=>{
-    const a=assignments.find(x=>x.id===Number(id));
-    if(!a)return;
+    const assignment=assignments.find(item=>item.id===Number(id));
+    if(!assignment)return;
     state.evidence[id] ||= {};
-    const ev=ensurePortfolioReflection(ensureCombinedEvidence(state.evidence[id],a));
-    ev.date=view().querySelector(`[data-date="${id}"]`)?.value||ev.date||"";
-    const desc=view().querySelector(`[data-description="${id}"]`);
-    const reflection=view().querySelector(`[data-reflection="${id}"]`);
-    if(desc)ev.description=desc.value;
-    if(reflection)ev.reflection=reflection.value;
-    state.lastAssignment=Number(id);saveState(state);
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id],assignment);
+    const statement=view().querySelector(`[data-description="${id}"]`);
+    if(statement)evidence.description=statement.value;
+    if(!evidence.date)evidence.date=new Date().toISOString().slice(0,10);
+    state.lastAssignment=Number(id);
+    saveState(state);
   };
-  const schedule=id=>{clearTimeout(timers[id]);timers[id]=setTimeout(()=>saveText(id),300)};
-
-  view().querySelectorAll("[data-date]").forEach(x=>x.addEventListener("change",()=>saveText(Number(x.dataset.date))));
+  const schedule=id=>{
+    clearTimeout(timers[id]);
+    timers[id]=setTimeout(()=>saveText(id),250);
+  };
 
   view().querySelectorAll("[data-description]").forEach(box=>{
     const id=Number(box.dataset.description);
     const refresh=()=>{
+      state.evidence[id] ||= {};
+      const assignment=assignments.find(item=>item.id===id);
+      const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id],assignment);
+      evidence.description=box.value;
+
       const count=wordCount(box.value);
-      const el=view().querySelector(`[data-description-count="${id}"]`);
-      if(el){el.textContent=`${count} / 150 words minimum`;el.classList.toggle("valid",count>=150)}
-      updateChips(`skill-${id}`,box.value);
+      const counter=view().querySelector(`[data-description-count="${id}"]`);
+      if(counter){
+        counter.textContent=`${count} / 100 words minimum`;
+        counter.classList.toggle("valid",count>=100);
+      }
+
+      view().querySelectorAll(`[data-prompt-chip^="unified-${id}-"]`).forEach(chip=>{
+        chip.classList.toggle("matched",promptMatchedWithAliases(box.value,chip.dataset.term));
+      });
+      refreshIndicators(id);
     };
     box.addEventListener("input",()=>{refresh();schedule(id)});
-    box.addEventListener("blur",()=>saveText(id));refresh();
+    box.addEventListener("blur",()=>saveText(id));
+    refresh();
   });
 
-  view().querySelectorAll("[data-reflection]").forEach(box=>{
-    const id=Number(box.dataset.reflection);
-    const a=assignments.find(x=>x.id===id);
-    const refresh=()=>{
-      const count=wordCount(box.value);
-      const el=view().querySelector(`[data-reflection-count="${id}"]`);
-      if(el){el.textContent=`${count} / 150 words minimum`;el.classList.toggle("valid",count>=150)}
-      updateChips(`reflection-${id}`,box.value);
-    };
-    box.addEventListener("input",()=>{refresh();schedule(id)});
-    box.addEventListener("blur",()=>saveText(id));refresh();
-  });
-
-  view().querySelectorAll("[data-pdf]").forEach(btn=>btn.onclick=async()=>{
-    const id=Number(btn.dataset.pdf),a=assignments.find(x=>x.id===id);
+  view().querySelectorAll("[data-pdf]").forEach(button=>button.onclick=async()=>{
+    const id=Number(button.dataset.pdf);
+    const assignment=assignments.find(item=>item.id===id);
     saveText(id);
-    const ev=ensurePortfolioReflection(ensureCombinedEvidence(state.evidence[id]||{},a));
-
-    if(!assignmentStatus(a,ev).complete){
-      alert("Add 3 evidence items, reach 150 words in both sections, and make sure every prompt has turned green before generating the PDF.");
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id]||{},assignment);
+    if(!assignmentStatus(assignment,evidence).ready){
+      alert("Add at least 3 photographs, write at least 100 words, and make sure every required prompt has turned green.");
       return;
     }
 
-    // Opening this synchronously gives mobile browsers the best chance of allowing the preview.
     const previewWindow=window.open("","_blank");
-    if(previewWindow){
-      previewWindow.document.write("<p style='font-family:sans-serif;padding:20px'>Generating your PDF…</p>");
-    }
+    if(previewWindow)previewWindow.document.write("<p style='font-family:sans-serif;padding:20px'>Generating your PDF…</p>");
 
-    btn.disabled=true;
-    btn.textContent="Generating…";
-
-    const result=await downloadAssignmentPdf(a,ev,state.profile);
+    button.disabled=true;
+    button.textContent="Generating…";
+    const result=await downloadAssignmentPdf(assignment,evidence,state.profile);
     if(!result){
       if(previewWindow&&!previewWindow.closed)previewWindow.close();
-      btn.disabled=false;
-      btn.textContent="Generate PDF";
+      button.disabled=false;
+      button.textContent="Generate PDF";
       return;
     }
 
     const generatedAt=new Date().toISOString();
     const fileKey=`assignment-pdf-${id}`;
     await putFile(fileKey,result.blob);
-
-    const doc={
+    const documentRecord={
       id:`assignment-${id}`,
       type:"Assignment Evidence Pack",
-      title:`Assignment ${id} - ${a.title}`,
-      filename:result.filename,
-      date:generatedAt,
       assignmentId:id,
+      title:`Assignment ${id} - ${assignment.title}`,
+      date:generatedAt,
       fileKey,
-      mime:"application/pdf"
+      fileName:result.fileName,
+      mimeType:"application/pdf"
     };
-
-    const existing=state.documents.findIndex(x=>x.type==="Assignment Evidence Pack"&&x.assignmentId===id);
-    if(existing>=0)state.documents.splice(existing,1);
-    state.documents.unshift(doc);
+    state.documents=state.documents.filter(doc=>doc.id!==documentRecord.id);
+    state.documents.unshift(documentRecord);
+    state.evidence[id].pdfGeneratedAt=generatedAt;
     saveState(state);
 
-    downloadBlob(result.blob,result.filename);
-    openBlob(result.blob,previewWindow);
-
+    if(previewWindow&&!previewWindow.closed){
+      previewWindow.location.href=result.url;
+    }else{
+      const link=document.createElement("a");
+      link.href=result.url;
+      link.download=result.fileName;
+      link.click();
+    }
+    setTimeout(()=>URL.revokeObjectURL(result.url),60000);
     refreshEvidenceKeepingPlace(id);
   });
 }
