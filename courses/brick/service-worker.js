@@ -1,6 +1,7 @@
-const CACHE_NAME="apprentice-plus-brick-premium-pdf-1";
+const CACHE_NAME="apprenticeship-plus-brick-green-theme-v1";
 const APP_ROOT = "/Brick-Buddy-App/";
 const APP_FILES = [
+  "./trade-logo.png",
   APP_ROOT,
   APP_ROOT + "index.html",
   APP_ROOT + "manifest.json",

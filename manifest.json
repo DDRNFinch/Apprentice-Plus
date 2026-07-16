@@ -1,24 +1,36 @@
 {
-  "name": "Apprentice+",
-  "short_name": "Apprentice+",
-  "description": "A local apprenticeship document-creation and revision app for Bricklaying, Site Carpentry and Bench Joinery.",
+  "name": "Apprenticeship+",
+  "short_name": "Apprenticeship+",
+  "description": "Capture apprenticeship evidence, create PDFs, revise and prepare for EPA.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#07182a",
-  "theme_color": "#07182a",
+  "background_color": "#002d33",
+  "theme_color": "#043f46",
   "icons": [
     {
-      "src": "./icon-192.png",
+      "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "./icon-512.png",
+      "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "maskable-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "maskable-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

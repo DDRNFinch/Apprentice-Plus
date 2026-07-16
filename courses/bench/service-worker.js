@@ -1,7 +1,8 @@
 
 "use strict";
-const CACHE_NAME="apprentice-plus-bench-premium-pdf-1";
+const CACHE_NAME="apprenticeship-plus-bench-green-theme-v1";
 const APP_FILES=[
+  "./trade-logo.png",
   "./",
   "./index.html",
   "./workbench-data.js",

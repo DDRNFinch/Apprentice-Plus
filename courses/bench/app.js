@@ -1263,7 +1263,7 @@ function headerNav(){
     ${items.map(([key,label])=>`<button data-route="${key}" class="${activeMain===key?"active":""}">${label}</button>`).join("")}
   </nav>
   <div class="mobile-nav">
-    <select id="mobileRouteSelect" aria-label="Choose Bench Buddy section"
+    <select id="mobileRouteSelect" aria-label="Choose Apprenticeship+ section"
       onchange="setRoute(this.value)">
       ${items.map(([key,label])=>`<option value="${key}" ${activeMain===key?"selected":""}>${label}</option>`).join("")}
     </select>
@@ -1596,7 +1596,7 @@ function epaPracticalMock(){
 function epaDiscussionMock(){
   const record=state.epaDiscussionMock||{marks:{},comments:"",learnerName:state.profile.learner||"",assessorName:state.profile.assessor||"",date:new Date().toISOString().slice(0,10),signature:""};
   const options=["","EPA Ready","Nearly Ready","More Practice Required"];
-  view().innerHTML=`<section class="card hero"><span class="eyebrow">DISCUSSION READINESS</span><h2>💬 Professional Discussion Mock</h2><p>Twenty scenario-based open questions aligned to the Bench Buddy assignment topics.</p></section>
+  view().innerHTML=`<section class="card hero"><span class="eyebrow">DISCUSSION READINESS</span><h2>💬 Professional Discussion Mock</h2><p>Twenty scenario-based open questions aligned to the Apprenticeship+ assignment topics.</p></section>
   <section class="card"><div class="grid">
     <label>Learner name<input id="epaDiscussionLearner" value="${record.learnerName||""}"></label>
     <label>Assessor name<input id="epaDiscussionAssessor" value="${record.assessorName||""}"></label>
@@ -1695,7 +1695,7 @@ function home(){
   const next=assignments.find(a=>!assignmentStatus(a,state.evidence[a.id]).complete);
   const learner=state.profile.learner||"Learner";
   view().innerHTML=`<section class="card hero release-hero">
-    <div><span class="eyebrow">APPRENTICESHIP COMPANION</span><h2>${state.profile.learner?`Welcome back, ${learner.split(" ")[0]}`:"Welcome to Bench Buddy"}</h2>
+    <div><span class="eyebrow">APPRENTICESHIP COMPANION</span><h2>${state.profile.learner?`Welcome back, ${learner.split(" ")[0]}`:"Welcome to Apprenticeship+"}</h2>
     <p>Build evidence, record practical work and prepare for your EPA in bench joinery.</p></div>
     ${state.profile.learner?`${next?`<button class="primary" data-open-assignment="${next.id}">Continue Assignment ${next.id}</button>`:`<button class="primary" data-route="revision">Open EPA preparation</button>`}`:`<button class="primary" data-route="settings">Complete learner setup</button>`}
   </section>
@@ -1727,7 +1727,7 @@ function home(){
     <button data-route="otj"><span class="tool-icon">📝</span><b>Off-the-Job Learning</b><small>Turn genuine learning into a clear off-the-job reflection.</small></button>
     <button data-route="practical"><span class="tool-icon">🧱</span><b>Practical Marking</b><small>Compare the learner self-mark with the assessor mark and export a PDF.</small></button>
     <button data-route="revision"><span class="tool-icon">🎓</span><b>Revision</b><small>Use revision cards, quizzes and EPA mock assessments.</small></button>
-    <button id="homeInstallButton"><span class="tool-icon">📲</span><b>Install Bench Buddy</b><small>Add Bench Buddy to your home screen for quick access and offline use.</small></button>
+    <button id="homeInstallButton"><span class="tool-icon">📲</span><b>Install Apprenticeship+</b><small>Add Apprenticeship+ to your home screen for quick access and offline use.</small></button>
   </div></section>`;
   document.getElementById("homeInstallButton")?.addEventListener("click",requestInstall);
 
@@ -2720,10 +2720,14 @@ function phase3OpenApprenticeMenu(){
   else alert("Close and reopen Apprentice+ to access the course menu.");
 }
 function settings(){
+  const developerUnlocked=sessionStorage.getItem("apprenticeshipPlusDeveloperUnlocked")==="1";
+  let developerSettings={course:null,pin:"2468"};
+  try{developerSettings={...developerSettings,...JSON.parse(localStorage.getItem("apprenticePlusSettingsV2")||"{}")}}catch(error){}
+
   view().innerHTML=`<section class="card settings-hero">
-    <span class="eyebrow">APPRENTICE+ SETTINGS</span>
+    <span class="eyebrow">APPRENTICESHIP+ SETTINGS</span>
     <h2>Profile & Settings</h2>
-    <p>Manage learner details, local data, privacy and course settings.</p>
+    <p>Manage learner details, privacy, backups and app information.</p>
   </section>
 
   <section class="card settings-section">
@@ -2744,14 +2748,8 @@ function settings(){
   </section>
 
   <section class="card settings-section">
-    <div class="section-heading"><div><h3>🧱 Current course</h3><p>Bench Joinery</p></div></div>
-    <button class="secondary settings-wide" id="openApprenticeMenu">Open Apprentice+ course menu</button>
-    <p class="muted">Changing course requires the tutor PIN.</p>
-  </section>
-
-  <section class="card settings-section">
-    <div class="section-heading"><div><h3>🛡️ Privacy & data</h3><p>Your work stays on this device unless you choose to export and upload it.</p></div></div>
-    <div class="settings-notice">Apprentice+ is a local document-creation and revision tool. Information entered into the app is stored on this device. Apprentice+ does not send learner names, photographs, written evidence or generated PDFs to Apprentice+ servers. PDFs are only shared when the learner chooses to download and upload them to Aptem or another approved platform. Only include relevant evidence and avoid unnecessary personal information, customer details, addresses, registrations or identifiable people unless there is a valid reason and permission.</div>
+    <div class="section-heading"><div><h3>🛡️ Privacy & data</h3><p>Your work stays on this device unless you choose to export it.</p></div></div>
+    <div class="settings-notice">Apprenticeship+ is a local document-creation and revision tool. Information entered into the app is stored on this device. Learner evidence is not sent to Apprenticeship+ servers. PDFs are only shared when the learner chooses to download and upload them to Aptem or another approved platform.</div>
     <div class="settings-button-grid">
       <button class="secondary" id="privacyNotice">Read privacy notice</button>
       <button class="secondary" id="backup">Export data backup</button>
@@ -2761,13 +2759,36 @@ function settings(){
   </section>
 
   <section class="card settings-section">
-    <div class="section-heading"><div><h3>ℹ️ About Apprentice+</h3><p>Your apprenticeship companion.</p></div></div>
+    <div class="section-heading"><div><h3>ℹ️ About Apprenticeship+</h3><p>Capture Evidence.</p></div></div>
     <div class="about-grid">
       <div><span>Course module</span><b>Bench Joinery</b></div>
-      <div><span>Version</span><b>Phase 3.0</b></div>
+      <div><span>Trade identity</span><b>Table saw</b></div>
       <div><span>Data storage</span><b>Local device</b></div>
       <div><span>Evidence destination</span><b>Aptem</b></div>
     </div>
+  </section>
+
+  <section class="card settings-section" id="developerSection">
+    <div class="section-heading"><div><h3>🔐 Developer</h3><p>Course and protected platform controls.</p></div></div>
+    ${developerUnlocked?`
+      <div class="developer-unlocked">
+        <span class="trade-badge">✓ Developer access unlocked</span>
+        <p>Current course: <b>Bench Joinery</b></p>
+        <button class="primary settings-wide" id="developerChangeCourse">Change course</button>
+        <div class="developer-pin-grid">
+          <input id="developerOldPin" type="password" inputmode="numeric" placeholder="Current PIN">
+          <input id="developerNewPin" type="password" inputmode="numeric" placeholder="New PIN (4–12 numbers)">
+          <button class="secondary" id="developerSavePin">Change PIN</button>
+        </div>
+        <p class="muted" id="developerMessage"></p>
+        <button class="secondary settings-wide" id="developerLock">Lock developer section</button>
+      </div>`:`
+      <div class="developer-lock">
+        <p>This section is locked. Enter the developer PIN to change the learner's course or update the PIN.</p>
+        <label>Developer PIN<input id="developerPin" type="password" inputmode="numeric" autocomplete="off"></label>
+        <button class="primary settings-wide" id="developerUnlock">Unlock developer section</button>
+        <p class="muted" id="developerError"></p>
+      </div>`}
   </section>`;
 
   const getSignature=setupSignaturePad(
@@ -2775,6 +2796,7 @@ function settings(){
     document.getElementById("clearLearnerSignature"),
     state.profile.signature||""
   );
+
   document.getElementById("saveProfile").onclick=()=>{
     const learner=document.getElementById("profileLearner").value.trim();
     if(!learner){alert("Please enter the learner's full name.");return}
@@ -2789,19 +2811,55 @@ function settings(){
     alert("Learner profile saved.");
     settings();
   };
-  document.getElementById("openApprenticeMenu").onclick=phase3OpenApprenticeMenu;
-  document.getElementById("privacyNotice").onclick=()=>alert(`Apprentice+ Privacy Notice\n\nApprentice+ is a local document-creation and revision tool. Information entered into the app is stored on this device. Apprentice+ does not send learner names, photographs, written evidence or generated PDFs to Apprentice+ servers. PDFs are only shared when the learner chooses to download and upload them to Aptem or another approved platform. Only include relevant evidence and avoid unnecessary personal information, customer details, addresses, registrations or identifiable people unless there is a valid reason and permission.`);
+
+  document.getElementById("privacyNotice").onclick=()=>alert(`Apprenticeship+ Privacy Notice\n\nApprenticeship+ is a local document-creation and revision tool. Information entered into the app is stored on this device. Learner evidence is not sent to Apprenticeship+ servers. PDFs are only shared when the learner chooses to download and upload them to Aptem or another approved platform.`);
   document.getElementById("backup").onclick=()=>exportBackup(state);
   document.getElementById("clearAllLocalData").onclick=phase3ClearLocalData;
-}
 
+  if(developerUnlocked){
+    document.getElementById("developerChangeCourse").onclick=()=>{
+      sessionStorage.setItem("apprenticePlusCourseUnlocked","1");
+      location.href="../../?choose=1";
+    };
+    document.getElementById("developerSavePin").onclick=()=>{
+      const oldPin=document.getElementById("developerOldPin").value;
+      const newPin=document.getElementById("developerNewPin").value.trim();
+      const message=document.getElementById("developerMessage");
+      if(oldPin!==String(developerSettings.pin||"2468")){
+        message.textContent="Current PIN is incorrect.";
+        return;
+      }
+      if(!/^\d{4,12}$/.test(newPin)){
+        message.textContent="Use 4–12 numbers for the new PIN.";
+        return;
+      }
+      developerSettings.pin=newPin;
+      localStorage.setItem("apprenticePlusSettingsV2",JSON.stringify(developerSettings));
+      message.textContent="Developer PIN updated.";
+    };
+    document.getElementById("developerLock").onclick=()=>{
+      sessionStorage.removeItem("apprenticeshipPlusDeveloperUnlocked");
+      settings();
+    };
+  }else{
+    document.getElementById("developerUnlock").onclick=()=>{
+      const pin=document.getElementById("developerPin").value;
+      if(pin!==String(developerSettings.pin||"2468")){
+        document.getElementById("developerError").textContent="Incorrect developer PIN.";
+        return;
+      }
+      sessionStorage.setItem("apprenticeshipPlusDeveloperUnlocked","1");
+      settings();
+    };
+  }
+}
 
 render();
 
 let deferredPrompt=null;
 const isStandalone=()=>window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
 async function requestInstall(){
-  if(isStandalone()){alert("Bench Buddy is already installed on this device.");return}
+  if(isStandalone()){alert("Apprenticeship+ is already installed on this device.");return}
   if(deferredPrompt){
     deferredPrompt.prompt();
     const result=await deferredPrompt.userChoice;
@@ -2810,9 +2868,9 @@ async function requestInstall(){
     return;
   }
   if(/iphone|ipad|ipod/i.test(navigator.userAgent)){
-    alert("To install Bench Buddy on iPhone or iPad: open this page in Safari, tap Share, then choose Add to Home Screen.");
+    alert("To install Apprenticeship+ on iPhone or iPad: open this page in Safari, tap Share, then choose Add to Home Screen.");
   }else{
-    alert("To install Bench Buddy: open your browser menu (⋮) and choose Install app or Add to Home screen. Use your browser menu and choose Add to Home screen. This version is designed to run as a reliable single-file web app.");
+    alert("To install Apprenticeship+: open your browser menu (⋮) and choose Install app or Add to Home screen. Use your browser menu and choose Add to Home screen. This version is designed to run as a reliable single-file web app.");
   }
 }
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;document.getElementById("installBar")?.classList.remove("hidden")});

@@ -7,6 +7,14 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     .replace(/[^a-z0-9]+/gi,"-")
     .replace(/^-|-$/g,"");
 
+
+  const addTradeIcon=(pdf,x,y)=>{
+    pdf.setDrawColor(255,255,255);pdf.setFillColor(29,204,105);pdf.setLineWidth(1.4);
+    pdf.line(x+3,y+10,x+10,y-1);
+    pdf.roundedRect(x+7,y-4,9,4,1,1,"FD");
+    pdf.roundedRect(x+1,y+7,4,7,1,1,"F");
+  };
+
   const ukDate=value=>{
     const date=value?new Date(value):new Date();
     return Number.isNaN(date.getTime())?"":date.toLocaleDateString("en-GB");
@@ -21,7 +29,7 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
   };
 
   const addCameraIcon=(pdf,x,y)=>{
-    pdf.setDrawColor(18,79,180);
+    pdf.setDrawColor(29,204,105);
     pdf.setLineWidth(0.55);
     pdf.roundedRect(x,y,5.8,4.3,1,1,"S");
     pdf.circle(x+2.9,y+2.15,1.05,"S");
@@ -31,7 +39,7 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
   };
 
   const addDocumentIcon=(pdf,x,y)=>{
-    pdf.setDrawColor(18,79,180);
+    pdf.setDrawColor(29,204,105);
     pdf.setLineWidth(0.5);
     pdf.roundedRect(x,y,5.4,6.4,0.7,0.7,"S");
     pdf.line(x+1.2,y+2,x+4.2,y+2);
@@ -40,7 +48,7 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
   };
 
   const addPersonIcon=(pdf,x,y)=>{
-    pdf.setDrawColor(18,79,180);
+    pdf.setDrawColor(29,204,105);
     pdf.setLineWidth(0.5);
     pdf.circle(x+3,y+2,1.4,"S");
     pdf.circle(x+3,y+6.4,3,"S");
@@ -112,16 +120,16 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     pdf.rect(0,0,pageW,pageH,"F");
 
     // Premium blue header.
-    pdf.setFillColor(10,61,157);
+    pdf.setFillColor(4,63,70);
     pdf.roundedRect(margin,margin,pageW-(margin*2),headerH,3,3,"F");
     pdf.rect(margin,margin+headerH-4,pageW-(margin*2),4,"F");
 
     // Subtle darker blue accent at right.
-    pdf.setFillColor(9,71,184);
+    pdf.setFillColor(7,91,99);
     pdf.roundedRect(pageW-47,margin,pageW-(pageW-47)-margin,headerH,3,3,"F");
     pdf.rect(pageW-47,margin+headerH-4,pageW-(pageW-47)-margin,4,"F");
 
-    addShieldIcon(pdf,margin+5,margin+3,8);
+    addTradeIcon(pdf,margin+6,margin+7);
 
     pdf.setTextColor(255,255,255);
     pdf.setFont("helvetica","bold");
@@ -143,7 +151,7 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     pdf.roundedRect(margin,bodyTop,leftW,bodyH,3,3,"FD");
 
     addCameraIcon(pdf,margin+6,bodyTop+7);
-    pdf.setTextColor(16,66,155);
+    pdf.setTextColor(4,91,96);
     pdf.setFont("helvetica","bold");
     pdf.setFontSize(8.8);
     pdf.text("PHOTOGRAPHIC AND SUPPORTING EVIDENCE",margin+15,bodyTop+9.5);
@@ -174,7 +182,7 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
       pdf.roundedRect(x,y,cellW,cellH,2.4,2.4,"FD");
 
       // Number badge.
-      pdf.setFillColor(15,66,158);
+      pdf.setFillColor(4,91,96);
       pdf.circle(x+5.5,y+5.5,2.55,"F");
       pdf.setTextColor(255,255,255);
       pdf.setFont("helvetica","bold");
@@ -228,11 +236,11 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
           pdf.text(["Image unavailable","Evidence remains saved"],mediaX+2,mediaY+7,{lineHeightFactor:1.2});
         }
       }else if(item){
-        pdf.setDrawColor(160,179,215);
+        pdf.setDrawColor(91,188,145);
         pdf.setLineDashPattern([2,1.5],0);
         pdf.roundedRect(mediaX,mediaY,mediaW,mediaH,2,2,"S");
         pdf.setLineDashPattern([],0);
-        pdf.setTextColor(15,66,158);
+        pdf.setTextColor(4,91,96);
         pdf.setFont("helvetica","bold");
         pdf.setFontSize(6.2);
         pdf.text("Supporting file",mediaX+mediaW/2,mediaY+mediaH/2-1,{align:"center"});
@@ -241,17 +249,17 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
         pdf.setFontSize(5);
         pdf.text(pdf.splitTextToSize(item.name||"Uploaded file",mediaW-6).slice(0,2),mediaX+mediaW/2,mediaY+mediaH/2+4,{align:"center",lineHeightFactor:1.15});
       }else{
-        pdf.setDrawColor(113,148,210);
+        pdf.setDrawColor(91,188,145);
         pdf.setLineDashPattern([2,1.5],0);
         pdf.roundedRect(mediaX,mediaY,mediaW,mediaH,2,2,"S");
         pdf.setLineDashPattern([],0);
 
-        pdf.setDrawColor(18,79,180);
+        pdf.setDrawColor(29,204,105);
         pdf.roundedRect(mediaX+mediaW/2-3.4,mediaY+mediaH/2-8,6.8,6.8,1.2,1.2,"S");
         pdf.line(mediaX+mediaW/2-1.7,mediaY+mediaH/2-4.6,mediaX+mediaW/2+1.7,mediaY+mediaH/2-4.6);
         pdf.line(mediaX+mediaW/2,mediaY+mediaH/2-6.3,mediaX+mediaW/2,mediaY+mediaH/2-2.9);
 
-        pdf.setTextColor(18,79,180);
+        pdf.setTextColor(29,204,105);
         pdf.setFont("helvetica","bold");
         pdf.setFontSize(5.8);
         pdf.text("Add evidence",mediaX+mediaW/2,mediaY+mediaH/2+3,{align:"center"});
@@ -272,7 +280,7 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     pdf.roundedRect(rightX,bodyTop,rightW,statementH,3,3,"FD");
 
     addDocumentIcon(pdf,rightX+6,bodyTop+5);
-    pdf.setTextColor(16,66,155);
+    pdf.setTextColor(4,91,96);
     pdf.setFont("helvetica","bold");
     pdf.setFontSize(8.8);
     pdf.text("ACTIVITY STATEMENT",rightX+15,bodyTop+9.4);
@@ -302,7 +310,7 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     pdf.roundedRect(rightX,declarationY,rightW,declarationH,3,3,"FD");
 
     addPersonIcon(pdf,rightX+6,declarationY+4.2);
-    pdf.setTextColor(16,66,155);
+    pdf.setTextColor(4,91,96);
     pdf.setFont("helvetica","bold");
     pdf.setFontSize(8.8);
     pdf.text("LEARNER DECLARATION",rightX+15,declarationY+9.5);
@@ -328,7 +336,7 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     pdf.setDrawColor(182,190,200);
     pdf.line(rightX+5,declarationY+45,rightX+rightW-5,declarationY+45);
 
-    pdf.setTextColor(12,54,137);
+    pdf.setTextColor(4,91,96);
     pdf.setFont("helvetica","bold");
     pdf.setFontSize(6.2);
     pdf.text(`Signed: ${learnerName}`,rightX+5,declarationY+51);
