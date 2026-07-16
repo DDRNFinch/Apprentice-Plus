@@ -1,6 +1,6 @@
 
 "use strict";
-const CACHE_NAME="apprentice-plus-bricklaying-v1";
+const CACHE_NAME="apprentice-plus-bricklaying-v2";
 const APP_FILES=[
   "./",
   "./index.html",
