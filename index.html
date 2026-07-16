@@ -17,7 +17,43 @@ body{background:radial-gradient(circle at 75% 10%,rgba(29,204,105,.22),transpare
  .course span{display:none}
 }
 
-</style></head><body><main class="panel"><div class="brand"><img class="logo-img" src="./brand-logo.png" alt="Apprenticeship+"><div><h1>Apprenticeship+</h1><p>Capture Evidence.</p></div></div><h2>Choose your apprenticeship</h2><p>Your selection controls the assignments, revision, EPA mocks and course resources shown in the app.</p><div class="courses"><button class="course" data-course="brick" style="--course:#1dcc69"><img src="./brick-logo.png" alt=""><b>Bricklaying</b><small>Trowel trade module</small></button><button class="course" data-course="site" style="--course:#1dcc69"><img src="./site-logo.png" alt=""><b>Site Carpentry</b><small>Hammer trade module</small></button><button class="course" data-course="bench" style="--course:#1dcc69"><img src="./bench-logo.png" alt=""><b>Bench Joinery</b><small>Table saw trade module</small></button></div><div class="note" id="lockNote">🔒 Once confirmed, changing course requires the tutor PIN. Default PIN: <b>2468</b>.</div><div class="actions"><button class="primary" id="continue" disabled>Confirm course</button></div><details class="settings"><summary>Settings</summary>
+
+.course-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+  align-items:stretch;
+}
+.icon-only-course{
+  display:block!important;
+  aspect-ratio:1/1;
+  padding:0!important;
+  border:0!important;
+  border-radius:28px!important;
+  overflow:hidden;
+  background:transparent!important;
+  box-shadow:0 16px 38px rgba(0,45,51,.22)!important;
+}
+.icon-only-course img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  margin:0!important;
+  border-radius:28px!important;
+}
+.icon-only-course:hover{
+  transform:translateY(-4px) scale(1.012);
+  box-shadow:0 22px 46px rgba(0,45,51,.28)!important;
+}
+.icon-only-course.selected{
+  box-shadow:0 0 0 6px rgba(29,204,105,.38),0 20px 44px rgba(0,45,51,.25)!important;
+}
+.icon-only-course b,.icon-only-course small,.icon-only-course span{display:none!important}
+@media(max-width:720px){
+  .course-grid{grid-template-columns:1fr;max-width:440px;margin:0 auto}
+}
+
+</style></head><body><main class="panel"><div class="brand"><img class="logo-img" src="./brand-logo.png" alt="Apprenticeship+"><div><h1>Apprenticeship+</h1><p>Capture Evidence.</p></div></div><h2>Choose your apprenticeship</h2><p>Your selection controls the assignments, revision, EPA mocks and course resources shown in the app.</p><div class="courses"><button class="course icon-only-course" data-course="brick" aria-label="Select Bricklaying"><img src="./brick-logo.png" alt="Bricklaying"></button><button class="course icon-only-course" data-course="site" aria-label="Select Site Carpentry"><img src="./site-logo.png" alt="Site Carpentry"></button><button class="course icon-only-course" data-course="bench" aria-label="Select Bench Joinery"><img src="./bench-logo.png" alt="Bench Joinery"></button></div><div class="note" id="lockNote">🔒 Once confirmed, changing course requires the tutor PIN. Default PIN: <b>2468</b>.</div><div class="actions"><button class="primary" id="continue" disabled>Confirm course</button></div><details class="settings"><summary>Settings</summary>
     <div class="settings-block">
       <h3>Privacy &amp; Data</h3>
       <p class="privacy-copy">Apprentice+ stores your work locally on this device. It does not send learner evidence to Apprentice+ servers. PDFs are only shared when you choose to download and upload them to Aptem or another approved platform.</p>

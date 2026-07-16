@@ -391,6 +391,60 @@ header{
   .developer-pin-grid{grid-template-columns:1fr}
 }
 
+
+.tabs button{display:flex!important;align-items:center!important;gap:9px!important}
+.tab-icon{
+  width:25px;height:25px;display:inline-block;flex:0 0 25px;position:relative;
+  border-radius:8px;
+  background:linear-gradient(145deg,#075b63,#1dcc69);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 4px 9px rgba(0,63,70,.2);
+}
+.tabs button.active .tab-icon{
+  background:linear-gradient(145deg,#ffffff,#dff8eb);
+  box-shadow:0 3px 9px rgba(0,45,51,.2);
+}
+.tab-icon::before,.tab-icon::after{content:"";position:absolute;box-sizing:border-box}
+.tabs button.active .tab-icon::before,.tabs button.active .tab-icon::after{
+  border-color:#075b63!important;background-color:#075b63
+}
+.icon-home::before{
+  width:11px;height:9px;left:7px;top:10px;border:2px solid #fff;border-top:0;border-radius:1px;background:transparent!important
+}
+.icon-home::after{
+  width:10px;height:10px;left:7.5px;top:4.5px;border-left:2px solid #fff;border-top:2px solid #fff;
+  transform:rotate(45deg);background:transparent!important
+}
+.icon-assignments::before{
+  left:6px;top:4px;width:13px;height:17px;border:2px solid #fff;border-radius:3px;background:transparent!important
+}
+.icon-assignments::after{
+  left:9px;top:8px;width:7px;height:2px;background:#fff;box-shadow:0 4px 0 #fff,0 8px 0 #fff
+}
+.icon-portfolio::before{
+  left:5px;top:8px;width:15px;height:11px;border:2px solid #fff;border-radius:2px;background:transparent!important
+}
+.icon-portfolio::after{
+  left:7px;top:5px;width:7px;height:4px;border:2px solid #fff;border-bottom:0;border-radius:2px 2px 0 0;background:transparent!important
+}
+.icon-workbench::before{
+  left:5px;top:11px;width:15px;height:8px;border:2px solid #fff;border-radius:2px;background:transparent!important
+}
+.icon-workbench::after{
+  left:9px;top:4px;width:7px;height:9px;border:2px solid #fff;border-bottom:0;border-radius:4px 4px 0 0;background:transparent!important
+}
+.icon-revision::before{
+  left:5px;top:5px;width:15px;height:15px;border:2px solid #fff;border-radius:50%;background:transparent!important
+}
+.icon-revision::after{
+  left:11px;top:8px;width:2px;height:7px;background:#fff;box-shadow:4px 5px 0 -0.4px #fff
+}
+.icon-profile::before{
+  left:8px;top:4px;width:9px;height:9px;border:2px solid #fff;border-radius:50%;background:transparent!important
+}
+.icon-profile::after{
+  left:5px;top:14px;width:15px;height:7px;border:2px solid #fff;border-radius:9px 9px 3px 3px;background:transparent!important
+}
+
 </style>
 </head><body>
 <header><div class="brand"><img src="./trade-logo.png" alt="Bricklaying"><div><h1>Apprenticeship+</h1><p>Bricklaying • Capture Evidence • EPA Preparation</p></div></div></header>
@@ -2232,24 +2286,25 @@ document.addEventListener("click",e=>{
 
 function headerNav(){
   const items=[
-    ["home","🏠 Home"],
-    ["evidence","🪵 Assignments"],
-    ["portfolio","📂 Portfolio"],
-    ["workbench","🧰 Workbench"],
-    ["revision","🎓 Revision"],
-    ["settings","👤 Profile"]
+    ["home","Home","icon-home"],
+    ["evidence","Assignments","icon-assignments"],
+    ["portfolio","Portfolio","icon-portfolio"],
+    ["workbench","Workbench","icon-workbench"],
+    ["revision","Revision","icon-revision"],
+    ["settings","Profile","icon-profile"]
   ];
   const activeMain=mainRouteFor(routeName);
   return `<nav class="tabs">
-    ${items.map(([key,label])=>`<button data-route="${key}" class="${activeMain===key?"active":""}">${label}</button>`).join("")}
+    ${items.map(([key,label,icon])=>`<button data-route="${key}" class="${activeMain===key?"active":""}"><span class="tab-icon ${icon}"></span><span>${label}</span></button>`).join("")}
   </nav>
   <div class="mobile-nav">
-    <select id="mobileRouteSelect" aria-label="Choose Bricklaying section"
+    <select id="mobileRouteSelect" aria-label="Choose Apprenticeship+ section"
       onchange="setRoute(this.value)">
       ${items.map(([key,label])=>`<option value="${key}" ${activeMain===key?"selected":""}>${label}</option>`).join("")}
     </select>
   </div>`;
 }
+
 function render(){
   const routes={home,evidence,portfolio,workbench,revision,otj,practical,cards,assignmentQuiz,epaKnowledge,epaPracticalMock,epaDiscussionMock,witness,documents,settings};
   app.innerHTML=headerNav()+`<section id="view"></section>`;

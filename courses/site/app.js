@@ -1251,24 +1251,25 @@ document.addEventListener("click",e=>{
 
 function headerNav(){
   const items=[
-    ["home","🏠 Home"],
-    ["evidence","🪵 Assignments"],
-    ["portfolio","📂 Portfolio"],
-    ["workbench","🧰 Workbench"],
-    ["revision","🎓 Revision"],
-    ["settings","👤 Profile"]
+    ["home","Home","icon-home"],
+    ["evidence","Assignments","icon-assignments"],
+    ["portfolio","Portfolio","icon-portfolio"],
+    ["workbench","Workbench","icon-workbench"],
+    ["revision","Revision","icon-revision"],
+    ["settings","Profile","icon-profile"]
   ];
   const activeMain=mainRouteFor(routeName);
   return `<nav class="tabs">
-    ${items.map(([key,label])=>`<button data-route="${key}" class="${activeMain===key?"active":""}">${label}</button>`).join("")}
+    ${items.map(([key,label,icon])=>`<button data-route="${key}" class="${activeMain===key?"active":""}"><span class="tab-icon ${icon}"></span><span>${label}</span></button>`).join("")}
   </nav>
   <div class="mobile-nav">
-    <select id="mobileRouteSelect" aria-label="Choose Site Carpentry section"
+    <select id="mobileRouteSelect" aria-label="Choose Apprenticeship+ section"
       onchange="setRoute(this.value)">
       ${items.map(([key,label])=>`<option value="${key}" ${activeMain===key?"selected":""}>${label}</option>`).join("")}
     </select>
   </div>`;
 }
+
 function render(){
   const routes={home,evidence,portfolio,workbench,revision,otj,practical,cards,assignmentQuiz,epaKnowledge,epaPracticalMock,epaDiscussionMock,witness,documents,settings};
   app.innerHTML=headerNav()+`<section id="view"></section>`;
