@@ -4,7 +4,7 @@ const questions=[{"topic": "Health and Safety", "q": "What is the main purpose o
 
 
 
-const KEY="apprentice_plus_bench_state_v1";
+const KEY="brick_buddy_2_0";
 
 function defaultState(){
   return {
@@ -56,7 +56,7 @@ function exportBackup(state){
 }
 
 
-const DB_NAME="apprentice_plus_bench_files_v1";
+const DB_NAME="brick_buddy_2_files";
 const STORE_NAME="images";
 
 function openDb(){
@@ -2588,27 +2588,87 @@ function witnessForm(){
   };
 }
 
+
+async function phase3ClearLocalData(){
+  if(!confirm("Delete all Apprentice+ data stored on this device? Download any PDFs or evidence you need first."))return;
+  if(!confirm("This will remove saved assignment work, evidence, documents, EPA results, profile details and settings. This cannot be undone. Continue?"))return;
+  try{
+    localStorage.clear();
+    sessionStorage.clear();
+    if(window.indexedDB&&indexedDB.databases){
+      const databases=await indexedDB.databases();
+      await Promise.all(databases.filter(db=>db.name).map(db=>new Promise(resolve=>{
+        const request=indexedDB.deleteDatabase(db.name);
+        request.onsuccess=request.onerror=request.onblocked=()=>resolve();
+      })));
+    }
+    if("caches" in window){
+      const keys=await caches.keys();
+      await Promise.all(keys.map(key=>caches.delete(key)));
+    }
+    alert("All locally stored Apprentice+ information has been removed.");
+    location.href="../../?reset=1";
+  }catch(error){
+    console.error(error);
+    alert("Most local information was removed. Close Apprentice+ and use Chrome Site settings → Delete data and reset to finish.");
+  }
+}
+function phase3OpenApprenticeMenu(){
+  const launcher=document.querySelector(".applus-launcher");
+  if(launcher)launcher.click();
+  else alert("Close and reopen Apprentice+ to access the course menu.");
+}
 function settings(){
-  view().innerHTML=`<section class="card"><h2>Profile & Settings</h2>
-    <p>Enter the learner details once. The learner's name and saved signature will be added automatically to assignment and practical PDFs.</p>
+  view().innerHTML=`<section class="card settings-hero">
+    <span class="eyebrow">APPRENTICE+ SETTINGS</span>
+    <h2>Profile & Settings</h2>
+    <p>Manage learner details, local data, privacy and course settings.</p>
+  </section>
+
+  <section class="card settings-section">
+    <div class="section-heading"><div><h3>👤 Learner profile</h3><p>These details and the saved signature are added automatically to future PDFs.</p></div></div>
     <div class="grid">
       <label>Full learner name<input id="profileLearner" value="${state.profile.learner||""}"></label>
       <label>Employer<input id="profileEmployer" value="${state.profile.employer||""}"></label>
       <label>Assessor<input id="profileAssessor" value="${state.profile.assessor||""}"></label>
-      <label>Course<input id="profileCourse" value="${state.profile.course||""}"></label>
+      <label>Course<input value="Bench Joinery" readonly></label>
     </div>
     <label>Learner signature</label>
     <div class="signature-wrap">
       <canvas id="learnerSignature" class="signature-pad"></canvas>
       <button class="secondary" id="clearLearnerSignature">Clear signature</button>
     </div>
-    <p class="muted">Sign with a finger, stylus or mouse. This signature is stored on this device and added to future PDFs.</p>
-    <div class="button-row">
-      <button class="primary" id="saveProfile">Save settings</button>
-      <button class="secondary" id="backup">Export backup</button>
+    <p class="muted">The signature is stored locally on this device and is only included when a PDF is generated.</p>
+    <button class="primary settings-wide" id="saveProfile">Save learner profile</button>
+  </section>
+
+  <section class="card settings-section">
+    <div class="section-heading"><div><h3>🧱 Current course</h3><p>Bench Joinery</p></div></div>
+    <button class="secondary settings-wide" id="openApprenticeMenu">Open Apprentice+ course menu</button>
+    <p class="muted">Changing course requires the tutor PIN.</p>
+  </section>
+
+  <section class="card settings-section">
+    <div class="section-heading"><div><h3>🛡️ Privacy & data</h3><p>Your work stays on this device unless you choose to export and upload it.</p></div></div>
+    <div class="settings-notice">Apprentice+ is a local document-creation and revision tool. Information entered into the app is stored on this device. Apprentice+ does not send learner names, photographs, written evidence or generated PDFs to Apprentice+ servers. PDFs are only shared when the learner chooses to download and upload them to Aptem or another approved platform. Only include relevant evidence and avoid unnecessary personal information, customer details, addresses, registrations or identifiable people unless there is a valid reason and permission.</div>
+    <div class="settings-button-grid">
+      <button class="secondary" id="privacyNotice">Read privacy notice</button>
+      <button class="secondary" id="backup">Export data backup</button>
+      <button class="danger" id="clearAllLocalData">Clear all local data</button>
     </div>
-    <p class="muted" style="text-align:center;margin-top:18px">Bench Buddy • Version 3.0.1</p>
+    <p class="muted"><b>Important:</b> download any PDFs and evidence you need before clearing data.</p>
+  </section>
+
+  <section class="card settings-section">
+    <div class="section-heading"><div><h3>ℹ️ About Apprentice+</h3><p>Your apprenticeship companion.</p></div></div>
+    <div class="about-grid">
+      <div><span>Course module</span><b>Bench Joinery</b></div>
+      <div><span>Version</span><b>Phase 3.0</b></div>
+      <div><span>Data storage</span><b>Local device</b></div>
+      <div><span>Evidence destination</span><b>Aptem</b></div>
+    </div>
   </section>`;
+
   const getSignature=setupSignaturePad(
     document.getElementById("learnerSignature"),
     document.getElementById("clearLearnerSignature"),
@@ -2621,15 +2681,19 @@ function settings(){
       learner,
       employer:document.getElementById("profileEmployer").value.trim(),
       assessor:document.getElementById("profileAssessor").value.trim(),
-      course:document.getElementById("profileCourse").value.trim(),
+      course:"Bench Joinery",
       signature:getSignature()
     };
     saveState(state);
-    alert("Learner details and signature saved.");
-    setRoute("home");
+    alert("Learner profile saved.");
+    settings();
   };
+  document.getElementById("openApprenticeMenu").onclick=phase3OpenApprenticeMenu;
+  document.getElementById("privacyNotice").onclick=()=>alert(`Apprentice+ Privacy Notice\n\nApprentice+ is a local document-creation and revision tool. Information entered into the app is stored on this device. Apprentice+ does not send learner names, photographs, written evidence or generated PDFs to Apprentice+ servers. PDFs are only shared when the learner chooses to download and upload them to Aptem or another approved platform. Only include relevant evidence and avoid unnecessary personal information, customer details, addresses, registrations or identifiable people unless there is a valid reason and permission.`);
   document.getElementById("backup").onclick=()=>exportBackup(state);
+  document.getElementById("clearAllLocalData").onclick=phase3ClearLocalData;
 }
+
 
 render();
 
