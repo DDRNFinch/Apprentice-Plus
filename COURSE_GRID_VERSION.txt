@@ -1,0 +1,1 @@
+Scalable three-column course grid with confirmation overlay on the selected icon.

@@ -49,3 +49,91 @@ async function clearAllApprenticePlusData(){
 }
 document.getElementById("showPrivacy")?.addEventListener("click",()=>alert(PRIVACY_NOTICE));
 document.getElementById("clearLocalData")?.addEventListener("click",clearAllApprenticePlusData);
+
+
+(function enableCourseIconConfirmation(){
+  const grid=document.querySelector(".course-grid");
+  if(!grid)return;
+
+  const courseLabels={
+    brick:"Bricklaying",
+    site:"Site Carpentry",
+    bench:"Bench Joinery",
+    mechanic:"Mechanics",
+    painting:"Painting & Decorating",
+    groundworks:"Groundworks",
+    pmo:"Property Maintenance",
+    electrical:"Electrical",
+    plumbing:"Plumbing"
+  };
+
+  const destinations={
+    brick:"./courses/brick/",
+    site:"./courses/site/",
+    bench:"./courses/bench/",
+    mechanic:"./courses/mechanic/",
+    painting:"./courses/painting/",
+    groundworks:"./courses/groundworks/",
+    pmo:"./courses/pmo/",
+    electrical:"./courses/electrical/",
+    plumbing:"./courses/plumbing/"
+  };
+
+  function closeAll(){
+    grid.querySelectorAll(".course-confirm-overlay").forEach(node=>node.remove());
+    grid.querySelectorAll(".course").forEach(node=>node.classList.remove("selected"));
+  }
+
+  grid.querySelectorAll(".course").forEach(button=>{
+    button.addEventListener("click",event=>{
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      closeAll();
+      button.classList.add("selected");
+
+      const course=button.dataset.course;
+      const overlay=document.createElement("div");
+      overlay.className="course-confirm-overlay";
+      overlay.innerHTML=`
+        <strong>Open ${courseLabels[course]||"this course"}?</strong>
+        <div class="course-confirm-actions">
+          <button type="button" class="confirm-course">Confirm</button>
+          <button type="button" class="cancel-course">Cancel</button>
+        </div>`;
+
+      button.appendChild(overlay);
+
+      overlay.querySelector(".cancel-course").addEventListener("click",cancelEvent=>{
+        cancelEvent.preventDefault();
+        cancelEvent.stopPropagation();
+        closeAll();
+      });
+
+      overlay.querySelector(".confirm-course").addEventListener("click",confirmEvent=>{
+        confirmEvent.preventDefault();
+        confirmEvent.stopPropagation();
+
+        const destination=destinations[course];
+        if(!destination){
+          alert("This course module has not been added yet.");
+          closeAll();
+          return;
+        }
+
+        let settings={course:null,pin:"2468"};
+        try{
+          settings={...settings,...JSON.parse(localStorage.getItem("apprenticePlusSettingsV2")||"{}")};
+        }catch(error){}
+
+        settings.course=course;
+        localStorage.setItem("apprenticePlusSettingsV2",JSON.stringify(settings));
+        location.href=destination;
+      });
+    },true);
+  });
+
+  document.addEventListener("click",event=>{
+    if(!event.target.closest(".course"))closeAll();
+  });
+})();

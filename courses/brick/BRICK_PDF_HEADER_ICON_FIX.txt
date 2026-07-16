@@ -1,0 +1,1 @@
+Fixed the Bricklaying assignment PDF trowel icon and removed the oversized white rectangle.

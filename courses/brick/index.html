@@ -3928,10 +3928,39 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
 
 
   const addTradeIcon=(pdf,x,y)=>{
-    pdf.setDrawColor(255,255,255);pdf.setFillColor(29,204,105);pdf.setLineWidth(.7);
-    pdf.triangle(x,y+8,x+8,y+2,x+10,y+5,"FD");
-    pdf.setLineWidth(1.2);pdf.line(x+8,y+2,x+12,y-2);
-    pdf.setFillColor(255,255,255);pdf.roundedRect(x+10.5,y-4,x+6,y+5,1,1,"F");
+    // Compact brick trowel icon sized safely inside the PDF header.
+    pdf.setLineWidth(0.55);
+
+    // White triangular blade.
+    pdf.setDrawColor(255,255,255);
+    pdf.setFillColor(255,255,255);
+    pdf.triangle(
+      x,
+      y+7.2,
+      x+8.2,
+      y+1.9,
+      x+10.2,
+      y+4.8,
+      "FD"
+    );
+
+    // Green tang.
+    pdf.setDrawColor(29,204,105);
+    pdf.setLineWidth(1.5);
+    pdf.line(x+8.4,y+2.2,x+12.2,y-1.4);
+
+    // Small white handle — correct width and height values.
+    pdf.setDrawColor(255,255,255);
+    pdf.setFillColor(255,255,255);
+    pdf.roundedRect(
+      x+11.1,
+      y-4.2,
+      7.4,
+      3.8,
+      1.2,
+      1.2,
+      "FD"
+    );
   };
 
   const ukDate=value=>{

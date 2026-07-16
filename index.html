@@ -53,6 +53,95 @@ body{background:radial-gradient(circle at 75% 10%,rgba(29,204,105,.22),transpare
   .course-grid{grid-template-columns:1fr;max-width:440px;margin:0 auto}
 }
 
+
+.course-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:12px!important;
+  width:100%;
+  max-width:920px;
+  margin:18px auto 0;
+}
+.icon-only-course{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  aspect-ratio:1/1!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:20px!important;
+  overflow:hidden!important;
+  background:transparent!important;
+  box-shadow:0 10px 24px rgba(0,45,51,.18)!important;
+}
+.icon-only-course img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  margin:0!important;
+  border-radius:20px!important;
+}
+.icon-only-course.selected{
+  box-shadow:0 0 0 4px rgba(29,204,105,.48),0 15px 32px rgba(0,45,51,.23)!important;
+}
+.course-confirm-overlay{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:9px;
+  padding:10px;
+  background:rgba(0,45,51,.88);
+  backdrop-filter:blur(5px);
+  text-align:center;
+  color:#fff;
+}
+.course-confirm-overlay strong{
+  font-size:.95rem;
+  line-height:1.2;
+}
+.course-confirm-actions{
+  display:flex;
+  gap:7px;
+  justify-content:center;
+}
+.course-confirm-actions button{
+  border:0;
+  border-radius:9px;
+  padding:8px 11px;
+  font-weight:850;
+  cursor:pointer;
+}
+.course-confirm-actions .confirm-course{
+  background:#1dcc69;
+  color:#00343a;
+}
+.course-confirm-actions .cancel-course{
+  background:#fff;
+  color:#043f46;
+}
+@media(max-width:680px){
+  .course-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:7px!important;
+  }
+  .icon-only-course,.icon-only-course img{border-radius:13px!important}
+  .course-confirm-overlay{gap:5px;padding:5px}
+  .course-confirm-overlay strong{font-size:.63rem}
+  .course-confirm-actions{gap:3px}
+  .course-confirm-actions button{
+    padding:5px 6px;
+    font-size:.58rem;
+    border-radius:6px;
+  }
+}
+
 </style></head><body><main class="panel"><div class="brand"><img class="logo-img" src="./brand-logo.png" alt="Apprenticeship+"><div><h1>Apprenticeship+</h1><p>Capture Evidence.</p></div></div><h2>Choose your apprenticeship</h2><p>Your selection controls the assignments, revision, EPA mocks and course resources shown in the app.</p><div class="courses"><button class="course icon-only-course" data-course="brick" aria-label="Select Bricklaying"><img src="./brick-logo.png" alt="Bricklaying"></button><button class="course icon-only-course" data-course="site" aria-label="Select Site Carpentry"><img src="./site-logo.png" alt="Site Carpentry"></button><button class="course icon-only-course" data-course="bench" aria-label="Select Bench Joinery"><img src="./bench-logo.png" alt="Bench Joinery"></button></div><div class="note" id="lockNote">🔒 Once confirmed, changing course requires the tutor PIN. Default PIN: <b>2468</b>.</div><div class="actions"><button class="primary" id="continue" disabled>Confirm course</button></div><details class="settings"><summary>Settings</summary>
     <div class="settings-block">
       <h3>Privacy &amp; Data</h3>

@@ -1,4 +1,4 @@
-const CACHE_NAME="apprenticeship-plus-brick-navigation-icons-v2";
+const CACHE_NAME="apprenticeship-plus-brick-pdf-header-fix-v1";
 const APP_ROOT = "/Brick-Buddy-App/";
 const APP_FILES = [
   "./trade-logo.png",
