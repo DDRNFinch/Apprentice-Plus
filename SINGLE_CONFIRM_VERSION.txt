@@ -1,0 +1,1 @@
+Tap course icon, then Confirm to open it. Removed Cancel, visible PIN notice and the previous Confirm Course button.

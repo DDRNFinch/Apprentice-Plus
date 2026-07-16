@@ -1,9 +1,92 @@
-const COURSES={brick:{name:"Bricklaying",path:"./courses/brick/"},site:{name:"Site Carpentry",path:"./courses/site/"},bench:{name:"Bench Joinery",path:"./courses/bench/"}};
-const KEY="apprenticePlusSettingsV2";let settings={course:null,pin:"2468"};try{settings={...settings,...JSON.parse(localStorage.getItem(KEY)||"{}")}}catch(e){}let selected=null;const unlocked=sessionStorage.getItem("apprenticePlusCourseUnlocked")==="1";const choose=new URLSearchParams(location.search).has("choose");
-function save(){localStorage.setItem(KEY,JSON.stringify(settings))}function openCourse(k){if(!COURSES[k])return;settings.course=k;save();sessionStorage.removeItem("apprenticePlusCourseUnlocked");location.href=COURSES[k].path}
-if(settings.course&&!choose){openCourse(settings.course)}else if(choose&&!unlocked&&settings.course){openCourse(settings.course)}else{if(unlocked)document.getElementById("lockNote").innerHTML="🔓 Course selection unlocked. Choose the correct course and confirm it.";document.querySelectorAll("[data-course]").forEach(b=>b.onclick=()=>{selected=b.dataset.course;document.querySelectorAll("[data-course]").forEach(x=>x.classList.toggle("selected",x===b));document.getElementById("continue").disabled=false});document.getElementById("continue").onclick=()=>selected&&openCourse(selected)}
-document.getElementById("savePin").onclick=()=>{const old=document.getElementById("oldPin").value;const next=document.getElementById("newPin").value.trim();const msg=document.getElementById("pinMessage");msg.style.color="#a92323";if(old!==String(settings.pin)){msg.textContent="Current PIN is incorrect.";return}if(!/^\d{4,12}$/.test(next)){msg.textContent="Use 4–12 numbers for the new PIN.";return}settings.pin=next;save();msg.style.color="#16845b";msg.textContent="Tutor PIN updated."};
-if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js",{scope:"./"}));
+const COURSES={
+  brick:{name:"Bricklaying",path:"./courses/brick/"},
+  site:{name:"Site Carpentry",path:"./courses/site/"},
+  bench:{name:"Bench Joinery",path:"./courses/bench/"}
+};
+
+const KEY="apprenticePlusSettingsV2";
+let settings={course:null,pin:"2468"};
+
+try{
+  settings={...settings,...JSON.parse(localStorage.getItem(KEY)||"{}")};
+}catch(error){}
+
+const unlocked=sessionStorage.getItem("apprenticePlusCourseUnlocked")==="1";
+const choose=new URLSearchParams(location.search).has("choose");
+
+function saveSettings(){
+  localStorage.setItem(KEY,JSON.stringify(settings));
+}
+
+function openCourse(course){
+  const selected=COURSES[course];
+  if(!selected)return;
+
+  settings.course=course;
+  saveSettings();
+  sessionStorage.removeItem("apprenticePlusCourseUnlocked");
+  location.href=selected.path;
+}
+
+// Normally reopen the learner's saved course automatically.
+// The selector is shown for first use or after the Developer section unlocks it.
+if(settings.course&&!choose){
+  openCourse(settings.course);
+}else if(choose&&!unlocked&&settings.course){
+  openCourse(settings.course);
+}else{
+  const grid=document.querySelector(".courses.course-grid");
+
+  if(grid){
+    const closeOverlays=()=>{
+      grid.querySelectorAll(".course-confirm-overlay").forEach(node=>node.remove());
+      grid.querySelectorAll(".course").forEach(node=>node.classList.remove("selected"));
+    };
+
+    grid.querySelectorAll(".course").forEach(button=>{
+      button.addEventListener("click",event=>{
+        event.preventDefault();
+        event.stopPropagation();
+
+        const course=button.dataset.course;
+        closeOverlays();
+        button.classList.add("selected");
+
+        const overlay=document.createElement("div");
+        overlay.className="course-confirm-overlay";
+        overlay.innerHTML=`
+          <strong>Open ${COURSES[course]?.name||"course"}?</strong>
+          <div class="course-confirm-actions">
+            <button type="button" class="confirm-course">Confirm</button>
+          </div>`;
+
+        button.appendChild(overlay);
+
+        overlay.addEventListener("click",overlayEvent=>{
+          overlayEvent.stopPropagation();
+        });
+
+        overlay.querySelector(".confirm-course").addEventListener("click",confirmEvent=>{
+          confirmEvent.preventDefault();
+          confirmEvent.stopPropagation();
+          openCourse(course);
+        });
+      });
+    });
+
+    // Tapping a different icon replaces the confirmation.
+    // Tapping outside closes it without displaying a Cancel button.
+    document.addEventListener("click",event=>{
+      if(!event.target.closest(".course"))closeOverlays();
+    });
+  }
+}
+
+if("serviceWorker" in navigator){
+  addEventListener("load",()=>{
+    navigator.serviceWorker.register("./service-worker.js",{scope:"./"});
+  });
+}
 
 const PRIVACY_NOTICE=`Apprenticeship+ Privacy Notice
 
@@ -49,91 +132,3 @@ async function clearAllApprenticePlusData(){
 }
 document.getElementById("showPrivacy")?.addEventListener("click",()=>alert(PRIVACY_NOTICE));
 document.getElementById("clearLocalData")?.addEventListener("click",clearAllApprenticePlusData);
-
-
-(function enableCourseIconConfirmation(){
-  const grid=document.querySelector(".courses.course-grid");
-  if(!grid)return;
-
-  const courseLabels={
-    brick:"Bricklaying",
-    site:"Site Carpentry",
-    bench:"Bench Joinery",
-    mechanic:"Mechanics",
-    painting:"Painting & Decorating",
-    groundworks:"Groundworks",
-    pmo:"Property Maintenance",
-    electrical:"Electrical",
-    plumbing:"Plumbing"
-  };
-
-  const destinations={
-    brick:"./courses/brick/",
-    site:"./courses/site/",
-    bench:"./courses/bench/",
-    mechanic:"./courses/mechanic/",
-    painting:"./courses/painting/",
-    groundworks:"./courses/groundworks/",
-    pmo:"./courses/pmo/",
-    electrical:"./courses/electrical/",
-    plumbing:"./courses/plumbing/"
-  };
-
-  function closeAll(){
-    grid.querySelectorAll(".course-confirm-overlay").forEach(node=>node.remove());
-    grid.querySelectorAll(".course").forEach(node=>node.classList.remove("selected"));
-  }
-
-  grid.querySelectorAll(".course").forEach(button=>{
-    button.addEventListener("click",event=>{
-      event.preventDefault();
-      event.stopImmediatePropagation();
-
-      closeAll();
-      button.classList.add("selected");
-
-      const course=button.dataset.course;
-      const overlay=document.createElement("div");
-      overlay.className="course-confirm-overlay";
-      overlay.innerHTML=`
-        <strong>Open ${courseLabels[course]||"this course"}?</strong>
-        <div class="course-confirm-actions">
-          <button type="button" class="confirm-course">Confirm</button>
-          <button type="button" class="cancel-course">Cancel</button>
-        </div>`;
-
-      button.appendChild(overlay);
-
-      overlay.querySelector(".cancel-course").addEventListener("click",cancelEvent=>{
-        cancelEvent.preventDefault();
-        cancelEvent.stopPropagation();
-        closeAll();
-      });
-
-      overlay.querySelector(".confirm-course").addEventListener("click",confirmEvent=>{
-        confirmEvent.preventDefault();
-        confirmEvent.stopPropagation();
-
-        const destination=destinations[course];
-        if(!destination){
-          alert("This course module has not been added yet.");
-          closeAll();
-          return;
-        }
-
-        let settings={course:null,pin:"2468"};
-        try{
-          settings={...settings,...JSON.parse(localStorage.getItem("apprenticePlusSettingsV2")||"{}")};
-        }catch(error){}
-
-        settings.course=course;
-        localStorage.setItem("apprenticePlusSettingsV2",JSON.stringify(settings));
-        location.href=destination;
-      });
-    },true);
-  });
-
-  document.addEventListener("click",event=>{
-    if(!event.target.closest(".course"))closeAll();
-  });
-})();
