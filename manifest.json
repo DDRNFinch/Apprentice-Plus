@@ -1,12 +1,12 @@
 {
   "name": "Apprentice+",
   "short_name": "Apprentice+",
-  "description": "Bricklaying, Site Carpentry and Bench Joinery apprenticeship companion.",
+  "description": "A local apprenticeship document-creation and revision app for Bricklaying, Site Carpentry and Bench Joinery.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#152238",
-  "theme_color": "#152238",
+  "background_color": "#07182a",
+  "theme_color": "#07182a",
   "icons": [
     {
       "src": "./icon-192.png",
