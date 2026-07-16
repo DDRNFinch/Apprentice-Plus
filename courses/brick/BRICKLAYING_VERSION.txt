@@ -1,2 +1,1 @@
-Apprentice+ Bricklaying – Bench Master v2
-Restored Apprentice+ course switch button.
+Apprentice+ Bricklaying single-file stability fix.
