@@ -1,6 +1,6 @@
 
 "use strict";
-const CACHE_NAME="apprentice-plus-site-readable-pdf-1";
+const CACHE_NAME="apprentice-plus-site-premium-pdf-1";
 const APP_FILES=[
   "./",
   "./index.html",
@@ -8,6 +8,7 @@ const APP_FILES=[
   "./workbench.js",
   "./app.js",
   "./assignment-pdf.js",
+  "./assignment-pdf.js?v=premium-template-1",
   "./assignment-pdf.js?v=readable-text-1",
   "./assignment-pdf.js?v=landscape-final-2",
   "./register-service-worker.js",
