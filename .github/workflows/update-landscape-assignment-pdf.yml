@@ -1,0 +1,37 @@
+name: Update Landscape Assignment PDF
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Apply landscape PDF update
+        shell: bash
+        run: |
+          set -e
+          ZIP_FILE=$(find . -maxdepth 1 -type f -name 'ApprenticePlus_Landscape_Assignment_PDF_Final_Update*.zip' | head -n 1)
+          test -n "$ZIP_FILE"
+
+          rm -rf /tmp/landscape-pdf-update
+          mkdir -p /tmp/landscape-pdf-update
+          unzip -q "$ZIP_FILE" -d /tmp/landscape-pdf-update
+
+          cp -a /tmp/landscape-pdf-update/courses/. courses/
+          rm -f ApprenticePlus_Landscape_Assignment_PDF_Final_Update*.zip
+
+      - name: Commit update
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Add final one-page landscape assignment PDF" || exit 0
+          git push
