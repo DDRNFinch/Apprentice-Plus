@@ -1,106 +1,140 @@
-
 "use strict";
 
-/**
- * Assignment PDF module.
- *
- * This file deliberately contains only assignment-PDF layout logic.
- * It relies on shared app helpers such as addHeader(), addFooter(),
- * detailBox(), sectionTitle(), getImage(), drawHighlightedText(), and
- * the assignment prompt/KSB helpers declared in app.js.
- */
 async function downloadAssignmentPdf(assignment,evidence,profile){
+  let createdUrl=null;
+
+  const safeFileName=value=>String(value||"document")
+    .replace(/[^a-z0-9]+/gi,"-")
+    .replace(/^-|-$/g,"");
+
+  const ukDate=value=>{
+    const date=value?new Date(value):new Date();
+    return Number.isNaN(date.getTime())?"":date.toLocaleDateString("en-GB");
+  };
+
+  const fitText=(pdf,text,width,height,startSize=8,minSize=4.6)=>{
+    let size=startSize;
+    let lineHeight=size*0.43;
+    let lines=[];
+
+    while(size>=minSize){
+      pdf.setFontSize(size);
+      lineHeight=size*0.43;
+      lines=pdf.splitTextToSize(text,width);
+      if(lines.length*lineHeight<=height)break;
+      size-=0.25;
+    }
+
+    const finalSize=Math.max(size,minSize);
+    pdf.setFontSize(finalSize);
+    lineHeight=finalSize*0.43;
+    lines=pdf.splitTextToSize(text,width);
+
+    const maxLines=Math.max(1,Math.floor(height/lineHeight));
+    if(lines.length>maxLines){
+      lines=lines.slice(0,maxLines);
+      const last=String(lines[lines.length-1]||"");
+      lines[lines.length-1]=last.length>3?`${last.slice(0,-3)}...`:last;
+    }
+
+    return {lines,lineHeight,fontSize:finalSize};
+  };
+
   try{
-    evidence=ensurePortfolioReflection(ensureCombinedEvidence(evidence,assignment));
+    evidence=evidence||{};
+    profile=profile||{};
+
+    if(!window.jspdf||!window.jspdf.jsPDF){
+      throw new Error("jsPDF is unavailable");
+    }
 
     const {jsPDF}=window.jspdf;
-    const pdf=new jsPDF({unit:"mm",format:"a4"});
-    const margin=12;
-    const contentW=186;
-    const pageH=297;
-    const bottom=278;
-    const topics=reflectionTopics(assignment);
-    const ksbs=assignmentKsbMap[String(assignment.id)]||[];
+    const pdf=new jsPDF({
+      orientation:"landscape",
+      unit:"mm",
+      format:"a4",
+      compress:true
+    });
 
-    const drawTextHeader=()=>{
-      addHeader(pdf,"Assignment Evidence Pack",`Assignment ${assignment.id}`);
-      pdf.setFont("helvetica","bold");
-      pdf.setFontSize(12);
-      pdf.setTextColor(35,42,51);
-      const titleLines=pdf.splitTextToSize(assignment.title,contentW);
-      pdf.text(titleLines,margin,39);
-      return 39+(titleLines.length*5)+4;
-    };
+    const pageW=pdf.internal.pageSize.getWidth();
+    const pageH=pdf.internal.pageSize.getHeight();
 
-    const newTextPage=()=>{
-      pdf.addPage();
-      return drawTextHeader();
-    };
+    const margin=8;
+    const gap=6;
+    const headerH=18;
+    const usableTop=margin+headerH;
+    const usableBottom=pageH-margin;
+    const usableH=usableBottom-usableTop;
 
-    const ensure=(height,y)=>{
-      return y+height>bottom ? newTextPage() : y;
-    };
+    const leftW=137;
+    const rightX=margin+leftW+gap;
+    const rightW=pageW-rightX-margin;
 
-    // -----------------------------------------------------------------
-    // PAGE 1 — nine evidence spaces in a 3 x 3 table.
-    // -----------------------------------------------------------------
-    addHeader(pdf,"Assignment Evidence Sheet",`Assignment ${assignment.id}`);
-
-    pdf.setFont("helvetica","bold");
-    pdf.setFontSize(11);
-    pdf.setTextColor(35,42,51);
-    const titleLines=pdf.splitTextToSize(assignment.title,contentW);
-    pdf.text(titleLines,margin,38);
-
-    let gridY=38+(titleLines.length*5)+4;
-
-    pdf.setFont("helvetica","normal");
-    pdf.setFontSize(8);
-    pdf.text(`Learner: ${profile.learner||"Not entered"}`,margin,gridY);
-    pdf.text(
-      `Date: ${evidence.date?pdfUkDate(evidence.date+"T12:00:00"):pdfUkDate()}`,
-      118,
-      gridY
-    );
-    gridY+=8;
+    const textH=usableH*0.74;
+    const declarationY=usableTop+textH+4;
+    const declarationH=usableBottom-declarationY;
 
     const evidenceItems=(evidence.evidenceItems||[])
       .filter(item=>item&&item.key)
       .slice(0,9);
 
+    pdf.setFillColor(20,35,57);
+    pdf.roundedRect(margin,margin,pageW-(margin*2),14,3,3,"F");
+
+    pdf.setTextColor(255,255,255);
+    pdf.setFont("helvetica","bold");
+    pdf.setFontSize(12);
+    const headerTitle=`Assignment ${assignment.id}: ${assignment.title}`;
+    const headerLines=pdf.splitTextToSize(headerTitle,pageW-(margin*2)-10).slice(0,1);
+    pdf.text(headerLines,margin+5,margin+6);
+
+    pdf.setFont("helvetica","normal");
+    pdf.setFontSize(7);
+    const learnerName=profile.learner||"Learner not entered";
+    const assignmentDate=evidence.date?ukDate(`${evidence.date}T12:00:00`):ukDate();
+    pdf.text(`${learnerName}  |  ${profile.course||"Apprenticeship"}  |  ${assignmentDate}`,margin+5,margin+11);
+
+    // Left half: 3 x 3 evidence grid
+    pdf.setTextColor(30,38,48);
+    pdf.setFont("helvetica","bold");
+    pdf.setFontSize(8);
+    pdf.text("Photographic and supporting evidence",margin,usableTop+3);
+
+    const gridY=usableTop+6;
+    const gridH=usableBottom-gridY;
     const columns=3;
     const rows=3;
-    const gap=5;
-    const cellW=(contentW-(gap*(columns-1)))/columns;
-    const availableH=pageH-gridY-18;
-    const cellH=(availableH-gap)/rows;
+    const cellGap=2.5;
+    const cellW=(leftW-(cellGap*(columns-1)))/columns;
+    const cellH=(gridH-(cellGap*(rows-1)))/rows;
 
-    for(let index=0; index<9; index++){
+    for(let index=0;index<9;index++){
       const row=Math.floor(index/columns);
       const column=index%columns;
-      const x=margin+(column*(cellW+gap));
-      const y=gridY+(row*(cellH+gap));
+      const x=margin+(column*(cellW+cellGap));
+      const y=gridY+(row*(cellH+cellGap));
       const item=evidenceItems[index];
 
-      pdf.setDrawColor(190,197,205);
-      pdf.setFillColor(248,249,251);
-      pdf.roundedRect(x,y,cellW,cellH,3,3,"FD");
+      pdf.setDrawColor(190,198,207);
+      pdf.setFillColor(248,250,252);
+      pdf.roundedRect(x,y,cellW,cellH,2,2,"FD");
 
       pdf.setFont("helvetica","bold");
-      pdf.setFontSize(8);
-      pdf.setTextColor(35,42,51);
+      pdf.setFontSize(5.8);
+      pdf.setTextColor(45,52,61);
+      const label=item?.name||`Evidence ${index+1}`;
+      const labelLines=pdf.splitTextToSize(`${index+1}. ${label}`,cellW-4).slice(0,2);
+      pdf.text(labelLines,x+2,y+3.7);
 
-      const slotLabel=item?.name||`Evidence ${index+1}`;
-      const labelLines=pdf.splitTextToSize(`${index+1}. ${slotLabel}`,cellW-8);
-      pdf.text(labelLines,x+4,y+6);
-
-      const contentTop=y+15;
-      const contentHeight=cellH-21;
+      const imageTop=y+8;
+      const imageMaxH=cellH-10;
+      const imageMaxW=cellW-4;
 
       if(!item){
         pdf.setFont("helvetica","normal");
-        pdf.setTextColor(140,145,150);
-        pdf.text("No evidence uploaded",x+4,contentTop+10);
+        pdf.setFontSize(6);
+        pdf.setTextColor(145,151,158);
+        pdf.text("No evidence added",x+2,imageTop+7);
         continue;
       }
 
@@ -109,156 +143,143 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
           const image=await getImage(item.key);
           if(!image)throw new Error("Image not found");
 
-          const props=pdf.getImageProperties(image);
-          const maxW=cellW-8;
-          const maxH=contentHeight-3;
-          const ratio=Math.min(maxW/props.width,maxH/props.height);
-          const imageW=props.width*ratio;
-          const imageH=props.height*ratio;
+          const properties=pdf.getImageProperties(image);
+          const ratio=Math.min(
+            imageMaxW/properties.width,
+            imageMaxH/properties.height
+          );
+
+          const drawW=properties.width*ratio;
+          const drawH=properties.height*ratio;
           const format=String(image).startsWith("data:image/png")?"PNG":"JPEG";
 
           pdf.addImage(
             image,
             format,
-            x+((cellW-imageW)/2),
-            contentTop+((contentHeight-imageH)/2),
-            imageW,
-            imageH
+            x+(cellW-drawW)/2,
+            imageTop+(imageMaxH-drawH)/2,
+            drawW,
+            drawH,
+            undefined,
+            "FAST"
           );
         }catch(imageError){
-          console.warn(`Evidence image ${index+1} could not be added to the PDF`,imageError);
+          console.warn("Evidence image could not be added",imageError);
           pdf.setFont("helvetica","normal");
-          pdf.setFontSize(8);
-          pdf.setTextColor(125,130,136);
-          pdf.text("Image could not be displayed",x+4,contentTop+10);
-          pdf.text("The original evidence remains saved.",x+4,contentTop+17);
+          pdf.setFontSize(5.7);
+          pdf.setTextColor(125,131,138);
+          pdf.text(["Image unavailable","Evidence remains saved"],x+2,imageTop+6);
         }
       }else{
         pdf.setFont("helvetica","bold");
-        pdf.setFontSize(9);
-        pdf.text("Uploaded file",x+4,contentTop+8);
+        pdf.setFontSize(6);
+        pdf.setTextColor(55,62,70);
+        pdf.text("Supporting file",x+2,imageTop+5);
+
         pdf.setFont("helvetica","normal");
-        pdf.setFontSize(8);
-        const fileDetails=pdf.splitTextToSize(
-          `${item.name||"Supporting file"}\n${item.type||"File"}`,
-          cellW-8
-        );
-        pdf.text(fileDetails,x+4,contentTop+16);
+        pdf.setFontSize(5.5);
+        const fileLines=pdf.splitTextToSize(item.name||"Uploaded file",cellW-4).slice(0,4);
+        pdf.text(fileLines,x+2,imageTop+10);
       }
     }
 
-    // -----------------------------------------------------------------
-    // PAGE 2+ — all written evidence.
-    // -----------------------------------------------------------------
-    let y=newTextPage();
+    // Upper-right 3/4: learner statement
+    pdf.setDrawColor(190,198,207);
+    pdf.setFillColor(255,255,255);
+    pdf.roundedRect(rightX,usableTop,rightW,textH,3,3,"FD");
 
-    y=detailBox(pdf,[
-      ["Learner",profile.learner||"Not entered"],
-      ["Date",evidence.date?pdfUkDate(evidence.date+"T12:00:00"):pdfUkDate()],
-      ["Course",profile.course||"Carpentry and Joinery Level 2"],
-      ["Employer",profile.employer||"Not entered"]
-    ],y);
+    pdf.setFillColor(239,244,249);
+    pdf.roundedRect(rightX,usableTop,rightW,11,3,3,"F");
+    pdf.rect(rightX,usableTop+7,rightW,4,"F");
 
-    y=ensure(22,y);
-    y=sectionTitle(pdf,"Assignment Statement",y);
-    pdf.setFontSize(8.5);
-    y=drawHighlightedText(
-      pdf,
-      evidence.description||"",
-      assignmentUnifiedPrompts(assignment),
-      margin,
-      y,
-      contentW,
-      4.2,
-      newTextPage
-    )+7;
+    pdf.setTextColor(20,35,57);
+    pdf.setFont("helvetica","bold");
+    pdf.setFontSize(9);
+    pdf.text("Learner statement",rightX+4,usableTop+7);
 
-    y=ensure(32,y);
-    y=sectionTitle(pdf,"KSBs Evidenced — Assessor Reference",y);
+    const statement=String(evidence.description||"").trim()||"No learner statement entered.";
+    const statementX=rightX+4;
+    const statementY=usableTop+16;
+    const statementW=rightW-8;
+    const statementH=textH-21;
 
-    const knowledge=ksbs.filter(item=>item.startsWith("K"));
-    const skills=ksbs.filter(item=>item.startsWith("S"));
-    const behaviours=ksbs.filter(item=>item.startsWith("B"));
+    pdf.setFont("helvetica","normal");
+    pdf.setTextColor(35,42,51);
 
-    pdf.setFontSize(8.5);
-    [
-      ["Knowledge",knowledge],
-      ["Skills",skills],
-      ["Behaviours",behaviours]
-    ].forEach(([label,items])=>{
-      if(!items.length)return;
-      pdf.setFont("helvetica","bold");
-      pdf.text(`${label}:`,margin,y);
-      pdf.setFont("helvetica","normal");
-      pdf.text(items.join(" • "),margin+27,y);
-      y+=6;
+    const fitted=fitText(pdf,statement,statementW,statementH,8,4.6);
+    pdf.setFontSize(fitted.fontSize);
+    pdf.text(fitted.lines,statementX,statementY,{
+      lineHeightFactor:fitted.lineHeight/fitted.fontSize
     });
 
-    const metPrompts=[
-      ...assignmentEvidencePrompts(assignment),
-      ...combinedReflectionPrompts(assignment)
-    ].filter(prompt=>
-      promptMatchedWithAliases(
-        `${evidence.description||""} ${evidence.reflection||""}`,
-        prompt.term
-      )
-    );
+    // Lower-right 1/4: declaration, signature and date
+    pdf.setDrawColor(190,198,207);
+    pdf.setFillColor(248,250,252);
+    pdf.roundedRect(rightX,declarationY,rightW,declarationH,3,3,"FD");
 
-    if(metPrompts.length){
-      y+=3;
-      pdf.setFont("helvetica","bold");
-      pdf.text("Prompts met:",margin,y);
-      y+=5;
-      pdf.text(
-        pdf.splitTextToSize(
-          [...new Set(metPrompts.map(prompt=>prompt.label))].join(" • "),
-          contentW
-        ),
-        margin,
-        y
-      );
-      y+=11;
-    }
-
-    y=ensure(38,y);
-    y=sectionTitle(pdf,"Learner Declaration",y);
-    pdf.setFont("helvetica","normal");
+    pdf.setTextColor(20,35,57);
+    pdf.setFont("helvetica","bold");
     pdf.setFontSize(8);
-    pdf.text(
-      pdf.splitTextToSize(
-        "I confirm that this evidence is my own work and accurately reflects the activities I completed during my apprenticeship.",
-        contentW
-      ),
-      margin,
-      y
-    );
-    y+=12;
+    pdf.text("Learner declaration",rightX+4,declarationY+6);
+
+    pdf.setFont("helvetica","normal");
+    pdf.setFontSize(6.2);
+    pdf.setTextColor(45,52,61);
+    const declarationText="I confirm that this evidence is my own work and accurately reflects the activity I completed.";
+    const declarationLines=pdf.splitTextToSize(declarationText,rightW-8);
+    pdf.text(declarationLines,rightX+4,declarationY+11);
+
+    const detailsY=declarationY+22;
+    pdf.setDrawColor(160,168,178);
+    pdf.line(rightX+4,detailsY+9,rightX+(rightW*0.63),detailsY+9);
+    pdf.line(rightX+(rightW*0.69),detailsY+9,rightX+rightW-4,detailsY+9);
 
     if(profile.signature){
       try{
-        pdf.addImage(profile.signature,"PNG",margin,y,45,14);
-        y+=17;
+        pdf.addImage(
+          profile.signature,
+          "PNG",
+          rightX+6,
+          detailsY-1,
+          Math.min(45,rightW*0.5),
+          10
+        );
       }catch(signatureError){
-        console.warn("The saved signature could not be added to the PDF",signatureError);
+        console.warn("Signature could not be added",signatureError);
       }
     }
 
     pdf.setFont("helvetica","bold");
-    pdf.text(`Signed by: ${profile.learner||"Learner"}`,margin,y);
-    pdf.setFont("helvetica","normal");
-    pdf.text(`Date: ${pdfUkDate()}`,135,y);
+    pdf.setFontSize(5.8);
+    pdf.text(`Signed: ${learnerName}`,rightX+4,detailsY+13);
+    pdf.text(`Date: ${ukDate()}`,rightX+(rightW*0.69),detailsY+13);
 
-    // Apply one consistent footer after every page has been created.
-    addFooter(pdf);
+    const ksbs=(typeof assignmentKsbMap!=="undefined"&&assignmentKsbMap[String(assignment.id)])
+      ?assignmentKsbMap[String(assignment.id)]
+      :[];
 
-    const filename=`Assignment-${assignment.id}-${safe(assignment.title)}.pdf`;
-    return {
-      blob:pdf.output("blob"),
-      filename
+    if(ksbs.length){
+      pdf.setFont("helvetica","normal");
+      pdf.setFontSize(5.3);
+      pdf.setTextColor(90,96,104);
+      const ksbLines=pdf.splitTextToSize(`KSBs: ${ksbs.join(", ")}`,rightW-8).slice(0,2);
+      pdf.text(ksbLines,rightX+4,usableBottom-3);
+    }
+
+    const fileName=`Assignment-${assignment.id}-${safeFileName(assignment.title)}.pdf`;
+    const blob=pdf.output("blob");
+    createdUrl=URL.createObjectURL(blob);
+
+    return{
+      blob,
+      fileName,
+      filename:fileName,
+      url:createdUrl
     };
   }catch(error){
+    if(createdUrl)URL.revokeObjectURL(createdUrl);
     console.error("Assignment PDF error:",error);
-    alert("The assignment PDF could not be created. Your evidence is still saved.");
+    alert(`The assignment PDF could not be created. Your evidence is still saved.\n\n${error?.message||"Unknown PDF error"}`);
     return null;
   }
 }

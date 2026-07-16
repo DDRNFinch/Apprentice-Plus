@@ -1,0 +1,1 @@
+Reliable assignment PDF generator with one-page layout where content fits.

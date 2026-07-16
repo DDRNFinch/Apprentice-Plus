@@ -1,0 +1,1 @@
+Removed obsolete PDF helper reference so assignment PDFs can generate.
