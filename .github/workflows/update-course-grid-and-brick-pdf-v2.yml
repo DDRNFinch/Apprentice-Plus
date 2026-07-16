@@ -1,0 +1,37 @@
+name: Update Course Grid and Brick PDF v2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Apply corrected combined update
+        shell: bash
+        run: |
+          set -e
+          ZIP_FILE=$(find . -maxdepth 1 -type f -name 'ApprenticeshipPlus_Course_Grid_And_Brick_PDF_Fix_v2*.zip' | head -n 1)
+          test -n "$ZIP_FILE"
+
+          rm -rf /tmp/apprenticeship-plus-grid-v2
+          mkdir -p /tmp/apprenticeship-plus-grid-v2
+          unzip -q "$ZIP_FILE" -d /tmp/apprenticeship-plus-grid-v2
+
+          cp -a /tmp/apprenticeship-plus-grid-v2/. .
+          rm -f ApprenticeshipPlus_Course_Grid_And_Brick_PDF_Fix_v2*.zip
+
+      - name: Commit update
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Correct three-column course grid" || exit 0
+          git push
