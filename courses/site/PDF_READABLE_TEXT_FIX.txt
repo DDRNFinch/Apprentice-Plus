@@ -1,0 +1,1 @@
+Readable single-page A4 landscape PDF with correct line spacing.
