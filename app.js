@@ -52,7 +52,7 @@ document.getElementById("clearLocalData")?.addEventListener("click",clearAllAppr
 
 
 (function enableCourseIconConfirmation(){
-  const grid=document.querySelector(".course-grid");
+  const grid=document.querySelector(".courses.course-grid");
   if(!grid)return;
 
   const courseLabels={
