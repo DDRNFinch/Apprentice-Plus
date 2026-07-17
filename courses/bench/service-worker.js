@@ -1,23 +1,28 @@
 "use strict";
-const CACHE_NAME="apprenticeship-plus-bench-navigation-page-header-corrected-v1";
+const CACHE_NAME="apprenticeship-plus-bench-navigation-full-recovery-v1";
 const APP_FILES=[
  "./","./index.html","./app.js",
  "./professional-navigation.js","./professional-navigation.css",
- "./page-refinement.js","./page-refinement.css",
  "./workbench-data.js","./workbench.js","./assignment-pdf.js",
  "./register-service-worker.js","./manifest.json",
  "./trade-logo.png","./icon-192.png","./icon-512.png"
 ];
 
-self.addEventListener("install",event=>event.waitUntil(
- caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_FILES)).then(()=>self.skipWaiting())
-));
+self.addEventListener("install",event=>{
+ event.waitUntil(
+  caches.open(CACHE_NAME)
+   .then(cache=>cache.addAll(APP_FILES))
+   .then(()=>self.skipWaiting())
+ );
+});
 
-self.addEventListener("activate",event=>event.waitUntil(
- caches.keys().then(keys=>Promise.all(
-  keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key))
- )).then(()=>self.clients.claim())
-));
+self.addEventListener("activate",event=>{
+ event.waitUntil(
+  caches.keys()
+   .then(keys=>Promise.all(keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key))))
+   .then(()=>self.clients.claim())
+ );
+});
 
 self.addEventListener("fetch",event=>{
  if(event.request.method!=="GET") return;
@@ -30,27 +35,48 @@ self.addEventListener("fetch",event=>{
     .then(source=>{
       const loader=`
 ;(function(){
- ['./professional-navigation.css?v=corrected-1','./page-refinement.css?v=corrected-1'].forEach(function(href){
-  if(!document.querySelector('link[href^="'+href.split('?')[0]+'"]')){
-   const link=document.createElement('link');link.rel='stylesheet';link.href=href;document.head.appendChild(link);
-  }
- });
- ['./professional-navigation.js?v=corrected-1','./page-refinement.js?v=corrected-1'].forEach(function(src){
-  const script=document.createElement('script');script.src=src;script.defer=true;document.head.appendChild(script);
- });
+ if(!document.querySelector('link[data-ap-professional-navigation]')){
+  const link=document.createElement('link');
+  link.rel='stylesheet';
+  link.href='./professional-navigation.css?v=full-recovery-1';
+  link.dataset.apProfessionalNavigation='true';
+  document.head.appendChild(link);
+ }
+ if(!document.querySelector('script[data-ap-professional-navigation]')){
+  const script=document.createElement('script');
+  script.src='./professional-navigation.js?v=full-recovery-1';
+  script.defer=true;
+  script.dataset.apProfessionalNavigation='true';
+  document.head.appendChild(script);
+ }
 })();`;
-      return new Response(source+loader,{headers:{"Content-Type":"application/javascript; charset=utf-8"}});
+      return new Response(source+loader,{
+       headers:{"Content-Type":"application/javascript; charset=utf-8","Cache-Control":"no-store"}
+      });
     })
     .catch(()=>caches.match(event.request))
   );
   return;
  }
 
- const fresh=/\/courses\/bench\/(?:$|index\.html$|professional-navigation\.(?:js|css)$|page-refinement\.(?:js|css)$|workbench-data\.js$|workbench\.js$|assignment-pdf\.js$|trade-logo\.png$|manifest\.json$)/.test(url.pathname);
- event.respondWith(
-  (fresh
-    ? fetch(event.request,{cache:"no-store"})
-    : caches.match(event.request).then(cached=>cached||fetch(event.request))
-  ).catch(()=>caches.match(event.request))
- );
+ const alwaysFresh =
+  url.pathname.endsWith("/courses/bench/professional-navigation.js") ||
+  url.pathname.endsWith("/courses/bench/professional-navigation.css") ||
+  url.pathname.endsWith("/courses/bench/index.html");
+
+ if(alwaysFresh){
+  event.respondWith(
+   fetch(event.request,{cache:"no-store"})
+    .then(response=>{
+      const copy=response.clone();
+      caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy));
+      return response;
+    })
+    .catch(()=>caches.match(event.request))
+  );
+ }else{
+  event.respondWith(
+   caches.match(event.request).then(cached=>cached||fetch(event.request))
+  );
+ }
 });

@@ -1,27 +1,21 @@
-BENCH JOINERY — NAVIGATION ORDER RECOVERY
+BENCH JOINERY — FULL NAVIGATION RECOVERY
 
-In GitHub, open:
+Open:
 courses > bench
 
 Upload and replace:
 - professional-navigation.js
 - professional-navigation.css
-- page-refinement.js
-- page-refinement.css
 - service-worker.js
 
 Commit message:
-Restore correct Bench navigation order
+Restore stable Bench navigation
 
-Then fully close Apprentice+, open Bench Joinery, close it, and open it again.
+Then:
+1. Fully close Apprentice+.
+2. Open Bench Joinery.
+3. Close it completely.
+4. Open it again.
 
-Correct mapping:
-Home -> Home
-Assignments -> Assignments
-Portfolio -> Portfolio
-Workbench -> Workbench
-Revision -> Revision
-Profile -> Profile
-
-This version does not change the native select value merely to update the displayed label.
-It also removes the large Portfolio or Revision hero only when that section is actually selected.
+This restores the last known-good navigation menu and stops loading
+the experimental page-refinement controller that caused the empty blurred screen.
