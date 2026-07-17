@@ -1,1 +1,2 @@
-.ap-hide-page-hero{display:none!important}
+.ap-page-hero-hidden{display:none!important}
+.ap-page-hero-hidden + *{margin-top:18px!important}
