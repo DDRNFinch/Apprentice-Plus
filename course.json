@@ -1,0 +1,8 @@
+{
+  "id":"property-maintenance-operative",
+  "title":"Property Maintenance Operative",
+  "shortTitle":"PMO",
+  "version":"1.0.0",
+  "assignments":20,
+  "ksb":{"knowledge":31,"skills":25,"behaviours":6}
+}
