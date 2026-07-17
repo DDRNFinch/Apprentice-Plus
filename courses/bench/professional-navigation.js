@@ -22,10 +22,41 @@
     });
   }
 
+  function isVisible(element){
+    if(!element) return false;
+    const style = getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    return style.display !== "none" &&
+      style.visibility !== "hidden" &&
+      rect.width > 0 &&
+      rect.height > 0;
+  }
+
+  function visibleExactText(text){
+    const target = normalise(text);
+    return [...document.querySelectorAll("h1,h2,h3,h4,h5,strong,b,p")]
+      .some(element => isVisible(element) && normalise(element.textContent) === target);
+  }
+
   function detectVisibleSection(){
-    const text = normalise(document.body.innerText);
-    if(text.includes("revision cards") && text.includes("epa knowledge mock")) return "Revision";
-    if(text.includes("practical marking") && text.includes("employer hub")) return "Portfolio";
+    // Home must be checked first because its EPA Readiness area also mentions revision.
+    if(
+      visibleExactText("EPA Readiness") ||
+      [...document.querySelectorAll("h1,h2,h3")].some(element =>
+        isVisible(element) && normalise(element.textContent).startsWith("welcome back")
+      )
+    ) return "Home";
+
+    if(
+      visibleExactText("Revision Cards") &&
+      visibleExactText("Assignment Quizzes")
+    ) return "Revision";
+
+    if(
+      visibleExactText("Practical Marking") &&
+      visibleExactText("Documents")
+    ) return "Portfolio";
+
     return null;
   }
 
