@@ -1,8 +1,9 @@
 "use strict";
-const CACHE_NAME="apprenticeship-plus-bench-navigation-full-recovery-v1";
+const CACHE_NAME="apprenticeship-plus-bench-remove-workbench-v1";
 const APP_FILES=[
  "./","./index.html","./app.js",
  "./professional-navigation.js","./professional-navigation.css",
+ "./remove-workbench.js",
  "./workbench-data.js","./workbench.js","./assignment-pdf.js",
  "./register-service-worker.js","./manifest.json",
  "./trade-logo.png","./icon-192.png","./icon-512.png"
@@ -38,17 +39,22 @@ self.addEventListener("fetch",event=>{
  if(!document.querySelector('link[data-ap-professional-navigation]')){
   const link=document.createElement('link');
   link.rel='stylesheet';
-  link.href='./professional-navigation.css?v=full-recovery-1';
+  link.href='./professional-navigation.css?v=remove-workbench-1';
   link.dataset.apProfessionalNavigation='true';
   document.head.appendChild(link);
  }
- if(!document.querySelector('script[data-ap-professional-navigation]')){
-  const script=document.createElement('script');
-  script.src='./professional-navigation.js?v=full-recovery-1';
-  script.defer=true;
-  script.dataset.apProfessionalNavigation='true';
-  document.head.appendChild(script);
- }
+ [
+  ['./professional-navigation.js?v=remove-workbench-1','apProfessionalNavigation'],
+  ['./remove-workbench.js?v=1','apRemoveWorkbench']
+ ].forEach(function(item){
+  if(!document.querySelector('script[data-'+item[1].replace(/[A-Z]/g,m=>'-'+m.toLowerCase())+']')){
+   const script=document.createElement('script');
+   script.src=item[0];
+   script.defer=true;
+   script.dataset[item[1]]='true';
+   document.head.appendChild(script);
+  }
+ });
 })();`;
       return new Response(source+loader,{
        headers:{"Content-Type":"application/javascript; charset=utf-8","Cache-Control":"no-store"}
@@ -62,6 +68,7 @@ self.addEventListener("fetch",event=>{
  const alwaysFresh =
   url.pathname.endsWith("/courses/bench/professional-navigation.js") ||
   url.pathname.endsWith("/courses/bench/professional-navigation.css") ||
+  url.pathname.endsWith("/courses/bench/remove-workbench.js") ||
   url.pathname.endsWith("/courses/bench/index.html");
 
  if(alwaysFresh){
