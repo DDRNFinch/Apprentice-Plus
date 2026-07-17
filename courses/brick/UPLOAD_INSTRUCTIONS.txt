@@ -1,21 +1,25 @@
-BRICKLAYING — BENCH-STYLE NAVIGATION FIX
+BRICKLAYING — MATCH BENCH COMPLETE UPDATE
 
-In GitHub, open:
+Open:
 courses > brick
 
-Upload and replace these three files:
-- professional-navigation.js
-- professional-navigation.css
-- service-worker.js
+Upload and replace all files in this ZIP.
 
 Commit message:
-Fix Bricklaying navigation to match Bench
+Update Bricklaying to match Bench
 
-Then:
+This adds:
+- Bench-style navigation
+- Workbench removed
+- modern dashboard
+- assignment progress, streaks and achievements
+- smooth Android scrolling
+- Portfolio and Revision two-column grids
+- professional icons instead of emojis
+- repeated Portfolio and Revision headers removed
+
+After committing:
 1. Fully close Apprentice+.
-2. Open Bricklaying.
-3. Close it.
-4. Open it again.
-
-This fix is specific to Bricklaying because its navigation is loaded from index.html.
-It replaces the Android native dropdown with the same polished menu used in Bench Joinery.
+2. Open Bricklaying once.
+3. Fully close it again.
+4. Reopen it and test Home, Portfolio and Revision.
