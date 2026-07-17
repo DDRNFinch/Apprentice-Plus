@@ -19,3 +19,58 @@
 .ap-reminder-list{display:grid;gap:8px;margin:16px 0}.ap-reminder-list>div{display:flex;gap:10px;align-items:flex-start;padding:11px;border-radius:13px;background:#f7faf9}.ap-reminder-list span{color:#119451;font-size:1.4rem;line-height:.8}.ap-reminder-list p{margin:0;color:#344c50;font-weight:700}.ap-reminder-note{display:block;margin-top:10px;line-height:1.4;color:#718184}
 @media(max-width:720px){.ap-dashboard-grid{grid-template-columns:1fr}.ap-stat-grid{grid-template-columns:1fr 1fr}.ap-achievement-grid{grid-template-columns:1fr}.ap-dash-welcome{align-items:flex-start}.ap-progress-ring{--size:92px}}
 @media(max-width:430px){.ap-dash-welcome{padding:20px}.ap-progress-ring{--size:82px}.ap-stat-grid article{padding:14px}.ap-dashboard-card{padding:18px}}
+
+/* Mobile continuous-scroll refinement */
+html:not(.ap-nav-open),
+html:not(.ap-nav-open) body{
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+#ap-modern-dashboard{
+  position:relative;
+  overflow:visible!important;
+  max-height:none!important;
+  touch-action:pan-y pinch-zoom;
+  overscroll-behavior:contain auto;
+  scroll-snap-type:none!important;
+  contain:none!important;
+}
+
+#ap-modern-dashboard .ap-dash-welcome,
+#ap-modern-dashboard .ap-dashboard-grid,
+#ap-modern-dashboard .ap-dashboard-card,
+#ap-modern-dashboard .ap-stat-grid,
+#ap-modern-dashboard .ap-stat-grid article,
+#ap-modern-dashboard .ap-streak-card,
+#ap-modern-dashboard .ap-achievement,
+#ap-modern-dashboard .ap-reminder-list,
+#ap-modern-dashboard .ap-reminder-list > div{
+  overflow:visible;
+  max-height:none;
+  touch-action:pan-y pinch-zoom;
+  scroll-snap-align:none!important;
+  scroll-snap-stop:normal!important;
+}
+
+#ap-modern-dashboard button{
+  touch-action:manipulation;
+}
+
+@media(max-width:720px){
+  .ap-progress-ring{--size:104px}
+  .ap-stat-grid{gap:10px}
+  .ap-stat-grid article{min-height:88px}
+  .ap-journey-step.current{
+    border-width:2px;
+    box-shadow:0 0 0 4px rgba(17,148,81,.09);
+  }
+}
+
+@media(max-width:430px){
+  .ap-progress-ring{--size:92px}
+  .ap-stat-grid article{padding:15px}
+  .ap-stat-grid strong{font-size:1.72rem}
+}

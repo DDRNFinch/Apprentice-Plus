@@ -343,11 +343,29 @@
   },true);
 
   let queued=false;
-  new MutationObserver(()=>{
-    if(queued)return;
+  const dashboardObserver=new MutationObserver(mutations=>{
+    // Ignore mutations created by the dashboard itself. Rebuilding the whole
+    // dashboard during a touch scroll interrupts Android's scroll momentum.
+    const hasExternalMutation=mutations.some(mutation=>{
+      const target=mutation.target.nodeType===Node.ELEMENT_NODE
+        ? mutation.target
+        : mutation.target.parentElement;
+      return !target?.closest?.("#ap-modern-dashboard");
+    });
+
+    if(!hasExternalMutation||queued)return;
+
     queued=true;
-    requestAnimationFrame(()=>{queued=false;render();});
-  }).observe(document.documentElement,{childList:true,subtree:true});
+    requestAnimationFrame(()=>{
+      queued=false;
+      render();
+    });
+  });
+
+  dashboardObserver.observe(document.documentElement,{
+    childList:true,
+    subtree:true
+  });
 
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",render);
   else render();
