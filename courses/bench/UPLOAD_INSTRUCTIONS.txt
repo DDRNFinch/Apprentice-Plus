@@ -1,24 +1,29 @@
-BENCH JOINERY — HOME AND NOTIFICATIONS UPDATE
+BENCH JOINERY — REMOVE REMAINING OLD HOME SCREEN
 
 Open:
 courses > bench
 
-Upload and replace all files in this ZIP.
+Upload and replace:
+- remove-old-home.js
+- remove-old-home.css
+- service-worker.js
 
 Commit message:
-Refine home and notification settings
+Remove remaining old Bench home screen
 
-This update:
-- removes the remaining old home screen below the new dashboard
-- adds Firebase configuration and push support
-- makes the Enable Notifications button update instantly
-- moves reminder controls into Profile / Settings
-- lets learners choose notification types
-- lets learners choose any days of the week
-- lets learners choose their preferred notification time
-- keeps the notification bell as the notification inbox
+Then:
+1. Fully close Apprentice+.
+2. Open Bench Joinery once.
+3. Fully close it again.
+4. Reopen Bench Joinery.
 
-Firebase Console still needs:
-- Anonymous Authentication enabled
-- Firestore created
-- backend functions deployed
+This removes:
+- Welcome to Apprenticeship+
+- Complete learner setup
+- Assignments complete
+- Refreshes passed
+- Quiz average
+- EPA readiness guide
+- Your next step
+
+The modern dashboard and notification bell remain.
