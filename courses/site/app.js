@@ -2898,3 +2898,58 @@ window.addEventListener("appinstalled",()=>document.getElementById("installBar")
 document.getElementById("installNow")?.addEventListener("click",requestInstall);
 document.getElementById("installLater")?.addEventListener("click",()=>document.getElementById("installBar")?.classList.add("hidden"));
 if(isStandalone())document.getElementById("installBar")?.classList.add("hidden");
+
+/* Apprenticeship+: reliable Continue Assignment navigation */
+(function(){
+  function continueToAssignment(button){
+    const match = (button?.textContent || "").match(/Assignment\s+(\d+)/i);
+    const assignmentId = Number(button?.dataset?.openAssignment || (match && match[1]));
+    if (!Number.isFinite(assignmentId) || assignmentId < 1) return false;
+
+    try {
+      if (typeof openAssignmentId !== "undefined") openAssignmentId = assignmentId;
+      if (typeof state === "object" && state) {
+        state.lastAssignment = assignmentId;
+        if (typeof saveState === "function") saveState(state);
+      }
+
+      if (typeof go === "function") {
+        go("evidence");
+        return true;
+      }
+
+      const evidenceTab =
+        document.querySelector('[data-route="evidence"]') ||
+        document.querySelector('[data-tab="evidence"]') ||
+        [...document.querySelectorAll("button")].find(
+          el => /assignments|evidence/i.test(el.textContent || "")
+        );
+
+      if (evidenceTab) {
+        evidenceTab.click();
+        setTimeout(() => {
+          const assignmentButton =
+            document.querySelector(`[data-open-assignment="${assignmentId}"]`) ||
+            document.querySelector(`[data-assignment-id="${assignmentId}"]`);
+          if (assignmentButton && assignmentButton !== button) assignmentButton.click();
+        }, 100);
+        return true;
+      }
+    } catch (error) {
+      console.error("Continue Assignment navigation error:", error);
+    }
+    return false;
+  }
+
+  document.addEventListener("click", function(event){
+    const button = event.target.closest(
+      '[data-open-assignment], button, a'
+    );
+    if (!button || !/Continue\s+Assignment\s+\d+/i.test(button.textContent || "")) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    continueToAssignment(button);
+  }, true);
+
+  window.continueToAssignment = continueToAssignment;
+})();
