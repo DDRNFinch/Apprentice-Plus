@@ -1,4 +1,4 @@
-const CACHE_NAME="apprenticeship-plus-brick-privacy-signature-final-v1";
+const CACHE_NAME="apprenticeship-plus-brick-pdf-course-logo-v1";
 const APP_ROOT = "/Brick-Buddy-App/";
 const APP_FILES = [
   "./trade-logo.png",

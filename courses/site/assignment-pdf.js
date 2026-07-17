@@ -15,6 +15,19 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     pdf.roundedRect(x+1,y+7,4,7,1,1,"F");
   };
 
+
+  const loadCourseLogo=async()=>{
+    const response=await fetch("./trade-logo.png",{cache:"no-store"});
+    if(!response.ok)throw new Error("Course logo could not be loaded");
+    const blob=await response.blob();
+    return await new Promise((resolve,reject)=>{
+      const reader=new FileReader();
+      reader.onload=()=>resolve(reader.result);
+      reader.onerror=()=>reject(reader.error||new Error("Course logo could not be read"));
+      reader.readAsDataURL(blob);
+    });
+  };
+
   const ukDate=value=>{
     const date=value?new Date(value):new Date();
     return Number.isNaN(date.getTime())?"":date.toLocaleDateString("en-GB");
@@ -94,6 +107,7 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     }
 
     const {jsPDF}=window.jspdf;
+    const courseLogo=await loadCourseLogo();
     const pdf=new jsPDF({
       orientation:"landscape",
       unit:"mm",
@@ -128,21 +142,32 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     pdf.setFillColor(7,91,99);
     pdf.roundedRect(pageW-47,margin,pageW-(pageW-47)-margin,headerH,3,3,"F");
     pdf.rect(pageW-47,margin+headerH-4,pageW-(pageW-47)-margin,4,"F");
+    // Matching course logo: Bricklaying, Site Carpentry or Bench Joinery.
+    pdf.setFillColor(255,255,255);
+    pdf.roundedRect(margin+3,margin+2,14,14,2.4,2.4,"F");
+    pdf.addImage(
+      courseLogo,
+      String(courseLogo).startsWith("data:image/png")?"PNG":"JPEG",
+      margin+3.5,
+      margin+2.5,
+      13,
+      13,
+      undefined,
+      "FAST"
+    );
 
-    addTradeIcon(pdf,margin+6,margin+7);
-
-    pdf.setTextColor(255,255,255);
+pdf.setTextColor(255,255,255);
     pdf.setFont("helvetica","bold");
     pdf.setFontSize(12);
     const title=`Assignment ${assignment.id}: ${assignment.title}`;
-    pdf.text(pdf.splitTextToSize(title,pageW-45).slice(0,1),margin+18,margin+7.6);
+    pdf.text(pdf.splitTextToSize(title,pageW-53).slice(0,1),margin+21,margin+7.6);
 
     pdf.setFont("helvetica","normal");
     pdf.setFontSize(6.8);
     const learnerName=profile.learner||"Learner not entered";
     const courseName=profile.course||"Apprenticeship";
     const assignmentDate=evidence.date?ukDate(`${evidence.date}T12:00:00`):ukDate();
-    pdf.text(`${learnerName}   |   ${courseName}   |   ${assignmentDate}`,margin+18,margin+13.2);
+    pdf.text(`${learnerName}   |   ${courseName}   |   ${assignmentDate}`,margin+21,margin+13.2);
 
     // Main left panel.
     pdf.setDrawColor(221,227,235);
