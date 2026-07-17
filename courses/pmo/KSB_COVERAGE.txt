@@ -1,0 +1,8 @@
+Property Maintenance Operative ST0171 v1.1
+Coverage included across the 20 assignments:
+Knowledge: K1-K31
+Skills: S1-S25
+Behaviours: B1-B6
+
+Revision and mock-test content has been replaced with Property Maintenance Operative content.
+Site Carpentry, Bench Joinery and Bricklaying wording has been removed from the replacement files.
