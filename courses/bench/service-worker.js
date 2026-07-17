@@ -1,6 +1,6 @@
 
 "use strict";
-const CACHE_NAME="apprenticeship-plus-bench-pdf-course-logo-v1";
+const CACHE_NAME="apprenticeship-plus-bench-continue-fix-v1";
 const APP_FILES=[
   "./trade-logo.png",
   "./",
