@@ -1,22 +1,24 @@
-BENCH JOINERY — PORTFOLIO BLANK PAGE FIX
+BENCH JOINERY — HOME AND NOTIFICATIONS UPDATE
 
 Open:
 courses > bench
 
-Upload and replace:
-- portfolio-blank-fix.js
-- portfolio-blank-fix.css
-- service-worker.js
+Upload and replace all files in this ZIP.
 
 Commit message:
-Fix Portfolio blank page
+Refine home and notification settings
 
-Then:
-1. Fully close Apprentice+.
-2. Open Bench Joinery once.
-3. Fully close it again.
-4. Reopen Bench Joinery.
-5. Open Portfolio.
+This update:
+- removes the remaining old home screen below the new dashboard
+- adds Firebase configuration and push support
+- makes the Enable Notifications button update instantly
+- moves reminder controls into Profile / Settings
+- lets learners choose notification types
+- lets learners choose any days of the week
+- lets learners choose their preferred notification time
+- keeps the notification bell as the notification inbox
 
-This restores the Portfolio grid and hides only the repeated Portfolio header card.
-Revision remains unchanged.
+Firebase Console still needs:
+- Anonymous Authentication enabled
+- Firestore created
+- backend functions deployed
