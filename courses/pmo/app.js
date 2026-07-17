@@ -2936,3 +2936,54 @@ if(isStandalone())document.getElementById("installBar")?.classList.add("hidden")
 
   window.openHomeAssignment = openHomeAssignment;
 })();
+
+
+/* Apprenticeship+: make browser/gesture Back return to the course Home dropdown */
+(function(){
+  let handlingBackGesture = false;
+
+  function returnToCourseHome(){
+    if (handlingBackGesture) return;
+    handlingBackGesture = true;
+
+    try {
+      if (typeof openAssignmentId !== "undefined") openAssignmentId = null;
+
+      if (typeof go === "function") {
+        go("home");
+      } else {
+        const homeControl =
+          document.querySelector('[data-route="home"]') ||
+          document.querySelector('[data-tab="home"]') ||
+          [...document.querySelectorAll("button, a, select option")].find(
+            element => /^home$/i.test((element.textContent || "").trim())
+          );
+
+        if (homeControl) {
+          if (homeControl.tagName === "OPTION") {
+            const select = homeControl.closest("select");
+            if (select) {
+              select.value = homeControl.value;
+              select.dispatchEvent(new Event("change", { bubbles:true }));
+            }
+          } else {
+            homeControl.click();
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Back gesture navigation error:", error);
+    }
+
+    history.pushState({ apprenticeshipPlusCourse:true }, "", location.href);
+    setTimeout(() => { handlingBackGesture = false; }, 50);
+  }
+
+  if (!history.state || !history.state.apprenticeshipPlusCourse) {
+    history.replaceState({ apprenticeshipPlusCourse:true }, "", location.href);
+  }
+  history.pushState({ apprenticeshipPlusCourse:true }, "", location.href);
+
+  window.addEventListener("popstate", returnToCourseHome);
+  window.returnToCourseHome = returnToCourseHome;
+})();
