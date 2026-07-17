@@ -1153,6 +1153,20 @@ const improvementGuidance={
 
 
 function setupSignaturePad(canvas,clearButton,existingData=""){
+
+  canvas.setAttribute("tabindex","-1");
+  canvas.setAttribute("contenteditable","false");
+  canvas.setAttribute("role","img");
+  canvas.setAttribute("aria-label","Draw learner signature");
+  canvas.style.touchAction="none";
+  canvas.style.userSelect="none";
+  canvas.style.webkitUserSelect="none";
+
+  const dismissKeyboard=()=>{
+    const active=document.activeElement;
+    if(active&&active!==canvas&&typeof active.blur==="function")active.blur();
+    canvas.blur();
+  };
   const ctx=canvas.getContext("2d");
   const ratio=Math.max(window.devicePixelRatio||1,1);
   const cssWidth=canvas.clientWidth||500;
@@ -1180,6 +1194,7 @@ function setupSignaturePad(canvas,clearButton,existingData=""){
     return {x:source.clientX-rect.left,y:source.clientY-rect.top};
   };
   const start=e=>{
+    dismissKeyboard();
     e.preventDefault();
     drawing=true;
     const p=point(e);
@@ -1200,6 +1215,9 @@ function setupSignaturePad(canvas,clearButton,existingData=""){
     ctx.closePath();
   };
 
+  canvas.addEventListener("focus",event=>{event.preventDefault();canvas.blur();});
+  canvas.addEventListener("click",event=>{dismissKeyboard();event.preventDefault();});
+  canvas.addEventListener("pointerdown",dismissKeyboard,{passive:true});
   canvas.addEventListener("mousedown",start);
   canvas.addEventListener("mousemove",move);
   window.addEventListener("mouseup",end);
@@ -2732,6 +2750,18 @@ function settings(){
   </section>
 
   <section class="card settings-section">
+    <div class="section-heading"><div><h3>🛡️ Privacy & data</h3><p>Your work stays on this device unless you choose to export it.</p></div></div>
+    <div class="settings-notice">Apprenticeship+ is a local document-creation and revision tool. Information entered into the app is stored on this device. Learner evidence is not sent to Apprenticeship+ servers. PDFs are only shared when the learner chooses to download and upload them to Aptem or another approved platform.</div>
+    <div class="settings-button-grid">
+      <button class="secondary" id="privacyNotice">Read privacy notice</button>
+      <button class="secondary" id="backup">Export data backup</button>
+      <button class="danger" id="clearAllLocalData">Clear all local data</button>
+    </div>
+    <p class="muted"><b>Important:</b> download any PDFs and evidence you need before clearing data.</p>
+  </section>
+
+
+  <section class="card settings-section">
     <div class="section-heading"><div><h3>👤 Learner profile</h3><p>These details and the saved signature are added automatically to future PDFs.</p></div></div>
     <div class="grid">
       <label>Full learner name<input id="profileLearner" value="${state.profile.learner||""}"></label>
@@ -2746,17 +2776,6 @@ function settings(){
     </div>
     <p class="muted">The signature is stored locally on this device and is only included when a PDF is generated.</p>
     <button class="primary settings-wide" id="saveProfile">Save learner profile</button>
-  </section>
-
-  <section class="card settings-section">
-    <div class="section-heading"><div><h3>🛡️ Privacy & data</h3><p>Your work stays on this device unless you choose to export it.</p></div></div>
-    <div class="settings-notice">Apprenticeship+ is a local document-creation and revision tool. Information entered into the app is stored on this device. Learner evidence is not sent to Apprenticeship+ servers. PDFs are only shared when the learner chooses to download and upload them to Aptem or another approved platform.</div>
-    <div class="settings-button-grid">
-      <button class="secondary" id="privacyNotice">Read privacy notice</button>
-      <button class="secondary" id="backup">Export data backup</button>
-      <button class="danger" id="clearAllLocalData">Clear all local data</button>
-    </div>
-    <p class="muted"><b>Important:</b> download any PDFs and evidence you need before clearing data.</p>
   </section>
 
   <section class="card settings-section">

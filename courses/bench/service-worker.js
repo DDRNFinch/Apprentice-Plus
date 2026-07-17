@@ -1,6 +1,6 @@
 
 "use strict";
-const CACHE_NAME="apprenticeship-plus-bench-navigation-icons-v2";
+const CACHE_NAME="apprenticeship-plus-bench-privacy-signature-final-v1";
 const APP_FILES=[
   "./trade-logo.png",
   "./",

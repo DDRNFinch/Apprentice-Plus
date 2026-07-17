@@ -4,6 +4,59 @@ const COURSES={
   bench:{name:"Bench Joinery",path:"./courses/bench/"}
 };
 
+
+const COURSE_PRIVACY_NOTICE=`Apprenticeship+ Privacy & Data
+
+Apprenticeship+ stores assignment text, photographs, signatures, revision progress and generated documents locally on this device.
+
+Apprenticeship+ does not upload learner evidence to its own servers. Generated PDFs are only shared when you choose to download and upload them to Aptem or another approved platform.
+
+Only include information and photographs relevant to the apprenticeship. Avoid unnecessary personal information, customer details, addresses, registrations or identifiable people unless there is a valid reason and permission.
+
+You can remove locally stored information from Profile & Settings using Clear all local data.`;
+
+function requestPrivacyAgreement(course){
+  const selected=COURSES[course];
+  if(!selected)return;
+
+  document.querySelector(".privacy-consent-modal")?.remove();
+
+  const modal=document.createElement("div");
+  modal.className="privacy-consent-modal";
+  modal.innerHTML=`
+    <div class="privacy-consent-card" role="dialog" aria-modal="true" aria-labelledby="privacyConsentTitle">
+      <div class="privacy-consent-badge">🛡</div>
+      <h2 id="privacyConsentTitle">Privacy & Data</h2>
+      <p>Before opening <b>${selected.name}</b>, confirm that you understand how Apprenticeship+ stores and handles information.</p>
+      <div class="privacy-consent-notice">
+        <p>Apprenticeship+ stores your work locally on this device.</p>
+        <p>No learner evidence is uploaded to Apprenticeship+ servers.</p>
+        <p>PDFs are only shared when you choose to download and upload them to Aptem or another approved platform.</p>
+        <p>Only include relevant evidence and avoid unnecessary personal information.</p>
+      </div>
+      <div class="privacy-consent-actions">
+        <button type="button" class="privacy-decline">Decline</button>
+        <button type="button" class="privacy-agree">Agree and continue</button>
+      </div>
+    </div>`;
+
+  document.body.appendChild(modal);
+
+  modal.querySelector(".privacy-decline").onclick=()=>{
+    modal.remove();
+    document.querySelectorAll(".course-confirm-overlay").forEach(node=>node.remove());
+    document.querySelectorAll(".course").forEach(node=>node.classList.remove("selected"));
+  };
+
+  modal.querySelector(".privacy-agree").onclick=()=>{
+    localStorage.setItem("apprenticeshipPlusPrivacyAccepted","true");
+    localStorage.setItem("apprenticeshipPlusPrivacyAcceptedAt",new Date().toISOString());
+    modal.remove();
+    openCourse(course);
+  };
+}
+
+
 const KEY="apprenticePlusSettingsV2";
 let settings={course:null,pin:"2468"};
 
@@ -69,7 +122,7 @@ if(settings.course&&!choose){
         overlay.querySelector(".confirm-course").addEventListener("click",confirmEvent=>{
           confirmEvent.preventDefault();
           confirmEvent.stopPropagation();
-          openCourse(course);
+          requestPrivacyAgreement(course);
         });
       });
     });
