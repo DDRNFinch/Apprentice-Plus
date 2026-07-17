@@ -1,34 +1,28 @@
-BENCH JOINERY — MODERN DASHBOARD, STREAKS, ACHIEVEMENTS AND REMINDERS
+BENCH JOINERY — PORTFOLIO AND REVISION GRID FORCE FIX
 
-In GitHub, open:
+The previous refinement files were not being applied by the page.
+This version uses a new forced loader and stronger page detection.
+
+Open:
 courses > bench
 
 Upload and replace:
-- professional-navigation.js
-- professional-navigation.css
-- remove-workbench.js
-- modern-dashboard.js
-- modern-dashboard.css
+- section-grid-force-fix.js
+- section-grid-force-fix.css
 - service-worker.js
 
 Commit message:
-Add modern dashboard and learner progress features
+Force Portfolio and Revision grid layout
 
 Then:
 1. Fully close Apprentice+.
-2. Open Bench Joinery.
-3. Close it completely.
-4. Open it again.
+2. Open Bench Joinery once.
+3. Fully close it again.
+4. Reopen Bench Joinery.
+5. Open Portfolio and Revision.
 
-Included:
-- modern home dashboard
-- assignment progress
-- evidence statistics
-- activity streak and longest streak
-- achievements
-- visual journey to EPA
-- reminders for photos and unfinished assignments
-- optional browser notifications
-- Workbench remains removed
-
-No AI writing or answer-generation features are included.
+Expected result:
+- the large repeated Portfolio/Revision card is removed
+- tools display in a two-column mobile grid
+- emojis are replaced with matching professional icons
+- existing buttons remain functional
