@@ -1,7 +1,7 @@
 
 "use strict";
 
-const WORKBENCH_CATEGORY_META={"Tools":{"icon":"🛠️","description":"Core hand tools for site carpentry."},"Power Tools":{"icon":"⚙️","description":"Powered cutting, drilling and fixing tools."},"Materials":{"icon":"🪵","description":"Timber and sheet materials."},"Fixings":{"icon":"🔩","description":"Nails, screws and connectors."},"Components":{"icon":"🧩","description":"Structural and installation components."},"First Fix":{"icon":"🏠","description":"Partitions, floors and structural carpentry."},"Roofing":{"icon":"🏠","description":"Trusses, rafters and roof structures."},"Second Fix":{"icon":"🚪","description":"Doors, linings, skirtings and trims."},"Specialist Work":{"icon":"🪜","description":"Stairs, handrails and advanced work."},"External Work":{"icon":"🏘️","description":"Cladding and external carpentry."},"Safety":{"icon":"⚠️","description":"PPE, RPE and safe systems of work."}};
+const WORKBENCH_CATEGORY_META={"Tools":{"icon":"🛠️","description":"Core hand tools for pmo carpentry."},"Power Tools":{"icon":"⚙️","description":"Powered cutting, drilling and fixing tools."},"Materials":{"icon":"🪵","description":"Timber and sheet materials."},"Fixings":{"icon":"🔩","description":"Nails, screws and connectors."},"Components":{"icon":"🧩","description":"Structural and installation components."},"First Fix":{"icon":"🏠","description":"Partitions, floors and structural carpentry."},"Roofing":{"icon":"🏠","description":"Trusses, rafters and roof structures."},"Second Fix":{"icon":"🚪","description":"Doors, linings, skirtings and trims."},"Specialist Work":{"icon":"🪜","description":"Stairs, handrails and advanced work."},"External Work":{"icon":"🏘️","description":"Cladding and external carpentry."},"Safety":{"icon":"⚠️","description":"PPE, RPE and safe systems of work."}};
 
 let workbenchQuery="";
 let workbenchCategory="All";
@@ -69,7 +69,7 @@ function workbench(){
     <section class="card hero workbench-hero">
       <span class="eyebrow">OFFLINE KNOWLEDGE LIBRARY</span>
       <h2>🧰 Workbench</h2>
-      <p>Search practical UK site-carpentry reference cards for tools, power tools, materials, fixings, first fix, second fix, roofing and safety.</p>
+      <p>Search practical UK pmo-carpentry reference cards for tools, power tools, materials, fixings, first fix, second fix, roofing and safety.</p>
       <small>${WORKBENCH_CARDS.length} cards available offline</small>
     </section>
 

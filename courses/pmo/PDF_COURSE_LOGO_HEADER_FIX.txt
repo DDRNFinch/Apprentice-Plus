@@ -1,1 +1,1 @@
-Assignment PDFs now use the matching site course logo in the header.
+Assignment PDFs now use the matching pmo course logo in the header.

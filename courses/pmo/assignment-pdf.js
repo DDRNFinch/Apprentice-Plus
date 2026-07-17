@@ -142,7 +142,7 @@ async function downloadAssignmentPdf(assignment,evidence,profile){
     pdf.setFillColor(7,91,99);
     pdf.roundedRect(pageW-47,margin,pageW-(pageW-47)-margin,headerH,3,3,"F");
     pdf.rect(pageW-47,margin+headerH-4,pageW-(pageW-47)-margin,4,"F");
-    // Matching course logo: Bricklaying, Property Maintenance Operative or Property Maintenance Operative.
+    // Matching course logo: Bricklaying, Property Maintenance Operative or Bench Joinery.
     pdf.setFillColor(255,255,255);
     pdf.roundedRect(margin+3,margin+2,14,14,2.4,2.4,"F");
     pdf.addImage(

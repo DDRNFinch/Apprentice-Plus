@@ -1,33 +1,22 @@
 {
-  "name": "Property Maintenance Operative | Apprenticeship+",
-  "short_name": "PMO",
+  "name": "Apprentice+ \u2013 Property Maintenance Operative",
+  "short_name": "Property Maintenance Operative",
+  "description": "The Property Maintenance Operative course module within Apprentice+.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f4f8f7",
-  "theme_color": "#043f46",
+  "background_color": "#f3f0eb",
+  "theme_color": "#2563a6",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "./icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
-    },
-    {
-      "src": "maskable-icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "maskable-icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
     }
   ]
 }
