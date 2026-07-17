@@ -1,26 +1,22 @@
-BENCH JOINERY — REMOVE REPEATED HEADERS AND EMOJIS
+BENCH JOINERY — PORTFOLIO BLANK PAGE FIX
 
 Open:
 courses > bench
 
 Upload and replace:
-- section-grid-cleanup.js
-- section-grid-cleanup.css
+- portfolio-blank-fix.js
+- portfolio-blank-fix.css
 - service-worker.js
 
 Commit message:
-Remove repeated section headers and emojis
+Fix Portfolio blank page
 
 Then:
 1. Fully close Apprentice+.
 2. Open Bench Joinery once.
 3. Fully close it again.
 4. Reopen Bench Joinery.
-5. Check Portfolio and Revision.
+5. Open Portfolio.
 
-This update:
-- removes the repeated large Portfolio header card
-- removes the repeated large Revision header card
-- removes the old emoji icons from every grid tile
-- keeps the new professional SVG icons
-- keeps all tile buttons working
+This restores the Portfolio grid and hides only the repeated Portfolio header card.
+Revision remains unchanged.

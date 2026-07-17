@@ -1,0 +1,16 @@
+/* Fix Portfolio page being hidden with its header */
+.ap-force-section-grid,
+.ap-force-section-grid *{
+  visibility:visible!important;
+}
+
+.ap-portfolio-hero-only{
+  display:none!important;
+}
+
+/* Never allow the cleanup classes to hide a container that contains the grid */
+.ap-clean-hide-hero:has(.ap-force-section-grid),
+.ap-force-hide-hero:has(.ap-force-section-grid),
+.ap-section-hero-hidden:has(.ap-force-section-grid){
+  display:block!important;
+}
