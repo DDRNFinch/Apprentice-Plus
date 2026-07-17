@@ -1,25 +1,26 @@
-BRICKLAYING — MATCH BENCH COMPLETE UPDATE
+BRICKLAYING — REMOVE HOME REMINDERS AND MATCH BENCH
 
 Open:
 courses > brick
 
-Upload and replace all files in this ZIP.
+Upload and replace:
+- remove-old-home.js
+- remove-old-home.css
+- remove-smart-reminders.css
+- service-worker.js
 
 Commit message:
-Update Bricklaying to match Bench
+Remove old home content and smart reminders
 
-This adds:
-- Bench-style navigation
-- Workbench removed
-- modern dashboard
-- assignment progress, streaks and achievements
-- smooth Android scrolling
-- Portfolio and Revision two-column grids
-- professional icons instead of emojis
-- repeated Portfolio and Revision headers removed
+This update:
+- removes the remaining old home-screen cards
+- removes the Smart Reminders card from the dashboard
+- keeps notification choices in Profile / Settings
+- keeps the notification bell and notification inbox
+- keeps Firebase push support
 
 After committing:
 1. Fully close Apprentice+.
 2. Open Bricklaying once.
 3. Fully close it again.
-4. Reopen it and test Home, Portfolio and Revision.
+4. Reopen it.

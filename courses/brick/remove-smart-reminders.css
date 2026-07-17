@@ -1,0 +1,5 @@
+/* Remove the old on-page Smart Reminders card.
+   Reminder controls now live in Profile / Settings and notifications appear in the bell inbox. */
+#ap-modern-dashboard .ap-reminder-card{
+  display:none!important;
+}
