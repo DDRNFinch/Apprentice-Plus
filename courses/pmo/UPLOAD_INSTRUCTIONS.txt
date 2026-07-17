@@ -1,11 +1,30 @@
-Upload app.js and service-worker.js to:
+MATCH PMO NAVIGATION TO BENCH
 
-courses/pmo/
+In GitHub, open:
+courses > pmo
 
-Replace the two existing files.
+Upload:
+- professional-navigation.js
+- professional-navigation.css
+- service-worker.js
+
+Replace existing files.
 
 Commit message:
-Replace bench EPA content with PMO EPA content
+Match pmo navigation to Bench Joinery
 
-Then fully close Apprentice+ and open:
-https://ddrnfinch.github.io/Apprentice-Plus/courses/pmo/?v=epa-safe2
+Then:
+1. Fully close Apprentice+.
+2. Open pmo.
+3. Close it again.
+4. Open it once more.
+
+This removes:
+- trade header
+- trade emoji
+- Continue Assignment
+- Open Workbench
+- Recently Visited
+- extra course-menu sections
+
+It matches the clean Bench Joinery navigation exactly.
