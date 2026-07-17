@@ -1,0 +1,19 @@
+/* Remove repeated section headers and leftover emojis */
+.ap-clean-hide-hero{
+  display:none!important;
+}
+
+.ap-force-grid-tile .ap-force-grid-icon + *{
+  margin-top:0!important;
+}
+
+.ap-force-grid-tile{
+  isolation:isolate;
+}
+
+.ap-force-grid-tile img[alt=""],
+.ap-force-grid-tile img:not([src]),
+.ap-force-grid-tile span:empty,
+.ap-force-grid-tile div:empty:not(.ap-force-grid-icon){
+  display:none!important;
+}
