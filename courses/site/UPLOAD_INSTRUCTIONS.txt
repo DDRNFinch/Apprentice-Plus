@@ -1,30 +1,25 @@
-MATCH SITE NAVIGATION TO BENCH
+SITE CARPENTRY — MATCH BENCH COMPLETE UPDATE
 
-In GitHub, open:
+Open:
 courses > site
 
-Upload:
-- professional-navigation.js
-- professional-navigation.css
-- service-worker.js
-
-Replace existing files.
+Upload and replace all files in this ZIP.
 
 Commit message:
-Match site navigation to Bench Joinery
+Update Site Carpentry to match Bench
 
-Then:
+This adds:
+- Bench-style navigation
+- Workbench removed
+- modern dashboard
+- assignment progress, streaks and achievements
+- smooth Android scrolling
+- Portfolio and Revision two-column grids
+- professional icons instead of emojis
+- repeated Portfolio and Revision headers removed
+
+After committing:
 1. Fully close Apprentice+.
-2. Open site.
-3. Close it again.
-4. Open it once more.
-
-This removes:
-- trade header
-- trade emoji
-- Continue Assignment
-- Open Workbench
-- Recently Visited
-- extra course-menu sections
-
-It matches the clean Bench Joinery navigation exactly.
+2. Open Site Carpentry once.
+3. Fully close it again.
+4. Reopen it and test Home, Portfolio and Revision.

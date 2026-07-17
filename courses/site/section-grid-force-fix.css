@@ -1,0 +1,99 @@
+/* Forced Portfolio and Revision grid refinement */
+.ap-force-hide-hero{display:none!important}
+
+.ap-force-section-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px!important;
+  margin:14px 0 28px!important;
+  width:100%!important;
+}
+
+.ap-force-section-grid>.ap-force-grid-tile{
+  position:relative!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  min-width:0!important;
+  min-height:172px!important;
+  width:auto!important;
+  height:auto!important;
+  margin:0!important;
+  padding:18px!important;
+  gap:9px!important;
+  border:1px solid rgba(7,91,99,.14)!important;
+  border-radius:20px!important;
+  background:linear-gradient(145deg,#fff,#f7fcfa)!important;
+  box-shadow:0 8px 22px rgba(3,63,70,.06)!important;
+  overflow:hidden!important;
+  text-align:left!important;
+}
+
+.ap-force-section-grid>.ap-force-grid-wide{
+  grid-column:1/-1!important;
+  min-height:142px!important;
+}
+
+.ap-force-grid-icon{
+  width:54px!important;
+  height:54px!important;
+  display:grid!important;
+  place-items:center!important;
+  flex:0 0 54px!important;
+  border-radius:16px!important;
+  background:linear-gradient(145deg,#e8f7f1,#dcefe9)!important;
+  color:#075b63!important;
+}
+
+.ap-force-grid-icon svg{width:28px!important;height:28px!important;fill:currentColor!important}
+
+.ap-force-grid-tile h1,
+.ap-force-grid-tile h2,
+.ap-force-grid-tile h3,
+.ap-force-grid-tile h4,
+.ap-force-grid-tile strong,
+.ap-force-grid-tile b{
+  margin:0!important;
+  color:#102b30!important;
+  font-size:1.03rem!important;
+  line-height:1.18!important;
+  font-weight:900!important;
+}
+
+.ap-force-grid-tile p,
+.ap-force-grid-tile small{
+  margin:0!important;
+  color:#687b7f!important;
+  font-size:.76rem!important;
+  line-height:1.35!important;
+  font-weight:700!important;
+}
+
+.ap-force-grid-arrow{
+  position:absolute!important;
+  right:13px!important;
+  bottom:12px!important;
+  width:32px!important;
+  height:32px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:11px!important;
+  background:#edf7f4!important;
+  color:#075b63!important;
+  font-size:1.5rem!important;
+  font-weight:800!important;
+}
+
+.ap-force-grid-knowledge .ap-force-grid-icon,
+.ap-force-grid-employer .ap-force-grid-icon{background:#fff1d9!important;color:#936016!important}
+.ap-force-grid-practical .ap-force-grid-icon,
+.ap-force-grid-marking .ap-force-grid-icon{background:#e6efff!important;color:#3466a2!important}
+.ap-force-grid-discussion .ap-force-grid-icon,
+.ap-force-grid-otj .ap-force-grid-icon{background:#efe8ff!important;color:#7051a2!important}
+
+@media(max-width:380px){
+  .ap-force-section-grid{gap:9px!important}
+  .ap-force-section-grid>.ap-force-grid-tile{min-height:160px!important;padding:15px!important}
+  .ap-force-grid-icon{width:48px!important;height:48px!important;flex-basis:48px!important}
+}
