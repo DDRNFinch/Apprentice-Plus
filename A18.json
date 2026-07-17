@@ -1,0 +1,27 @@
+{
+  "assignment": 18,
+  "title": "Fencing, Groundworks & Landscaping",
+  "overview": "Carry out and evidence a workplace activity related to fencing, groundworks & landscaping.",
+  "photoEvidence": [
+    "Before",
+    "During",
+    "Completed"
+  ],
+  "knowledgeQuestion": "Explain the knowledge required and relevant legislation or standards.",
+  "skillQuestion": "Describe how you completed the task safely and to specification.",
+  "behaviourQuestion": "Explain how your behaviour supported quality, teamwork and professionalism.",
+  "combinedStatementPrompt": "Write approximately 100 words describing planning, tools, materials, safe working, quality checks, environmental considerations and lessons learned.",
+  "greenKeywords": [
+    "Fence",
+    "Groundworks",
+    "Landscaping",
+    "Environment",
+    "Repair"
+  ],
+  "KSBs": [
+    "K21",
+    "K22",
+    "S18",
+    "B1"
+  ]
+}

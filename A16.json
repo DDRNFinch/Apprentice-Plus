@@ -1,0 +1,26 @@
+{
+  "assignment": 16,
+  "title": "Masonry Repairs",
+  "overview": "Carry out and evidence a workplace activity related to masonry repairs.",
+  "photoEvidence": [
+    "Before",
+    "During",
+    "Completed"
+  ],
+  "knowledgeQuestion": "Explain the knowledge required and relevant legislation or standards.",
+  "skillQuestion": "Describe how you completed the task safely and to specification.",
+  "behaviourQuestion": "Explain how your behaviour supported quality, teamwork and professionalism.",
+  "combinedStatementPrompt": "Write approximately 100 words describing planning, tools, materials, safe working, quality checks, environmental considerations and lessons learned.",
+  "greenKeywords": [
+    "Mortar",
+    "Pointing",
+    "Brickwork",
+    "Repair",
+    "Inspection"
+  ],
+  "KSBs": [
+    "K19",
+    "S18",
+    "B2"
+  ]
+}
