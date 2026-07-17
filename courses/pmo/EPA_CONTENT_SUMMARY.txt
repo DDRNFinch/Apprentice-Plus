@@ -1,0 +1,6 @@
+This update contains:
+- 42 Property Maintenance Operative EPA mock-test questions
+- 22 Property Maintenance Operative professional-discussion questions
+- A 100-mark Property Maintenance Operative practical-marking scheme
+- K1-K31, S1-S25 and B1-B6 references across the EPA preparation content
+- JavaScript syntax validation completed before packaging

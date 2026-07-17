@@ -1,17 +1,11 @@
-UPLOAD LOCATION: courses/pmo/
+Upload app.js and service-worker.js to:
 
-Upload every file in this ZIP to courses/pmo/ and replace matching files.
+courses/pmo/
 
-Files included:
-- app.js
-- workbench-data.js
-- assignment-pdf.js
-- index.html
-- manifest.json
-- service-worker.js
-- PMO logo and icon files
+Replace the two existing files.
 
-After committing, fully close the site and open:
-https://ddrnfinch.github.io/Apprentice-Plus/courses/pmo/?v=final1
+Commit message:
+Replace bench EPA content with PMO EPA content
 
-Optional cleanup: delete SITE_CARPENTRY_VERSION.txt from courses/pmo/ because it is an obsolete marker file.
+Then fully close Apprentice+ and open:
+https://ddrnfinch.github.io/Apprentice-Plus/courses/pmo/?v=epa-safe2
