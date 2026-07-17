@@ -1,28 +1,26 @@
-BENCH JOINERY — PORTFOLIO AND REVISION GRID FORCE FIX
-
-The previous refinement files were not being applied by the page.
-This version uses a new forced loader and stronger page detection.
+BENCH JOINERY — REMOVE REPEATED HEADERS AND EMOJIS
 
 Open:
 courses > bench
 
 Upload and replace:
-- section-grid-force-fix.js
-- section-grid-force-fix.css
+- section-grid-cleanup.js
+- section-grid-cleanup.css
 - service-worker.js
 
 Commit message:
-Force Portfolio and Revision grid layout
+Remove repeated section headers and emojis
 
 Then:
 1. Fully close Apprentice+.
 2. Open Bench Joinery once.
 3. Fully close it again.
 4. Reopen Bench Joinery.
-5. Open Portfolio and Revision.
+5. Check Portfolio and Revision.
 
-Expected result:
-- the large repeated Portfolio/Revision card is removed
-- tools display in a two-column mobile grid
-- emojis are replaced with matching professional icons
-- existing buttons remain functional
+This update:
+- removes the repeated large Portfolio header card
+- removes the repeated large Revision header card
+- removes the old emoji icons from every grid tile
+- keeps the new professional SVG icons
+- keeps all tile buttons working
