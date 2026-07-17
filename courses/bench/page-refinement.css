@@ -1,15 +1,1 @@
-/* Final page refinement */
-.ap-hide-page-hero{
-  display:none!important;
-}
-
-/* Close up the space after removing the hero panel */
-body[data-ap-current-page="portfolio"] .ap-hide-page-hero + *,
-body[data-ap-current-page="revision"] .ap-hide-page-hero + *{
-  margin-top:18px!important;
-}
-
-/* Keep tool cards clean and full width */
-.ap-clean-card{
-  margin-top:18px!important;
-}
+.ap-hide-page-hero{display:none!important}

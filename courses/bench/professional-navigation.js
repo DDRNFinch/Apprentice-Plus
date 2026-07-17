@@ -1,44 +1,47 @@
 "use strict";
 (function(){
-  if(window.__AP_POLISHED_NAV__) return;
-  window.__AP_POLISHED_NAV__ = true;
+  if(window.__AP_NAV_RECOVERY__) return;
+  window.__AP_NAV_RECOVERY__ = true;
 
-  const icons = {
-    home:"⌂", assignments:"▤", portfolio:"▣",
-    workbench:"⚒", revision:"◫", profile:"●"
-  };
-  const normalise = value => String(value || "").trim().toLowerCase();
+  const STORAGE_KEY="apprentice-plus-bench-current-section";
+  const ORDER=["Home","Assignments","Portfolio","Workbench","Revision","Profile"];
+  const icons={home:"⌂",assignments:"▤",portfolio:"▣",workbench:"⚒",revision:"◫",profile:"●"};
+  const normalise=value=>String(value||"").trim().toLowerCase();
 
   function findNavigationSelect(){
-    return [...document.querySelectorAll("select")].find(select => {
-      const labels = [...select.options].map(option => normalise(option.textContent));
-      return labels.includes("home") && labels.includes("assignments") && labels.includes("profile");
+    return [...document.querySelectorAll("select")].find(select=>{
+      const labels=[...select.options].map(option=>normalise(option.textContent));
+      return ORDER.every(label=>labels.includes(normalise(label)));
     });
   }
 
+  function selectedLabel(select){
+    const stored=sessionStorage.getItem(STORAGE_KEY);
+    if(stored&&ORDER.includes(stored)) return stored;
+    return select.options[select.selectedIndex]?.textContent.trim()||"Home";
+  }
+
   function initialise(){
-    const select = findNavigationSelect();
-    if(!select || select.dataset.polishedNavigation) return;
-    select.dataset.polishedNavigation = "true";
+    const select=findNavigationSelect();
+    if(!select||select.dataset.recoveryNavigation) return;
+    select.dataset.recoveryNavigation="true";
 
-    const shell = document.createElement("div");
-    shell.className = "ap-nav-shell";
+    const shell=document.createElement("div");
+    shell.className="ap-nav-shell";
+    const caption=document.createElement("div");
+    caption.className="ap-nav-caption";
+    caption.textContent="Current section";
+    const trigger=document.createElement("button");
+    trigger.type="button";
+    trigger.className="ap-nav-trigger";
 
-    const caption = document.createElement("div");
-    caption.className = "ap-nav-caption";
-    caption.textContent = "Current section";
-
-    const trigger = document.createElement("button");
-    trigger.type = "button";
-    trigger.className = "ap-nav-trigger";
-
-    select.parentNode.insertBefore(shell, select);
-    shell.append(caption, trigger, select);
+    select.parentNode.insertBefore(shell,select);
+    shell.append(caption,trigger,select);
     select.classList.add("ap-native-nav-select");
 
-    const backdrop = document.createElement("div");
-    backdrop.className = "ap-nav-backdrop";
-    backdrop.innerHTML = `
+    const backdrop=document.createElement("div");
+    backdrop.className="ap-nav-backdrop";
+    backdrop.innerHTML=`
       <div class="ap-nav-panel" role="dialog" aria-modal="true" aria-label="Navigation">
         <div class="ap-nav-panel-head">
           <div><small>Apprenticeship+</small><h2>Navigation</h2></div>
@@ -47,43 +50,40 @@
         <div class="ap-nav-list"></div>
       </div>`;
     document.body.appendChild(backdrop);
-
-    const list = backdrop.querySelector(".ap-nav-list");
-
-    function currentLabel(){
-      return select.options[select.selectedIndex]?.textContent.trim() || "Home";
-    }
+    const list=backdrop.querySelector(".ap-nav-list");
 
     function refresh(){
-      const active = currentLabel();
-      const key = normalise(active);
-      trigger.innerHTML = `
-        <span class="ap-nav-trigger-icon">${icons[key] || "•"}</span>
+      const active=selectedLabel(select);
+      const key=normalise(active);
+      trigger.innerHTML=`
+        <span class="ap-nav-trigger-icon">${icons[key]||"•"}</span>
         <span class="ap-nav-trigger-copy"><small>Navigate</small><strong>${active}</strong></span>
         <span class="ap-nav-chevron">⌄</span>`;
 
-      list.innerHTML = "";
-      [...select.options].forEach(option => {
-        const label = option.textContent.trim();
-        const optionKey = normalise(label);
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "ap-nav-item" + (option.selected ? " active" : "");
-        button.innerHTML = `
-          <span class="ap-nav-item-icon">${icons[optionKey] || "•"}</span>
+      list.innerHTML="";
+      ORDER.forEach(label=>{
+        const option=[...select.options].find(item=>normalise(item.textContent)===normalise(label));
+        if(!option) return;
+        const button=document.createElement("button");
+        button.type="button";
+        button.className="ap-nav-item"+(label===active?" active":"");
+        button.innerHTML=`
+          <span class="ap-nav-item-icon">${icons[normalise(label)]||"•"}</span>
           <span class="ap-nav-item-copy">
             <strong>${label}</strong>
-            <small>${option.selected ? "Current section" : "Open section"}</small>
+            <small>${label===active?"Current section":"Open section"}</small>
           </span>
-          <span class="ap-nav-item-status">${option.selected ? "✓" : "›"}</span>`;
-        button.addEventListener("click", () => {
+          <span class="ap-nav-item-status">${label===active?"✓":"›"}</span>`;
+        button.addEventListener("click",()=>{
+          sessionStorage.setItem(STORAGE_KEY,label);
+          document.dispatchEvent(new CustomEvent("apprentice-section-change",{detail:{section:label}}));
           button.classList.add("pressed");
-          setTimeout(() => {
-            select.value = option.value;
-            select.dispatchEvent(new Event("change", {bubbles:true}));
+          setTimeout(()=>{
+            select.value=option.value;
+            select.dispatchEvent(new Event("change",{bubbles:true}));
             closeMenu();
-            setTimeout(refresh, 0);
-          }, 90);
+            setTimeout(refresh,120);
+          },80);
         });
         list.appendChild(button);
       });
@@ -99,34 +99,28 @@
       backdrop.classList.add("closing");
       backdrop.classList.remove("open");
       document.documentElement.classList.remove("ap-nav-open");
-      setTimeout(() => backdrop.classList.remove("closing"), 280);
+      setTimeout(()=>backdrop.classList.remove("closing"),280);
     }
 
-    trigger.addEventListener("click", () => {
-      trigger.classList.add("pressed");
-      setTimeout(() => trigger.classList.remove("pressed"), 150);
-      openMenu();
+    trigger.addEventListener("click",openMenu);
+    backdrop.querySelector(".ap-nav-close").addEventListener("click",closeMenu);
+    backdrop.addEventListener("click",event=>{if(event.target===backdrop)closeMenu();});
+    document.addEventListener("keydown",event=>{if(event.key==="Escape")closeMenu();});
+    select.addEventListener("change",()=>{
+      const actual=select.options[select.selectedIndex]?.textContent.trim();
+      if(actual&&ORDER.includes(actual)&&!sessionStorage.getItem(STORAGE_KEY)){
+        sessionStorage.setItem(STORAGE_KEY,actual);
+      }
+      setTimeout(refresh,0);
     });
 
-    backdrop.querySelector(".ap-nav-close").addEventListener("click", closeMenu);
-    backdrop.addEventListener("click", event => {
-      if(event.target === backdrop) closeMenu();
-    });
-    document.addEventListener("keydown", event => {
-      if(event.key === "Escape") closeMenu();
-    });
-    select.addEventListener("change", refresh);
+    if(!sessionStorage.getItem(STORAGE_KEY)){
+      sessionStorage.setItem(STORAGE_KEY,select.options[select.selectedIndex]?.textContent.trim()||"Home");
+    }
     refresh();
   }
 
-  new MutationObserver(initialise).observe(document.documentElement, {
-    childList:true,
-    subtree:true
-  });
-
-  if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", initialise);
-  } else {
-    initialise();
-  }
+  new MutationObserver(initialise).observe(document.documentElement,{childList:true,subtree:true});
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initialise);
+  else initialise();
 })();

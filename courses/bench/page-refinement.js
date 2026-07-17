@@ -1,83 +1,53 @@
 "use strict";
 (function(){
-  if(window.__AP_PAGE_SELECTION_FIX__) return;
-  window.__AP_PAGE_SELECTION_FIX__ = true;
+  if(window.__AP_SAFE_PAGE_REFINEMENT__) return;
+  window.__AP_SAFE_PAGE_REFINEMENT__=true;
 
+  const STORAGE_KEY="apprentice-plus-bench-current-section";
   const emojiPattern=/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}]/gu;
-  const clean=value=>String(value||"").replace(emojiPattern,"").replace(/\s+/g," ").trim().toLowerCase();
+  const clean=value=>String(value||"").replace(emojiPattern,"").replace(/\s+/g," ").trim();
 
-  function findNavigationSelect(){
-    return [...document.querySelectorAll("select")].find(select=>{
-      const labels=[...select.options].map(option=>clean(option.textContent));
-      return labels.includes("home")&&labels.includes("assignments")&&labels.includes("portfolio");
-    });
+  function titleElement(title){
+    return [...document.querySelectorAll("h1,h2,h3,h4,strong,b")].find(el=>clean(el.textContent)===title);
   }
 
-  function setCurrentSection(label){
-    const select=findNavigationSelect();
-    if(!select) return;
-    const option=[...select.options].find(item=>clean(item.textContent)===clean(label));
-    if(!option || select.value===option.value) return;
-    select.value=option.value;
-    select.dispatchEvent(new Event("change",{bubbles:true}));
-  }
-
-  function findTitle(text){
-    return [...document.querySelectorAll("h1,h2,h3,h4,strong,b")].find(el=>clean(el.textContent)===clean(text));
-  }
-
-  function findCard(el){
+  function enclosingCard(el){
     let node=el;
     for(let i=0;node&&i<7;i++,node=node.parentElement){
       const rect=node.getBoundingClientRect();
       const style=getComputedStyle(node);
-      if(rect.width>250&&rect.height>100&&
-         (parseFloat(style.borderRadius)>=12||style.borderStyle!=="none")){
-        return node;
-      }
+      if(rect.width>250&&rect.height>120&&(parseFloat(style.borderRadius)>=12||style.borderStyle!=="none")) return node;
     }
     return null;
   }
 
-  function hideTopSection(title){
-    const heading=findTitle(title);
-    if(!heading) return false;
-    const card=findCard(heading);
-    if(!card) return false;
-    card.classList.add("ap-hide-page-hero");
-    return true;
+  function stripEmoji(root){
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    const nodes=[];
+    while(walker.nextNode())nodes.push(walker.currentNode);
+    nodes.forEach(node=>node.nodeValue=node.nodeValue.replace(emojiPattern,""));
   }
 
-  function detectAndApply(){
-    const portfolioVisible=findTitle("Portfolio");
-    const revisionVisible=findTitle("Revision");
+  function apply(){
+    document.querySelectorAll("main,section,.view,#view").forEach(stripEmoji);
 
-    if(portfolioVisible && hideTopSection("Portfolio")){
-      setCurrentSection("Portfolio");
-      document.body.dataset.apCurrentPage="portfolio";
-      return;
+    const section=sessionStorage.getItem(STORAGE_KEY)||"Home";
+    document.querySelectorAll(".ap-hide-page-hero").forEach(el=>el.classList.remove("ap-hide-page-hero"));
+
+    if(section==="Portfolio"){
+      const heading=titleElement("Portfolio");
+      const card=heading&&enclosingCard(heading);
+      if(card)card.classList.add("ap-hide-page-hero");
     }
-
-    if(revisionVisible && hideTopSection("Revision")){
-      setCurrentSection("Revision");
-      document.body.dataset.apCurrentPage="revision";
-      return;
+    if(section==="Revision"){
+      const heading=titleElement("Revision");
+      const card=heading&&enclosingCard(heading);
+      if(card)card.classList.add("ap-hide-page-hero");
     }
   }
 
-  let scheduled=false;
-  new MutationObserver(()=>{
-    if(scheduled) return;
-    scheduled=true;
-    requestAnimationFrame(()=>{
-      scheduled=false;
-      detectAndApply();
-    });
-  }).observe(document.documentElement,{childList:true,subtree:true});
-
-  if(document.readyState==="loading"){
-    document.addEventListener("DOMContentLoaded",detectAndApply);
-  }else{
-    detectAndApply();
-  }
+  document.addEventListener("apprentice-section-change",()=>setTimeout(apply,140));
+  new MutationObserver(()=>requestAnimationFrame(apply)).observe(document.documentElement,{childList:true,subtree:true});
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",apply);
+  else apply();
 })();
