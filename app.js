@@ -1,7 +1,8 @@
 const COURSES={
   brick:{name:"Bricklaying",path:"./courses/brick/"},
   site:{name:"Site Carpentry",path:"./courses/site/"},
-  bench:{name:"Bench Joinery",path:"./courses/bench/"}
+  bench:{name:"Bench Joinery",path:"./courses/bench/"},
+  pmo:{name:"Property Maintenance Operative",path:"./courses/pmo/"}
 };
 
 

@@ -1,7 +1,7 @@
 (function(){
   "use strict";
   const parts=location.pathname.split("/");
-  const course=parts.includes("brick")?"brick":parts.includes("site")?"site":parts.includes("bench")?"bench":null;
+  const course=parts.includes("brick")?"brick":parts.includes("site")?"site":parts.includes("bench")?"bench":parts.includes("pmo")?"pmo":null;
   if(!course)return;
   const KEY="apprenticePlusSettingsV2";
   let settings={course:null,pin:"2468"};
