@@ -1,28 +1,23 @@
-BENCH JOINERY — REFINED PORTFOLIO AND REVISION TEST
+BENCH JOINERY — CLEAN PORTFOLIO AND REVISION FIX
 
 In GitHub, open:
 courses > bench
 
-Upload all five files:
+Upload and replace these five files:
 - professional-navigation.js
 - professional-navigation.css
 - page-refinement.js
 - page-refinement.css
 - service-worker.js
 
-Replace existing files when asked.
-
 Commit message:
-Refine Bench Portfolio and Revision pages
+Fix Bench Portfolio and Revision layout
 
-Then fully close Apprentice+, open Bench Joinery, close it, and open it again.
+Then:
+1. Fully close Apprentice+.
+2. Open Bench Joinery.
+3. Close it.
+4. Open it again.
 
-This test:
-- removes the colourful emoji look
-- uses consistent professional line icons
-- makes cards more compact and structured
-- keeps the approved green and teal colours
-- adds subtle press feedback
-- does not change the tools or their behaviour
-
-Bench Joinery only. The other courses remain unchanged until approved.
+This version removes the emojis, restores normal full-width text,
+uses clean line icons, and keeps the approved navigation unchanged.
