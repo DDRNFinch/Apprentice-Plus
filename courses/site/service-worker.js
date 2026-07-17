@@ -1,6 +1,6 @@
 
 "use strict";
-const CACHE_NAME="apprenticeship-plus-site-continue-fix-v1";
+const CACHE_NAME="apprenticeship-plus-site-back-swipe-home-v1";
 const APP_FILES=[
   "./trade-logo.png",
   "./",
