@@ -1,4 +1,4 @@
-BENCH JOINERY — REMOVE REMAINING OLD HOME SCREEN
+BENCH JOINERY — REMOVE HOME REMINDERS AND MATCH BENCH
 
 Open:
 courses > bench
@@ -6,24 +6,21 @@ courses > bench
 Upload and replace:
 - remove-old-home.js
 - remove-old-home.css
+- remove-smart-reminders.css
 - service-worker.js
 
 Commit message:
-Remove remaining old Bench home screen
+Remove old home content and smart reminders
 
-Then:
+This update:
+- removes the remaining old home-screen cards
+- removes the Smart Reminders card from the dashboard
+- keeps notification choices in Profile / Settings
+- keeps the notification bell and notification inbox
+- keeps Firebase push support
+
+After committing:
 1. Fully close Apprentice+.
 2. Open Bench Joinery once.
 3. Fully close it again.
-4. Reopen Bench Joinery.
-
-This removes:
-- Welcome to Apprenticeship+
-- Complete learner setup
-- Assignments complete
-- Refreshes passed
-- Quiz average
-- EPA readiness guide
-- Your next step
-
-The modern dashboard and notification bell remain.
+4. Reopen it.
