@@ -1,68 +1,23 @@
 "use strict";
-const CACHE_NAME="apprenticeship-plus-pmo-professional-menu-safe-test-v1";
-const APP_FILES=[
- "./","./index.html","./app.js","./professional-navigation.js",
- "./professional-navigation.css","./workbench-data.js","./workbench.js",
- "./assignment-pdf.js","./register-service-worker.js","./manifest.json",
- "./trade-logo.png","./icon-192.png","./icon-512.png"
-];
-
-self.addEventListener("install",event=>event.waitUntil(
- caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_FILES)).then(()=>self.skipWaiting())
-));
-
-self.addEventListener("activate",event=>event.waitUntil(
- caches.keys().then(keys=>Promise.all(
-  keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key))
- )).then(()=>self.clients.claim())
-));
-
-self.addEventListener("fetch",event=>{
- if(event.request.method!=="GET") return;
- const url=new URL(event.request.url);
-
- if(url.pathname.endsWith("/courses/pmo/app.js")){
-  event.respondWith(
-   fetch(event.request,{cache:"no-store"})
-    .then(response=>response.text())
-    .then(source=>{
-      const loader=`
-;(function(){
- if(!document.querySelector('link[data-ap-professional-navigation]')){
-  const link=document.createElement('link');
-  link.rel='stylesheet';
-  link.href='./professional-navigation.css?v=1';
-  link.dataset.apProfessionalNavigation='true';
-  document.head.appendChild(link);
- }
- const script=document.createElement('script');
- script.src='./professional-navigation.js?v=1';
- script.defer=true;
- document.head.appendChild(script);
-})();`;
-      return new Response(source+loader,{
-       headers:{"Content-Type":"application/javascript; charset=utf-8"}
-      });
-    })
-    .catch(()=>caches.match(event.request))
-  );
+const CACHE_NAME="apprenticeship-plus-pmo-professional-navigation-v2";
+const APP_FILES=["./","./index.html","./app.js","./professional-navigation.js","./professional-navigation.css","./workbench-data.js","./workbench.js","./assignment-pdf.js","./register-service-worker.js","./manifest.json","./trade-logo.png","./icon-192.png","./icon-512.png"];
+self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(APP_FILES)).then(()=>self.skipWaiting())));
+self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE_NAME).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
+self.addEventListener("fetch",e=>{
+ if(e.request.method!=="GET")return;
+ const u=new URL(e.request.url);
+ if(u.pathname.endsWith("/courses/pmo/app.js")){
+  e.respondWith(fetch(e.request,{cache:"no-store"}).then(r=>r.text()).then(source=>{
+   const loader=`;(function(){
+    if(!document.querySelector('link[data-ap-professional-navigation]')){
+     const l=document.createElement('link');l.rel='stylesheet';l.href='./professional-navigation.css?v=2';l.dataset.apProfessionalNavigation='true';document.head.appendChild(l);
+    }
+    const s=document.createElement('script');s.src='./professional-navigation.js?v=2';s.defer=true;document.head.appendChild(s);
+   })();`;
+   return new Response(source+loader,{headers:{"Content-Type":"application/javascript; charset=utf-8"}});
+  }).catch(()=>caches.match(e.request)));
   return;
  }
-
- const fresh=/\/courses\/pmo\/(?:$|index\.html$|professional-navigation\.js$|professional-navigation\.css$|workbench-data\.js$|workbench\.js$|assignment-pdf\.js$|trade-logo\.png$|manifest\.json$)/.test(url.pathname);
- if(fresh){
-  event.respondWith(
-   fetch(event.request,{cache:"no-store"})
-    .then(response=>{
-      const copy=response.clone();
-      caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy));
-      return response;
-    })
-    .catch(()=>caches.match(event.request))
-  );
- }else{
-  event.respondWith(
-   caches.match(event.request).then(cached=>cached||fetch(event.request))
-  );
- }
+ const fresh=/professional-navigation\.(?:js|css)$/.test(u.pathname);
+ e.respondWith((fresh?fetch(e.request,{cache:"no-store"}):caches.match(e.request).then(c=>c||fetch(e.request))).catch(()=>caches.match(e.request)));
 });
