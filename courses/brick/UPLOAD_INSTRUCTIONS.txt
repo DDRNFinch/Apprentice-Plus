@@ -1,0 +1,30 @@
+MATCH BRICK NAVIGATION TO BENCH
+
+In GitHub, open:
+courses > brick
+
+Upload:
+- professional-navigation.js
+- professional-navigation.css
+- service-worker.js
+
+Replace existing files.
+
+Commit message:
+Match brick navigation to Bench Joinery
+
+Then:
+1. Fully close Apprentice+.
+2. Open brick.
+3. Close it again.
+4. Open it once more.
+
+This removes:
+- trade header
+- trade emoji
+- Continue Assignment
+- Open Workbench
+- Recently Visited
+- extra course-menu sections
+
+It matches the clean Bench Joinery navigation exactly.
