@@ -1,9 +1,9 @@
-BENCH JOINERY — CLEAN PORTFOLIO AND REVISION FIX
+BENCH JOINERY — CURRENT SECTION AND HEADER FIX
 
 In GitHub, open:
 courses > bench
 
-Upload and replace these five files:
+Upload and replace:
 - professional-navigation.js
 - professional-navigation.css
 - page-refinement.js
@@ -11,13 +11,12 @@ Upload and replace these five files:
 - service-worker.js
 
 Commit message:
-Fix Bench Portfolio and Revision layout
+Fix current section and remove page headers
 
-Then:
-1. Fully close Apprentice+.
-2. Open Bench Joinery.
-3. Close it.
-4. Open it again.
+Then fully close Apprentice+, open Bench Joinery, close it, and open it again.
 
-This version removes the emojis, restores normal full-width text,
-uses clean line icons, and keeps the approved navigation unchanged.
+This update:
+- changes Current Section to Portfolio when on Portfolio
+- changes Current Section to Revision when on Revision
+- removes the large Portfolio and Revision header panels
+- keeps the clean tool cards below

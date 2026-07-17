@@ -1,148 +1,15 @@
-/* Clean Portfolio and Revision pages — safe layout-only refinement */
-.ap-clean-hero{
-  position:relative!important;
-  min-height:190px!important;
-  padding:30px 24px!important;
-  border-radius:26px!important;
-  border:1px solid rgba(7,91,99,.14)!important;
-  background:linear-gradient(145deg,#fff,#f4fbf8)!important;
-  box-shadow:0 14px 34px rgba(3,63,70,.075)!important;
-  overflow:hidden!important;
+/* Final page refinement */
+.ap-hide-page-hero{
+  display:none!important;
 }
-.ap-clean-hero-title{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:15px!important;
-  margin:8px 0 18px!important;
-}
-.ap-clean-hero-icon{
-  width:52px!important;
-  height:52px!important;
-  display:grid!important;
-  place-items:center!important;
-  flex:0 0 52px!important;
-  border-radius:16px!important;
-  color:#fff!important;
-  background:linear-gradient(145deg,#075b63,#119451)!important;
-  box-shadow:0 9px 20px rgba(3,63,70,.16)!important;
-}
-.ap-clean-hero-icon svg{width:28px!important;height:28px!important}
 
+/* Close up the space after removing the hero panel */
+body[data-ap-current-page="portfolio"] .ap-hide-page-hero + *,
+body[data-ap-current-page="revision"] .ap-hide-page-hero + *{
+  margin-top:18px!important;
+}
+
+/* Keep tool cards clean and full width */
 .ap-clean-card{
-  position:relative!important;
-  display:block!important;
-  min-height:126px!important;
-  padding:24px 64px 24px 96px!important;
-  border-radius:22px!important;
-  border:1px solid rgba(7,91,99,.14)!important;
-  background:linear-gradient(145deg,#fff,#f9fdfb)!important;
-  box-shadow:0 8px 20px rgba(3,63,70,.05)!important;
-  overflow:hidden!important;
-  text-align:left!important;
-  transition:transform .16s ease,box-shadow .18s ease,border-color .18s ease!important;
-}
-.ap-clean-card:active{
-  transform:translateY(1px) scale(.993)!important;
-  box-shadow:0 4px 12px rgba(3,63,70,.055)!important;
-}
-.ap-clean-card::before{
-  content:""!important;
-  position:absolute!important;
-  left:0!important;
-  top:18px!important;
-  bottom:18px!important;
-  width:4px!important;
-  border-radius:0 4px 4px 0!important;
-  background:linear-gradient(#075b63,#20b56b)!important;
-}
-.ap-clean-card-icon{
-  position:absolute!important;
-  left:24px!important;
-  top:50%!important;
-  transform:translateY(-50%)!important;
-  width:54px!important;
-  height:54px!important;
-  display:grid!important;
-  place-items:center!important;
-  border-radius:16px!important;
-  color:#075b63!important;
-  background:#e8f6f2!important;
-  border:1px solid rgba(7,91,99,.10)!important;
-}
-.ap-clean-card-icon svg{width:28px!important;height:28px!important}
-.ap-clean-card-arrow{
-  position:absolute!important;
-  right:20px!important;
-  top:50%!important;
-  transform:translateY(-50%)!important;
-  width:34px!important;
-  height:34px!important;
-  display:grid!important;
-  place-items:center!important;
-  border-radius:11px!important;
-  color:#075b63!important;
-  background:#edf7f4!important;
-  font-size:1.4rem!important;
-  font-weight:850!important;
-}
-.ap-clean-card-title{
-  display:block!important;
-  width:auto!important;
-  max-width:none!important;
-  margin:0 0 7px!important;
-  padding:0!important;
-  color:#102b30!important;
-  font-size:1.12rem!important;
-  line-height:1.25!important;
-  font-weight:850!important;
-  white-space:normal!important;
-  overflow:visible!important;
-  text-overflow:clip!important;
-  text-align:left!important;
-}
-
-/* Reset layout rules introduced by the previous test */
-.ap-clean-card > *:not(.ap-clean-card-icon):not(.ap-clean-card-arrow){
-  max-width:100%!important;
-}
-.ap-clean-card p,
-.ap-clean-card small,
-.ap-clean-card .muted,
-.ap-clean-card [class*="description"],
-.ap-clean-card [class*="subtitle"]{
-  margin-left:0!important;
-  margin-right:0!important;
-  max-width:100%!important;
-  white-space:normal!important;
-  overflow:visible!important;
-  text-overflow:clip!important;
-  text-align:left!important;
-  line-height:1.42!important;
-}
-
-/* Hide leftover standalone emoji-only elements */
-.ap-clean-card span:empty,
-.ap-clean-hero span:empty{display:none!important}
-
-@media(max-width:430px){
-  .ap-clean-card{
-    min-height:118px!important;
-    padding:21px 54px 21px 82px!important;
-  }
-  .ap-clean-card-icon{
-    left:20px!important;
-    width:48px!important;
-    height:48px!important;
-  }
-  .ap-clean-card-arrow{
-    right:15px!important;
-    width:31px!important;
-    height:31px!important;
-  }
-  .ap-clean-card-title{font-size:1.03rem!important}
-  .ap-clean-hero{min-height:178px!important;padding:26px 18px!important}
-}
-@media(prefers-reduced-motion:reduce){
-  .ap-clean-card{transition:none!important}
+  margin-top:18px!important;
 }

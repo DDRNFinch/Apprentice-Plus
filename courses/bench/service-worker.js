@@ -1,5 +1,5 @@
 "use strict";
-const CACHE_NAME="apprenticeship-plus-bench-clean-pages-v2";
+const CACHE_NAME="apprenticeship-plus-bench-page-selection-header-fix-v1";
 const APP_FILES=[
  "./","./index.html","./app.js",
  "./professional-navigation.js","./professional-navigation.css",
@@ -31,17 +31,16 @@ self.addEventListener("fetch",event=>{
       const loader=`
 ;(function(){
  const cssFiles=[
-  ['./professional-navigation.css?v=polished-1','apProfessionalNavigation'],
-  ['./page-refinement.css?v=2','apPageRefinement']
+  './professional-navigation.css?v=polished-1',
+  './page-refinement.css?v=selection-fix-1'
  ];
- cssFiles.forEach(function(item){
-  if(!document.querySelector('link[href^="'+item[0].split('?')[0]+'"]')){
+ cssFiles.forEach(function(href){
+  if(!document.querySelector('link[href^="'+href.split('?')[0]+'"]')){
    const link=document.createElement('link');
-   link.rel='stylesheet';link.href=item[0];
-   document.head.appendChild(link);
+   link.rel='stylesheet';link.href=href;document.head.appendChild(link);
   }
  });
- ['./professional-navigation.js?v=polished-1','./page-refinement.js?v=2'].forEach(function(src){
+ ['./professional-navigation.js?v=polished-1','./page-refinement.js?v=selection-fix-1'].forEach(function(src){
   const script=document.createElement('script');
   script.src=src;script.defer=true;document.head.appendChild(script);
  });
