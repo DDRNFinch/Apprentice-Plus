@@ -2894,3 +2894,45 @@ window.addEventListener("appinstalled",()=>document.getElementById("installBar")
 document.getElementById("installNow")?.addEventListener("click",requestInstall);
 document.getElementById("installLater")?.addEventListener("click",()=>document.getElementById("installBar")?.classList.add("hidden"));
 if(isStandalone())document.getElementById("installBar")?.classList.add("hidden");
+
+/* Apprenticeship+ PMO: reliable Continue Assignment navigation fix */
+(function(){
+  function openHomeAssignment(button){
+    const assignmentId = Number(
+      button?.dataset?.openAssignment ||
+      (button?.textContent || "").match(/Assignment\s+(\d+)/i)?.[1]
+    );
+    if (!Number.isFinite(assignmentId) || assignmentId < 1) return false;
+
+    try {
+      openAssignmentId = assignmentId;
+      if (typeof state === "object" && state) {
+        state.lastAssignment = assignmentId;
+        if (typeof saveState === "function") saveState(state);
+      }
+      if (typeof go === "function") {
+        go("evidence");
+        return true;
+      }
+    } catch (error) {
+      console.error("Continue Assignment navigation error:", error);
+    }
+
+    const evidenceButton = document.querySelector('[data-route="evidence"]');
+    if (evidenceButton) {
+      evidenceButton.click();
+      return true;
+    }
+    return false;
+  }
+
+  document.addEventListener("click", function(event){
+    const button = event.target.closest('[data-open-assignment]');
+    if (!button) return;
+    event.preventDefault();
+    event.stopPropagation();
+    openHomeAssignment(button);
+  }, true);
+
+  window.openHomeAssignment = openHomeAssignment;
+})();
