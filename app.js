@@ -123,6 +123,12 @@ if(settings.course&&!choose){
         overlay.querySelector(".confirm-course").addEventListener("click",confirmEvent=>{
           confirmEvent.preventDefault();
           confirmEvent.stopPropagation();
+
+          if(course==="pmo"){
+            openCourse(course);
+            return;
+          }
+
           requestPrivacyAgreement(course);
         });
       });
