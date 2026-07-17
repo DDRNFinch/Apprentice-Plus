@@ -1,4 +1,4 @@
-const CACHE_NAME="apprenticeship-plus-brick-continue-fix-v1";
+const CACHE_NAME="apprenticeship-plus-brick-back-swipe-home-v1";
 const APP_ROOT = "/Brick-Buddy-App/";
 const APP_FILES = [
   "./trade-logo.png",
