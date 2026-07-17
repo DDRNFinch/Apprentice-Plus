@@ -1,9 +1,11 @@
 "use strict";
-const CACHE_NAME="apprenticeship-plus-bench-professional-menu-polished-v1";
+const CACHE_NAME="apprenticeship-plus-bench-refined-pages-test-v1";
 const APP_FILES=[
- "./","./index.html","./app.js","./professional-navigation.js",
- "./professional-navigation.css","./workbench-data.js","./workbench.js",
- "./assignment-pdf.js","./register-service-worker.js","./manifest.json",
+ "./","./index.html","./app.js",
+ "./professional-navigation.js","./professional-navigation.css",
+ "./page-refinement.js","./page-refinement.css",
+ "./workbench-data.js","./workbench.js","./assignment-pdf.js",
+ "./register-service-worker.js","./manifest.json",
  "./trade-logo.png","./icon-192.png","./icon-512.png"
 ];
 
@@ -28,17 +30,20 @@ self.addEventListener("fetch",event=>{
     .then(source=>{
       const loader=`
 ;(function(){
- if(!document.querySelector('link[data-ap-professional-navigation]')){
-  const link=document.createElement('link');
-  link.rel='stylesheet';
-  link.href='./professional-navigation.css?v=polished-1';
-  link.dataset.apProfessionalNavigation='true';
-  document.head.appendChild(link);
- }
- const script=document.createElement('script');
- script.src='./professional-navigation.js?v=polished-1';
- script.defer=true;
- document.head.appendChild(script);
+ const styles=[
+  ['./professional-navigation.css?v=polished-1','apProfessionalNavigation'],
+  ['./page-refinement.css?v=1','apPageRefinement']
+ ];
+ styles.forEach(function(item){
+  if(!document.querySelector('link[data-'+item[1].replace(/[A-Z]/g,m=>'-'+m.toLowerCase())+']')){
+   const link=document.createElement('link');
+   link.rel='stylesheet';link.href=item[0];
+   link.dataset[item[1]]='true';document.head.appendChild(link);
+  }
+ });
+ ['./professional-navigation.js?v=polished-1','./page-refinement.js?v=1'].forEach(function(src){
+  const script=document.createElement('script');script.src=src;script.defer=true;document.head.appendChild(script);
+ });
 })();`;
       return new Response(source+loader,{
        headers:{"Content-Type":"application/javascript; charset=utf-8"}
@@ -49,20 +54,15 @@ self.addEventListener("fetch",event=>{
   return;
  }
 
- const fresh=/\/courses\/bench\/(?:$|index\.html$|professional-navigation\.js$|professional-navigation\.css$|workbench-data\.js$|workbench\.js$|assignment-pdf\.js$|trade-logo\.png$|manifest\.json$)/.test(url.pathname);
+ const fresh=/\/courses\/bench\/(?:$|index\.html$|professional-navigation\.(?:js|css)$|page-refinement\.(?:js|css)$|workbench-data\.js$|workbench\.js$|assignment-pdf\.js$|trade-logo\.png$|manifest\.json$)/.test(url.pathname);
  if(fresh){
-  event.respondWith(
-   fetch(event.request,{cache:"no-store"})
-    .then(response=>{
-      const copy=response.clone();
-      caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy));
-      return response;
-    })
-    .catch(()=>caches.match(event.request))
-  );
+  event.respondWith(fetch(event.request,{cache:"no-store"})
+   .then(response=>{
+    const copy=response.clone();
+    caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy));
+    return response;
+   }).catch(()=>caches.match(event.request)));
  }else{
-  event.respondWith(
-   caches.match(event.request).then(cached=>cached||fetch(event.request))
-  );
+  event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request)));
  }
 });
