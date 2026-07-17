@@ -1330,8 +1330,1549 @@ function revision(){
 
 
 
-const epaPracticalCriteria=[{"name":"Plan the maintenance task and interpret technical information (K1, K2, K23, S1, S2, S19)","nearly":"Revisit planned and reactive maintenance, job information, specifications, manufacturer instructions and task sequencing.","practice":"Complete a job plan that identifies the defect, required information, resources, sequence and expected outcome."},{"name":"Identify hazards and establish a safe workspace (K3, K4, K6, S3, S4, S6, B2)","nearly":"Review risk assessment, method statement, permits, barriers, access, emergency arrangements and protection of building users.","practice":"Set up and explain a safe work area, including controls for occupants, property and colleagues."},{"name":"Select and use PPE, RPE and control measures (K3, S3, S6, B2)","nearly":"Review the hierarchy of control, COSHH information, face-fit requirements and correct use of task-specific protection.","practice":"Select the controls for a maintenance task and justify why each item is suitable."},{"name":"Select, inspect and use tools and equipment (K7, S7, B2)","nearly":"Improve tool selection, pre-use checks, guarding, accessories, safe operation and defect reporting.","practice":"Complete recorded pre-use checks and demonstrate safe use of the selected tools."},{"name":"Inspect and diagnose the maintenance defect (K2, K23, K25, S2, S19, S21, B3)","nearly":"Focus on identifying the underlying cause, using measurements or tests, and recognising when specialist input is needed.","practice":"Inspect a realistic defect, record findings and explain the chosen repair or escalation route."},{"name":"Complete an authorised minor building-services repair (K8-K13, S8-S12, S25)","nearly":"Review safe isolation, limits of competence, component compatibility, restoration of service and functional testing.","practice":"Complete or simulate an authorised electrical-awareness, plumbing, drainage, emergency-system or energy-system task."},{"name":"Complete carpentry, door, window or glazing repairs (K14, S13, S21, S25)","nearly":"Review measurement, adjustment, fixing, alignment, security, fire-safety and escape-route considerations.","practice":"Repair or adjust a door, window or fitting and record operation, alignment and security checks."},{"name":"Complete plastering, decorating, tiling or flooring repairs (K15-K18, S14-S17, S21)","nearly":"Improve background preparation, material compatibility, setting out, application and finishing checks.","practice":"Complete a representative surface repair and compare the result with the required specification."},{"name":"Complete masonry, roofing or external repairs (K19-K22, S18, S21, S25)","nearly":"Review access, weather, service-location, public protection, temporary repairs and specialist referral.","practice":"Complete or simulate a minor external repair and record safety, quality and follow-up requirements."},{"name":"Use materials efficiently and protect the environment (K26, S22, B1)","nearly":"Review pollution prevention, waste hierarchy, segregation, reuse, recycling and controlled disposal.","practice":"Produce a waste and environmental plan for the practical task and record the outcome."},{"name":"Inspect completed work against the specification (K25, S21, B3)","nearly":"Improve functional, dimensional, visual and safety checks and ensure defects are corrected rather than concealed.","practice":"Create a snagging checklist and record evidence that the completed work meets the specification."},{"name":"Communicate with customers and colleagues (K27-K29, S23, S24, B4, B5)","nearly":"Practise confirming requirements, adapting language, reporting disruption, coordinating other trades and giving clear handover information.","practice":"Deliver a short customer or supervisor handover covering work completed, limitations and next actions."},{"name":"Complete accurate written and digital records (K24, S20, S23)","nearly":"Review required job details, data protection, photographs, defect reports, materials, time, tests and follow-up actions.","practice":"Complete a full maintenance record from instruction to final handover."},{"name":"Work within competence and escalate correctly (K31, S25, B2, B6)","nearly":"Review authority limits, stop-and-make-safe decisions, specialist referrals and development needs.","practice":"Explain three situations that must be escalated and identify the correct person or trade."},{"name":"Demonstrate professional behaviours and responsibility (B1-B6)","nearly":"Improve ownership, teamwork, inclusion, customer focus, environmental responsibility and commitment to development.","practice":"Reflect on the task and identify evidence for each relevant behaviour and one CPD action."}];
-const epaDiscussionQuestions=[{"q":"Explain the difference between planned preventative maintenance and reactive maintenance. Give a workplace example of each and explain how priorities were decided.","assignment":"Assignments 3 and 19","topic":"K1, S1 — Maintenance types and prioritisation","workplace":"Review two completed jobs and identify whether each was planned or reactive.","revision":"Revise PPM, reactive maintenance, urgency, impact and asset condition."},{"q":"You discover that the visible damage is probably a symptom of a larger defect. How would you inspect, diagnose, record and escalate the issue?","assignment":"Assignment 3","topic":"K2, K23, K25, S2, S19, S21, S25","workplace":"Complete a defect-inspection report using measurements and photographs.","revision":"Revise diagnosis, specifications, quality checks and limits of competence."},{"q":"Describe how you would establish a safe workspace in an occupied property while protecting customers, visitors, colleagues and the building.","assignment":"Assignment 1","topic":"K3, K4, K6, S3, S4, S6, B2","workplace":"Set up barriers, signs and protection for a realistic maintenance task.","revision":"Revise risk assessments, method statements, access and emergency arrangements."},{"q":"A dusty cutting task is required indoors. Explain the hierarchy of controls, PPE, RPE, extraction or suppression, and how you would protect other building users.","assignment":"Assignments 1 and 5","topic":"K3, S3, S6, B2","workplace":"Review the COSHH and dust-control information for the task.","revision":"Revise source control, RPE selection, face fit and housekeeping."},{"q":"A customer is unhappy about noise, dust and delay. How would you communicate professionally, protect their property and maintain customer service?","assignment":"Assignment 2","topic":"K5, K27-K30, S5, S23, S24, B4, B5","workplace":"Practise a customer update and handover conversation.","revision":"Revise communication methods, inclusion, privacy and customer expectations."},{"q":"A power tool has a damaged guard or cable. What should you do, how should it be recorded, and why must production pressure not affect the decision?","assignment":"Assignment 5","topic":"K7, S7, B2, B3","workplace":"Complete a pre-use inspection and defect-tagging exercise.","revision":"Revise tool checks, quarantine, reporting and responsibility."},{"q":"You identify an electrical defect outside your competence. Explain how you would make the area safe, isolate only within authority and arrange specialist support.","assignment":"Assignment 9","topic":"K8, K9, S8, S9, S25, B2","workplace":"Talk through an electrical defect and escalation scenario.","revision":"Revise electrical hazards, secure isolation and competence limits."},{"q":"Explain how you would safely isolate, repair and test an authorised minor plumbing fault while preventing contamination, scalding and water damage.","assignment":"Assignment 7","topic":"K10, S10, S21, S25","workplace":"Complete or simulate isolation, component replacement and leak testing.","revision":"Revise plumbing components, isolation and restoration of service."},{"q":"An external drain or rainwater system has poor flow. How would you identify the cause, work hygienically and decide whether the task requires escalation?","assignment":"Assignment 8","topic":"K11, S11, S21, S25","workplace":"Inspect a drainage route and record likely causes and checks.","revision":"Revise drainage defects, contamination controls and flow testing."},{"q":"Describe a carpentry, door, window or glazing repair you completed. Explain material selection, fixings, alignment, security and final operational checks.","assignment":"Assignments 6 and 13","topic":"K14, S13, S21, S25","workplace":"Review evidence from a completed door or window repair.","revision":"Revise carpentry repair methods, fire safety, security and escape requirements."},{"q":"Explain how you would prepare and repair a damaged plastered surface, including background checks, material choice, application and drying protection.","assignment":"Assignment 11","topic":"K15, S14, S21","workplace":"Complete a local plaster repair and inspect the finish.","revision":"Revise causes of failure, preparation, mixing and finishing."},{"q":"Describe how you would prepare and decorate a surface safely, including COSHH, ventilation, coating compatibility, application and quality checks.","assignment":"Assignment 10","topic":"K16, S15, S21","workplace":"Review a paint system and complete a sample repair.","revision":"Revise preparation, coatings, brush and roller use, and sealing."},{"q":"A tile or floor repair must match existing work around obstacles. Explain setting out, background or subfloor preparation, cutting, fixing and final checks.","assignment":"Assignments 12 and 14","topic":"K17, K18, S16, S17, S21","workplace":"Complete a setting-out and cutting exercise around a service or obstacle.","revision":"Revise adhesives, joints, moisture, transitions and trip hazards."},{"q":"Explain how you would complete a minor masonry repair or repointing task, including access, materials, weather protection, public safety and curing.","assignment":"Assignment 16","topic":"K19, S18, S21, S25","workplace":"Inspect masonry defects and prepare a repair method.","revision":"Revise mortar, pointing, damp prevention and quality checks."},{"q":"A roof leak is reported during poor weather. Explain diagnosis, temporary protection, work-at-height controls, limits of competence and follow-up action.","assignment":"Assignment 17","topic":"K20, S18, S21, S25, B2","workplace":"Complete a roof-defect scenario and temporary-repair plan.","revision":"Revise safe access, weatherproofing and specialist referral."},{"q":"Before fencing or ground repairs, how would you check boundaries, underground services, stability, drainage, wildlife and public safety?","assignment":"Assignment 18","topic":"K21, K22, S18, S21, S22, S25","workplace":"Prepare a safe-dig and external-work checklist.","revision":"Revise service information, excavation controls and environmental protection."},{"q":"Explain how you reduced environmental impact on a maintenance task through material efficiency, pollution prevention, reuse, recycling and correct disposal.","assignment":"Assignment 4","topic":"K26, S22, B1","workplace":"Audit waste from a recent task and identify improvements.","revision":"Revise the waste hierarchy, segregation and environmental procedures."},{"q":"What information should be included in written or digital maintenance records, and how do data protection and security affect photographs and customer information?","assignment":"Assignment 19","topic":"K24, S20, S23","workplace":"Review and improve a completed maintenance record.","revision":"Revise accuracy, traceability, privacy and security-sensitive information."},{"q":"Give an example of coordinating with another trade or specialist. Explain responsibilities, interdependencies, communication and how delays or changes were managed.","assignment":"Assignments 2 and 19","topic":"K28, K29, S23, S24, B4","workplace":"Map the people involved in a multi-trade maintenance job.","revision":"Revise organisational roles, teamwork and handover."},{"q":"Explain your limits of authority and competence. Give examples of work you would stop and escalate, and identify CPD that would improve your future capability.","assignment":"Assignment 20","topic":"K31, S25, B3, B6","workplace":"Complete a competence and development review with your supervisor.","revision":"Revise escalation, responsibility, CPD and professional progression."}];
+const epaPracticalCriteria=[{"name":"Health, safety, PPE and workshop controls","nearly":"Revisit workshop hazards, PPE, RPE, LEV, guarding and emergency arrangements.","practice":"Complete and explain a pre-use and work-area safety check."},{"name":"Drawing, specification and cutting list","nearly":"Practise extracting dimensions, joint details, materials and tolerances before starting.","practice":"Mark up the drawing and prepare a checked cutting list."},{"name":"Timber selection and defect checks","nearly":"Review species, moisture, grain direction, board type and defects that affect use.","practice":"Select components from a mixed timber stack and justify each choice."},{"name":"Setting out and datum marks","nearly":"Use face side, face edge and consistent datum marks for every component.","practice":"Mark a full component set and have the datum system checked before cutting."},{"name":"Hand-tool preparation and use","nearly":"Improve tool selection, sharpness, body position and control during cutting and fitting.","practice":"Sharpen and use the relevant hand tools on a test joint."},{"name":"Portable and fixed machinery","nearly":"Review pre-use checks, guards, extraction, settings and safe feed/support methods.","practice":"Talk through and complete an authorised machine setup under supervision."},{"name":"Joint manufacture and fit","nearly":"Focus on accurate shoulders, cheeks, housings, alignment and controlled fitting.","practice":"Produce a test joint and compare it with the required tolerances."},{"name":"Component dimensions and consistency","nearly":"Check every component against the drawing and use controlled methods for repeated parts.","practice":"Measure and record all finished component sizes before assembly."},{"name":"Dry fitting and assembly","nearly":"Dry-fit before adhesive, check squareness and plan the clamping sequence.","practice":"Complete a timed dry assembly and identify the order of clamping."},{"name":"Adhesives, fixings and connections","nearly":"Review adhesive selection, open time, coverage, fixing type and correct positioning.","practice":"Prepare a connection sample and explain why each fixing or adhesive is suitable."},{"name":"Squareness, flatness and alignment","nearly":"Check diagonals, winding, level surfaces and alignment throughout assembly.","practice":"Record diagonal and flatness checks during the build."},{"name":"Surface preparation and finish","nearly":"Improve planing, scraping and sanding sequence while avoiding scratches and rounded edges.","practice":"Prepare a sample surface through the correct abrasive grades."},{"name":"Ironmongery and operation","nearly":"Review positioning, recessing, pilot drilling, alignment and functional checks.","practice":"Fit and adjust a representative item of ironmongery."},{"name":"Quality checks and defect correction","nearly":"Carry out checks throughout the task and correct causes rather than concealing defects.","practice":"Inspect a completed item and produce a short snagging list."},{"name":"Time management and professional behaviour","nearly":"Plan the sequence, organise materials and communicate decisions without reducing quality.","practice":"Create a staged work plan and compare planned time with actual time."}]
+
+const epaDiscussionQuestions=[{"q":"You are asked to use a fixed machine, but the guard is damaged and production is behind schedule. What do you do?","assignment":"Assignment 1 and 19","topic":"Health and safety","workplace":"Inspect an authorised machine with your supervisor and explain each safety control.","revision":""},{"q":"A large quantity of usable timber offcuts is being placed in general waste. How would you respond?","assignment":"Assignment 2","topic":"Environmental working","workplace":"Review workshop waste routes and identify reusable or recyclable materials.","revision":""},{"q":"The cutting list and product drawing contain different component dimensions. What actions would you take?","assignment":"Assignment 3","topic":"Drawings","workplace":"Compare a drawing and cutting list and practise resolving revision differences.","revision":""},{"q":"The available timber includes bow, twist and knots close to joint positions. How would you select suitable components?","assignment":"Assignment 4","topic":"Material selection","workplace":"Grade a selection of timber and explain which defects affect each component.","revision":""},{"q":"A colleague has misunderstood the assembly sequence and has prepared components incorrectly. How would you manage the situation?","assignment":"Assignment 5","topic":"Communication","workplace":"Practise a task briefing that confirms roles, sequence and quality checks.","revision":""},{"q":"A chisel is blunt and begins to crush the fibres at a joint shoulder. What should happen next?","assignment":"Assignment 6","topic":"Hand tools","workplace":"Sharpen a chisel and compare the result on a test joint.","revision":""},{"q":"A portable router begins vibrating more than normal during use. What would you do?","assignment":"Assignment 7","topic":"Power tools","workplace":"Complete a pre-use inspection and discuss common causes of vibration.","revision":""},{"q":"A jig produces the first component accurately but later components drift out of position. How would you investigate this?","assignment":"Assignment 8","topic":"Jigs","workplace":"Test a jig repeatedly and inspect stops, guides and clamping.","revision":""},{"q":"Several repeated components have different joint positions despite using the same drawing. What could have caused this and how would you correct it?","assignment":"Assignment 9","topic":"Setting out","workplace":"Use a setting rod or template to mark a repeated component set.","revision":""},{"q":"A mortice-and-tenon joint fits tightly, but the shoulders do not close evenly. What checks would you make?","assignment":"Assignment 10","topic":"Woodworking joints","workplace":"Produce and diagnose a test mortice-and-tenon joint.","revision":""},{"q":"A biscuit joint is aligned correctly but opens when clamps are removed. What would you consider?","assignment":"Assignment 11","topic":"Timber connections","workplace":"Review adhesive, clamping and connection preparation on a sample.","revision":""},{"q":"A casement binds in the frame during dry fitting. How would you identify and correct the cause?","assignment":"Assignment 12","topic":"Windows","workplace":"Dry-fit and check a small frame-and-casement sample.","revision":""},{"q":"The finished stair components do not produce consistent rise and going when assembled. What would you investigate?","assignment":"Assignment 13","topic":"Staircases","workplace":"Check staircase component dimensions against a drawing.","revision":""},{"q":"A manufactured door frame is square but the opening size is incorrect. What would you do?","assignment":"Assignment 14","topic":"Frames and linings","workplace":"Set out a frame from opening dimensions and check allowances.","revision":""},{"q":"A door assembly is out of square after clamping. How would you assess whether it can be corrected?","assignment":"Assignment 15","topic":"Timber doors","workplace":"Practise diagonal checks and controlled clamping on a frame.","revision":""},{"q":"A cabinet carcass is square, but the doors and drawer fronts do not align. What checks would you make?","assignment":"Assignment 16","topic":"Units","workplace":"Set up and adjust representative cabinet ironmongery.","revision":""},{"q":"Repeated spindle components show small differences in profile and length. How would you improve consistency?","assignment":"Assignment 17","topic":"Mouldings and balustrades","workplace":"Use stops, templates or jigs to produce repeated test components.","revision":""},{"q":"A finish highlights sanding scratches after the first coat. What would you do before continuing?","assignment":"Assignment 18","topic":"Finishes and ironmongery","workplace":"Prepare and finish a sample panel using a controlled sanding sequence.","revision":""},{"q":"A machine produces burning and an inconsistent cut despite the dimensions being set correctly. What would you investigate?","assignment":"Assignment 19","topic":"Fixed machinery","workplace":"Discuss cutter condition, feed rate, extraction and setup with an authorised supervisor.","revision":""},{"q":"A fire-door assembly has the correct ironmongery but the gaps and seals do not meet the specification. What action is required?","assignment":"Assignment 20","topic":"Fire doors","workplace":"Inspect a fire-door assembly against manufacturer or certification information.","revision":""}];
+
+function epaReadyPercentage(marks,total){
+  const values=Object.values(marks||{});
+  const ready=values.filter(mark=>mark==="EPA Ready").length;
+  return total>0?Math.round((ready/total)*100):0;
+}
+
+function mockJudgementSummary(values){
+  const list=Object.values(values||{});
+  if(!list.length)return "Not Assessed";
+  const ready=list.filter(v=>v==="EPA Ready").length;
+  const nearly=list.filter(v=>v==="Nearly Ready").length;
+  const more=list.filter(v=>v==="More Practice Required").length;
+  if(more>0)return "More Practice Required";
+  if(nearly>0)return "Nearly Ready";
+  return ready===list.length?"EPA Ready":"Not Assessed";
+}
+
+function initialiseSignaturePad(canvas,saved,onSave){
+  if(!canvas)return;
+  const ctx=canvas.getContext("2d");
+  const width=canvas.clientWidth||600,height=170,ratio=Math.max(window.devicePixelRatio||1,1);
+  canvas.width=width*ratio;
+  canvas.height=height*ratio;
+  ctx.scale(ratio,ratio);
+  ctx.lineWidth=2;
+  ctx.lineCap="round";
+  ctx.strokeStyle="#202630";
+  if(saved){
+    const img=new Image();
+    img.onload=()=>ctx.drawImage(img,0,0,width,height);
+    img.src=saved;
+  }
+  let drawing=false;
+  const point=e=>{
+    const r=canvas.getBoundingClientRect();
+    const p=e.touches?.[0]||e;
+    return {x:p.clientX-r.left,y:p.clientY-r.top};
+  };
+  const begin=e=>{drawing=true;const p=point(e);ctx.beginPath();ctx.moveTo(p.x,p.y);e.preventDefault();};
+  const move=e=>{if(!drawing)return;const p=point(e);ctx.lineTo(p.x,p.y);ctx.stroke();e.preventDefault();};
+  const finish=e=>{if(!drawing)return;drawing=false;onSave(canvas.toDataURL("image/png"));e?.preventDefault?.();};
+  canvas.addEventListener("pointerdown",begin);
+  canvas.addEventListener("pointermove",move);
+  canvas.addEventListener("pointerup",finish);
+  canvas.addEventListener("pointerleave",finish);
+  canvas.addEventListener("touchstart",begin,{passive:false});
+  canvas.addEventListener("touchmove",move,{passive:false});
+  canvas.addEventListener("touchend",finish,{passive:false});
+  return ()=>ctx.clearRect(0,0,width,height);
+}
+
+
+async function saveGeneratedPdfToDocuments(pdf,title,type){
+  const blob=pdf.output("blob");
+  const timestamp=Date.now();
+  const key=`generated-pdf-${timestamp}-${safe(title)}`;
+  await putFile(key,blob);
+  state.documents.unshift({
+    id:`generated-${timestamp}`,
+    type,
+    title,
+    date:new Date().toISOString(),
+    fileKey:key,
+    mime:"application/pdf"
+  });
+  saveState(state);
+  return blob;
+}
+
+function downloadBlob(blob,filename){
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+  link.href=url;
+  link.download=filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+async function downloadEpaPracticalMockPdf(record,profile){
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF({unit:"mm",format:"a4"});
+  const margin=14,contentW=182,innerW=172,pageBottom=274;
+  const header=()=>addHeader(pdf,"EPA Practical Mock","Assessor Mark Sheet");
+  const newPage=()=>{pdf.addPage();header();return 40};
+  const ensure=(y,h)=>y+h>pageBottom?newPage():y;
+  const wrapped=(text,size=8,bold=false,width=innerW)=>{
+    pdf.setFont("helvetica",bold?"bold":"normal");
+    pdf.setFontSize(size);
+    return pdf.splitTextToSize(String(text||""),width);
+  };
+  const drawLabelled=(label,text,y,shade=false)=>{
+    const labelLines=wrapped(label,8,true);
+    const bodyLines=wrapped(text,8,false);
+    const h=(labelLines.length+bodyLines.length)*4+8;
+    y=ensure(y,h+3);
+    if(shade){pdf.setFillColor(246,248,250);pdf.roundedRect(margin,y-3,contentW,h,2,2,"F")}
+    let ty=y+2;
+    pdf.setFont("helvetica","bold");pdf.setFontSize(8);pdf.text(labelLines,margin+5,ty);ty+=labelLines.length*4;
+    pdf.setFont("helvetica","normal");pdf.setFontSize(8);pdf.text(bodyLines,margin+5,ty);
+    return y+h+3;
+  };
+
+  header();
+  let y=40;
+  y=detailBox(pdf,[
+    ["Learner",record.learnerName||profile.learner||"Not entered"],
+    ["Assessor",record.assessorName||profile.assessor||"Not entered"],
+    ["Date",record.date?pdfUkDate(record.date+"T12:00:00"):pdfUkDate()],
+    ["Practical task",record.task||"Not entered"]
+  ],y);
+  y=sectionTitle(pdf,"Overall Judgement",y);
+  pdf.setFont("helvetica","bold");pdf.setFontSize(12);pdf.text(mockJudgementSummary(record.marks),margin,y);
+  pdf.text(`EPA Ready score: ${epaReadyPercentage(record.marks,epaPracticalCriteria.length)}%`,120,y);
+  y+=10;
+
+  epaPracticalCriteria.forEach((criterion,index)=>{
+    const mark=record.marks?.[criterion.name]||"Not assessed";
+    const needs=mark==="Nearly Ready"||mark==="More Practice Required";
+    const titleLines=wrapped(`${index+1}. ${criterion.name}`,9,true);
+    y=ensure(y,titleLines.length*4+17);
+    if(mark==="EPA Ready")pdf.setFillColor(226,245,235);
+    else if(mark==="Nearly Ready")pdf.setFillColor(255,244,214);
+    else if(mark==="More Practice Required")pdf.setFillColor(255,226,226);
+    else pdf.setFillColor(index%2?247:239,index%2?248:242,index%2?250:245);
+    pdf.roundedRect(margin,y-3,contentW,titleLines.length*4+12,2,2,"F");
+    if(mark==="EPA Ready")pdf.setDrawColor(22,132,91);
+    else if(mark==="Nearly Ready")pdf.setDrawColor(215,155,33);
+    else if(mark==="More Practice Required")pdf.setDrawColor(169,35,35);
+    else pdf.setDrawColor(210,214,220);
+    pdf.roundedRect(margin,y-3,contentW,titleLines.length*4+12,2,2,"S");
+    pdf.setFont("helvetica","bold");pdf.setFontSize(9);pdf.text(titleLines,margin+5,y+2);
+    pdf.setFontSize(8);pdf.text(`Assessor judgement: ${mark}`,margin+5,y+titleLines.length*4+3);
+    y+=titleLines.length*4+16;
+    if(needs){
+      const improvement=mark==="Nearly Ready"?criterion.nearly:`This area requires further development before EPA. ${criterion.nearly}`;
+      y=drawLabelled("Improvement guidance",improvement,y,true);
+      y=drawLabelled("Suggested practice",criterion.practice,y,true);
+    }
+    y+=3;
+  });
+
+  if(record.comments){y=sectionTitle(pdf,"Assessor Feedback and Next Actions",ensure(y,18));y=drawLabelled("Feedback",record.comments,y,false)}
+  if(record.signature){
+    y=ensure(y,30);y=sectionTitle(pdf,"Assessor Signature",y);pdf.addImage(record.signature,"PNG",margin,y,48,15);y+=19;
+    pdf.setFont("helvetica","normal");pdf.setFontSize(8);
+    pdf.text(wrapped(`Signed by: ${record.assessorName||profile.assessor||"Assessor"}`,8,false,95),margin,y);
+    pdf.text(`Date: ${record.date?pdfUkDate(record.date+"T12:00:00"):pdfUkDate()}`,120,y);
+  }
+  addFooter(pdf);
+  const blob=await saveGeneratedPdfToDocuments(pdf,"EPA Practical Mock","EPA Practical Mock");
+  downloadBlob(blob,"EPA-Practical-Mock.pdf");
+}
+async function downloadEpaDiscussionMockPdf(record,profile){
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF({unit:"mm",format:"a4"});
+  const margin=14,contentW=182,innerW=172,pageBottom=274;
+  const header=()=>addHeader(pdf,"Professional Discussion Mock","Assessor Mark Sheet");
+  const newPage=()=>{pdf.addPage();header();return 40};
+  const ensure=(y,h)=>y+h>pageBottom?newPage():y;
+  const wrapped=(text,size=8,bold=false,width=innerW)=>{
+    pdf.setFont("helvetica",bold?"bold":"normal");pdf.setFontSize(size);
+    return pdf.splitTextToSize(String(text||""),width);
+  };
+  const drawLabelled=(label,text,y,shade=false)=>{
+    const labelLines=wrapped(label,8,true),bodyLines=wrapped(text,8,false);
+    const h=(labelLines.length+bodyLines.length)*4+8;
+    y=ensure(y,h+3);
+    if(shade){pdf.setFillColor(246,248,250);pdf.roundedRect(margin,y-3,contentW,h,2,2,"F")}
+    let ty=y+2;
+    pdf.setFont("helvetica","bold");pdf.setFontSize(8);pdf.text(labelLines,margin+5,ty);ty+=labelLines.length*4;
+    pdf.setFont("helvetica","normal");pdf.setFontSize(8);pdf.text(bodyLines,margin+5,ty);
+    return y+h+3;
+  };
+
+  header();let y=40;
+  y=detailBox(pdf,[
+    ["Learner",record.learnerName||profile.learner||"Not entered"],
+    ["Assessor",record.assessorName||profile.assessor||"Not entered"],
+    ["Date",record.date?pdfUkDate(record.date+"T12:00:00"):pdfUkDate()],
+    ["Overall judgement",mockJudgementSummary(record.marks)],
+    ["EPA Ready score",`${epaReadyPercentage(record.marks,epaDiscussionQuestions.length)}%`]
+  ],y);
+
+  epaDiscussionQuestions.forEach((item,index)=>{
+    const mark=record.marks?.[index]||"Not assessed";
+    const needs=mark==="Nearly Ready"||mark==="More Practice Required";
+    const questionLines=wrapped(`${index+1}. ${item.q}`,9,true);
+    y=ensure(y,questionLines.length*4+17);
+    if(mark==="EPA Ready")pdf.setFillColor(226,245,235);
+    else if(mark==="Nearly Ready")pdf.setFillColor(255,244,214);
+    else if(mark==="More Practice Required")pdf.setFillColor(255,226,226);
+    else pdf.setFillColor(index%2?247:239,index%2?248:242,index%2?250:245);
+    pdf.roundedRect(margin,y-3,contentW,questionLines.length*4+12,2,2,"F");
+    if(mark==="EPA Ready")pdf.setDrawColor(22,132,91);
+    else if(mark==="Nearly Ready")pdf.setDrawColor(215,155,33);
+    else if(mark==="More Practice Required")pdf.setDrawColor(169,35,35);
+    else pdf.setDrawColor(210,214,220);
+    pdf.roundedRect(margin,y-3,contentW,questionLines.length*4+12,2,2,"S");
+    pdf.setFont("helvetica","bold");pdf.setFontSize(9);pdf.text(questionLines,margin+5,y+2);
+    pdf.setFontSize(8);pdf.text(`Assessor judgement: ${mark}`,margin+5,y+questionLines.length*4+3);
+    y+=questionLines.length*4+16;
+    if(needs){
+      const feedback=mark==="Nearly Ready"
+        ?"You showed a reasonable understanding of this topic, but your explanation would benefit from greater detail, clearer reasoning or stronger examples."
+        :"This topic requires further revision and discussion before EPA. Focus on understanding the principles as well as how they apply in the workplace.";
+      y=drawLabelled("Feedback",feedback,y,true);
+      y=drawLabelled("Suggested workplace activity",item.workplace,y,true);
+    }
+    y+=3;
+  });
+
+  if(record.comments){y=sectionTitle(pdf,"Assessor Feedback and Priority Revision",ensure(y,18));y=drawLabelled("Feedback",record.comments,y,false)}
+  if(record.signature){
+    y=ensure(y,30);y=sectionTitle(pdf,"Assessor Signature",y);pdf.addImage(record.signature,"PNG",margin,y,48,15);y+=19;
+    pdf.setFont("helvetica","normal");pdf.setFontSize(8);
+    pdf.text(wrapped(`Signed by: ${record.assessorName||profile.assessor||"Assessor"}`,8,false,95),margin,y);
+    pdf.text(`Date: ${record.date?pdfUkDate(record.date+"T12:00:00"):pdfUkDate()}`,120,y);
+  }
+  addFooter(pdf);
+  const blob=await saveGeneratedPdfToDocuments(pdf,"Professional Discussion Mock","EPA Discussion Mock");
+  downloadBlob(blob,"Professional-Discussion-Mock.pdf");
+}
+function epaPracticalMock(){
+  const record=state.epaPracticalMock||{marks:{},comments:"",learnerName:state.profile.learner||"",assessorName:state.profile.assessor||"",date:new Date().toISOString().slice(0,10),task:"",signature:""};
+  const options=["","EPA Ready","Nearly Ready","More Practice Required"];
+  view().innerHTML=`<section class="card hero"><span class="eyebrow">PRACTICAL READINESS</span><h2>🛠️ EPA Practical Mock</h2><p>Assessor-only bench-joinery mock including drawing interpretation, material selection, setting out, joints, assembly and quality checks.</p></section>
+  <section class="card"><div class="grid">
+    <label>Learner name<input id="epaPracticalLearner" value="${record.learnerName||""}"></label>
+    <label>Assessor name<input id="epaPracticalAssessor" value="${record.assessorName||""}"></label>
+    <label>Date<input id="epaPracticalDate" type="date" value="${record.date||new Date().toISOString().slice(0,10)}"></label>
+    <label>Practical task<input id="epaPracticalTask" value="${record.task||""}" placeholder="Manufacture a framed and jointed bench-property maintenance operative work to the drawing and specification"></label>
+  </div></section>
+  <section class="card"><div class="split"><h3>Assessor Mark</h3><div class="metric compact-metric"><span>EPA Ready score</span><strong id="epaPracticalScore">${epaReadyPercentage(record.marks,epaPracticalCriteria.length)}%</strong></div></div><div class="criteria">${epaPracticalCriteria.map(c=>`<label>${c.name}<select data-epa-practical-mark="${c.name}">${options.map(v=>`<option ${record.marks?.[c.name]===v?"selected":""}>${v}</option>`).join("")}</select></label>`).join("")}</div>
+  <label>Assessor feedback and next actions<textarea id="epaPracticalComments">${record.comments||""}</textarea></label></section>
+  <section class="card"><h3>Assessor Signature</h3><div class="signature-wrap"><canvas id="epaPracticalSignature" class="signature-pad"></canvas><button class="secondary" id="clearEpaPracticalSignature">Clear signature</button></div></section>
+  <section class="card"><div class="button-row"><button class="danger" id="resetEpaPractical">Reset Mock</button><button class="secondary" id="saveEpaPractical">Save Mark Sheet</button><button class="primary" id="downloadEpaPractical">Download PDF</button></div></section>`;
+
+  let signature=record.signature||"";
+  const clear=initialiseSignaturePad(document.getElementById("epaPracticalSignature"),signature,v=>signature=v);
+  document.getElementById("clearEpaPracticalSignature").onclick=()=>{clear?.();signature=""};
+
+  const collect=()=>{
+    const marks={};
+    view().querySelectorAll("[data-epa-practical-mark]").forEach(x=>marks[x.dataset.epaPracticalMark]=x.value);
+    return {
+      learnerName:document.getElementById("epaPracticalLearner").value.trim(),
+      assessorName:document.getElementById("epaPracticalAssessor").value.trim(),
+      date:document.getElementById("epaPracticalDate").value,
+      task:document.getElementById("epaPracticalTask").value.trim(),
+      comments:document.getElementById("epaPracticalComments").value.trim(),
+      marks,signature
+    };
+  };
+  const updatePracticalScore=()=>{
+    const marks={};
+    view().querySelectorAll("[data-epa-practical-mark]").forEach(x=>marks[x.dataset.epaPracticalMark]=x.value);
+    const score=document.getElementById("epaPracticalScore");
+    if(score)score.textContent=`${epaReadyPercentage(marks,epaPracticalCriteria.length)}%`;
+  };
+  view().querySelectorAll("[data-epa-practical-mark]").forEach(x=>x.addEventListener("change",updatePracticalScore));
+  updatePracticalScore();
+
+  document.getElementById("resetEpaPractical").onclick=()=>{
+    if(!confirm("Reset the EPA Practical Mock? This will clear all marks, names, comments and the signature."))return;
+    state.epaPracticalMock={marks:{},comments:"",learnerName:state.profile.learner||"",assessorName:state.profile.assessor||"",date:new Date().toISOString().slice(0,10),task:"",signature:""};
+    saveState(state);
+    epaPracticalMock();
+  };
+  document.getElementById("saveEpaPractical").onclick=()=>{state.epaPracticalMock=collect();saveState(state);alert("EPA Practical Mock saved.")};
+  document.getElementById("downloadEpaPractical").onclick=async()=>{const r=collect();state.epaPracticalMock=r;saveState(state);await downloadEpaPracticalMockPdf(r,state.profile)};
+}
+
+function epaDiscussionMock(){
+  const record=state.epaDiscussionMock||{marks:{},comments:"",learnerName:state.profile.learner||"",assessorName:state.profile.assessor||"",date:new Date().toISOString().slice(0,10),signature:""};
+  const options=["","EPA Ready","Nearly Ready","More Practice Required"];
+  view().innerHTML=`<section class="card hero"><span class="eyebrow">DISCUSSION READINESS</span><h2>💬 Professional Discussion Mock</h2><p>Twenty scenario-based open questions aligned to the Property Maintenance Operative assignment topics.</p></section>
+  <section class="card"><div class="grid">
+    <label>Learner name<input id="epaDiscussionLearner" value="${record.learnerName||""}"></label>
+    <label>Assessor name<input id="epaDiscussionAssessor" value="${record.assessorName||""}"></label>
+    <label>Date<input id="epaDiscussionDate" type="date" value="${record.date||new Date().toISOString().slice(0,10)}"></label>
+  </div><div class="metric compact-metric"><span>EPA Ready score</span><strong id="epaDiscussionScore">${epaReadyPercentage(record.marks,epaDiscussionQuestions.length)}%</strong></div></section>
+  ${epaDiscussionQuestions.map((item,index)=>`<section class="card"><div class="split"><h3>Question ${index+1}</h3><small>${item.assignment} • ${item.topic}</small></div><p><b>${item.q}</b></p><label>Assessor judgement<select data-epa-discussion-mark="${index}">${options.map(v=>`<option ${record.marks?.[index]===v?"selected":""}>${v}</option>`).join("")}</select></label></section>`).join("")}
+  <section class="card"><label>Overall assessor feedback and priority revision<textarea id="epaDiscussionComments">${record.comments||""}</textarea></label></section>
+  <section class="card"><h3>Assessor Signature</h3><div class="signature-wrap"><canvas id="epaDiscussionSignature" class="signature-pad"></canvas><button class="secondary" id="clearEpaDiscussionSignature">Clear signature</button></div></section>
+  <section class="card"><div class="button-row"><button class="danger" id="resetEpaDiscussion">Reset Mock</button><button class="secondary" id="saveEpaDiscussion">Save Mark Sheet</button><button class="primary" id="downloadEpaDiscussion">Download PDF</button></div></section>`;
+
+  let signature=record.signature||"";
+  const clear=initialiseSignaturePad(document.getElementById("epaDiscussionSignature"),signature,v=>signature=v);
+  document.getElementById("clearEpaDiscussionSignature").onclick=()=>{clear?.();signature=""};
+
+  const collect=()=>{
+    const marks={};
+    view().querySelectorAll("[data-epa-discussion-mark]").forEach(x=>marks[x.dataset.epaDiscussionMark]=x.value);
+    return {
+      learnerName:document.getElementById("epaDiscussionLearner").value.trim(),
+      assessorName:document.getElementById("epaDiscussionAssessor").value.trim(),
+      date:document.getElementById("epaDiscussionDate").value,
+      comments:document.getElementById("epaDiscussionComments").value.trim(),
+      marks,signature
+    };
+  };
+  const updateDiscussionScore=()=>{
+    const marks={};
+    view().querySelectorAll("[data-epa-discussion-mark]").forEach(x=>marks[x.dataset.epaDiscussionMark]=x.value);
+    const score=document.getElementById("epaDiscussionScore");
+    if(score)score.textContent=`${epaReadyPercentage(marks,epaDiscussionQuestions.length)}%`;
+  };
+  view().querySelectorAll("[data-epa-discussion-mark]").forEach(x=>x.addEventListener("change",updateDiscussionScore));
+  updateDiscussionScore();
+
+  document.getElementById("resetEpaDiscussion").onclick=()=>{
+    if(!confirm("Reset the Professional Discussion Mock? This will clear all marks, names, comments and the signature."))return;
+    state.epaDiscussionMock={marks:{},comments:"",learnerName:state.profile.learner||"",assessorName:state.profile.assessor||"",date:new Date().toISOString().slice(0,10),signature:""};
+    saveState(state);
+    epaDiscussionMock();
+  };
+  document.getElementById("saveEpaDiscussion").onclick=()=>{state.epaDiscussionMock=collect();saveState(state);alert("Professional Discussion Mock saved.")};
+  document.getElementById("downloadEpaDiscussion").onclick=async()=>{const r=collect();state.epaDiscussionMock=r;saveState(state);await downloadEpaDiscussionMockPdf(r,state.profile)};
+}
+
+
+function readinessLabelFromScore(score){
+  if(score===null||score===undefined||Number.isNaN(score))return "Not attempted";
+  if(score>=90)return "Ready";
+  if(score>=75)return "Nearly Ready";
+  return "Not Ready";
+}
+function readinessClass(label){
+  if(label==="Ready")return "readiness-ready";
+  if(label==="Nearly Ready")return "readiness-nearly";
+  if(label==="Not Ready")return "readiness-not";
+  return "readiness-none";
+}
+function knowledgeReadiness(){
+  const records=(state.quizHistory||[]).filter(x=>x.epaReadiness);
+  if(!records.length)return {label:"Not attempted",score:null};
+  const best=Math.max(...records.map(x=>Number(x.score)||0));
+  return {label:readinessLabelFromScore(best),score:best};
+}
+function mockReadinessLabel(record){
+  if(!record||!record.marks||!Object.keys(record.marks).length)return "Not attempted";
+  const overall=mockJudgementSummary(record.marks);
+  if(overall==="EPA Ready")return "Ready";
+  if(overall==="Nearly Ready")return "Nearly Ready";
+  if(overall==="More Practice Required")return "Not Ready";
+  return "Not attempted";
+}
+
+
+function assignmentProgressState(assignment){
+  const status=assignmentStatus(assignment,state.evidence[assignment.id]||{});
+  return status.complete?"complete":status.hasAny?"in-progress":"not-started";
+}
+function nextStepAssignments(){
+  const inProgress=assignments.filter(a=>assignmentProgressState(a)==="in-progress");
+  if(inProgress.length)return inProgress;
+  const next=assignments.find(a=>assignmentProgressState(a)==="not-started");
+  return next?[next]:[];
+}
+function home(){
+  const knowledgeStatus=knowledgeReadiness();
+  const discussionStatus=mockReadinessLabel(state.epaDiscussionMock);
+  const practicalStatus=mockReadinessLabel(state.epaPracticalMock);
+  const discussionScore=epaReadyPercentage(state.epaDiscussionMock?.marks,epaDiscussionQuestions.length);
+  const practicalScore=epaReadyPercentage(state.epaPracticalMock?.marks,epaPracticalCriteria.length);
+  const complete=assignments.filter(a=>assignmentStatus(a,state.evidence[a.id]).complete).length;
+  const assignmentPct=Math.round(complete/assignments.length*100);
+  const quizHistory=state.quizHistory||[];
+  const quizAvg=quizHistory.length?Math.round(quizHistory.reduce((n,x)=>n+x.score,0)/quizHistory.length):0;
+  const passedAssignments=new Set(quizHistory.filter(x=>x.assignmentId&&x.score>=80).map(x=>x.assignmentId)).size;
+  const readiness=Math.round((assignmentPct*.65)+(Math.min(100,passedAssignments/assignments.length*100)*.35));
+  const next=assignments.find(a=>!assignmentStatus(a,state.evidence[a.id]).complete);
+  const learner=state.profile.learner||"Learner";
+  view().innerHTML=`<section class="card hero release-hero">
+    <div><span class="eyebrow">APPRENTICESHIP COMPANION</span><h2>${state.profile.learner?`Welcome back, ${learner.split(" ")[0]}`:"Welcome to Property Maintenance Operative"}</h2>
+    <p>Build evidence, record practical work and prepare for your EPA in property maintenance operative.</p></div>
+    ${state.profile.learner?`${next?`<button class="primary" data-open-assignment="${next.id}">Continue Assignment ${next.id}</button>`:`<button class="primary" data-route="revision">Open EPA preparation</button>`}`:`<button class="primary" data-route="settings">Complete learner setup</button>`}
+  </section>
+
+  <section class="card">
+    <div class="section-heading"><div><h3>EPA Readiness</h3><p>Your latest readiness across all three EPA preparation areas.</p></div></div>
+    <div class="epa-readiness-grid">
+      <button data-route="epaKnowledge" class="epa-readiness-card ${readinessClass(knowledgeStatus.label)}">
+        <span>🎓 Multiple Choice</span><strong>${knowledgeStatus.label}</strong>
+        <small>${knowledgeStatus.score!==null?`Best score ${knowledgeStatus.score}%`:"Complete the EPA Knowledge Mock"}</small>
+      </button>
+      <button data-route="epaDiscussionMock" class="epa-readiness-card ${readinessClass(discussionStatus)}">
+        <span>💬 Discussion</span><strong>${discussionStatus}</strong><small>${discussionScore}% EPA Ready</small>
+      </button>
+      <button data-route="epaPracticalMock" class="epa-readiness-card ${readinessClass(practicalStatus)}">
+        <span>🛠️ Practical</span><strong>${practicalStatus}</strong><small>${practicalScore}% EPA Ready</small>
+      </button>
+    </div>
+  </section>
+  <div class="dashboard premium-dashboard">
+    <section class="metric"><span>Assignments complete</span><strong>${complete}<small>/20</small></strong><div class="progress"><div style="width:${assignmentPct}%"></div></div><em>${assignmentPct}% complete</em></section>
+    <section class="metric"><span>Refreshes passed</span><strong>${passedAssignments}<small>/20</small></strong><div class="progress"><div style="width:${passedAssignments/20*100}%"></div></div><em>80% pass mark</em></section>
+    <section class="metric"><span>Quiz average</span><strong>${quizAvg}%</strong><em>${quizHistory.length} result${quizHistory.length===1?"":"s"} saved</em></section>
+    <section class="metric readiness"><span>EPA readiness guide</span><strong>${readiness}%</strong><div class="progress"><div style="width:${readiness}%"></div></div><em>Formal readiness is confirmed by your assessor</em></section>
+  </div>
+  <section class="card"><div class="split"><div><span class="eyebrow">YOUR NEXT STEP</span><h3>${next?`Assignment ${next.id} – ${next.title}`:"All assignment evidence completed"}</h3></div>${next?`<button class="secondary" data-route="evidence">Open evidence</button>`:`<button class="secondary" data-route="revision">Open quizzes</button>`}</div></section>
+  <section class="card"><h3>Apprenticeship tools</h3><div class="action-grid">
+    <button data-route="evidence"><span class="tool-icon">📸</span><b>Assignments</b><small>Upload photographs, explain your work and export an Aptem-ready PDF.</small></button>
+    <button data-route="otj"><span class="tool-icon">📝</span><b>Off-the-Job Learning</b><small>Turn genuine learning into a clear off-the-job reflection.</small></button>
+    <button data-route="practical"><span class="tool-icon">🧱</span><b>Practical Marking</b><small>Compare the learner self-mark with the assessor mark and export a PDF.</small></button>
+    <button data-route="revision"><span class="tool-icon">🎓</span><b>Revision</b><small>Use revision cards, quizzes and EPA mock assessments.</small></button>
+    <button id="homeInstallButton"><span class="tool-icon">📲</span><b>Install Property Maintenance Operative</b><small>Add Property Maintenance Operative to your home screen for quick access and offline use.</small></button>
+  </div></section>`;
+  document.getElementById("homeInstallButton")?.addEventListener("click",requestInstall);
+
+  view().querySelectorAll("[data-open-assignment]").forEach(btn=>btn.onclick=()=>{
+    openAssignmentId=Number(btn.dataset.openAssignment);
+    state.lastAssignment=openAssignmentId;
+    saveState(state);
+    go("evidence");
+  });
+}
+let openAssignmentId=null;
+
+function refreshEvidenceKeepingPlace(id,scrollY=window.scrollY){
+  openAssignmentId=Number(id);
+  evidence();
+  requestAnimationFrame(()=>{
+    const details=view().querySelector(`details[data-assignment-id="${openAssignmentId}"]`);
+    if(details)details.open=true;
+    window.scrollTo(0,scrollY);
+  });
+}
+
+let previewItems=[];
+let previewIndex=0;
+
+async function openImagePreview(items,index=0){
+  previewItems=items||[];
+  previewIndex=Math.max(0,Math.min(index,previewItems.length-1));
+  await renderImagePreview();
+  const modal=document.getElementById("imagePreviewModal");
+  modal?.classList.add("open");
+  modal?.setAttribute("aria-hidden","false");
+}
+
+async function renderImagePreview(){
+  const item=previewItems[previewIndex];
+  if(!item)return;
+  const modalImage=document.getElementById("previewImage");
+  const caption=document.getElementById("previewCaption");
+  const previous=document.getElementById("previewPrev");
+  const next=document.getElementById("previewNext");
+  const image=await getImage(item.key);
+  if(modalImage&&image)modalImage.src=image;
+  if(caption)caption.textContent=item.name||`Evidence photograph ${previewIndex+1}`;
+  if(previous)previous.disabled=previewItems.length<2;
+  if(next)next.disabled=previewItems.length<2;
+}
+
+function closeImagePreview(){
+  const modal=document.getElementById("imagePreviewModal");
+  modal?.classList.remove("open");
+  modal?.setAttribute("aria-hidden","true");
+  const image=document.getElementById("previewImage");
+  if(image)image.src="";
+}
+
+async function moveImagePreview(direction){
+  if(!previewItems.length)return;
+  previewIndex=(previewIndex+direction+previewItems.length)%previewItems.length;
+  await renderImagePreview();
+}
+
+async function openStoredFile(item){
+  try{
+    const file=await getFile(item.key);
+    if(!file){alert("This file could not be opened.");return}
+    const url=URL.createObjectURL(file);
+    window.open(url,"_blank");
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+  }catch(error){
+    console.error(error);
+    alert("This file could not be opened.");
+  }
+}
+
+function attachPreviewModalControls(){
+  const modal=document.getElementById("imagePreviewModal");
+  const close=document.getElementById("previewClose");
+  const previous=document.getElementById("previewPrev");
+  const next=document.getElementById("previewNext");
+
+  if(close&&!close.dataset.bound){
+    close.dataset.bound="1";
+    close.onclick=closeImagePreview;
+  }
+  if(previous&&!previous.dataset.bound){
+    previous.dataset.bound="1";
+    previous.onclick=()=>moveImagePreview(-1);
+  }
+  if(next&&!next.dataset.bound){
+    next.dataset.bound="1";
+    next.onclick=()=>moveImagePreview(1);
+  }
+  if(modal&&!modal.dataset.bound){
+    modal.dataset.bound="1";
+    modal.addEventListener("click",event=>{
+      if(event.target===modal)closeImagePreview();
+    });
+    let touchStartX=null;
+    modal.addEventListener("touchstart",event=>{
+      touchStartX=event.touches?.[0]?.clientX??null;
+    },{passive:true});
+    modal.addEventListener("touchend",event=>{
+      if(touchStartX===null)return;
+      const endX=event.changedTouches?.[0]?.clientX??touchStartX;
+      const diff=endX-touchStartX;
+      if(Math.abs(diff)>45)moveImagePreview(diff>0?-1:1);
+      touchStartX=null;
+    },{passive:true});
+  }
+}
+
+document.addEventListener("keydown",event=>{
+  const modal=document.getElementById("imagePreviewModal");
+  if(!modal?.classList.contains("open"))return;
+  if(event.key==="Escape")closeImagePreview();
+  if(event.key==="ArrowLeft")moveImagePreview(-1);
+  if(event.key==="ArrowRight")moveImagePreview(1);
+});
+
+
+function evidence(){
+  let migrated=false;
+  assignments.forEach(assignment=>{
+    state.evidence[assignment.id] ||= {};
+    const before=JSON.stringify(state.evidence[assignment.id]);
+    ensureUnifiedAssignmentEvidence(state.evidence[assignment.id],assignment);
+    if(before!==JSON.stringify(state.evidence[assignment.id]))migrated=true;
+  });
+  if(migrated)saveState(state);
+
+  const complete=assignments.filter(assignment=>assignmentStatus(assignment,state.evidence[assignment.id]).complete).length;
+
+  view().innerHTML=`<section class="card sticky-progress">
+    <div class="split"><b>Assignment progress</b><b>${Math.round(complete/assignments.length*100)}%</b></div>
+    <div class="progress"><div style="width:${complete/assignments.length*100}%"></div></div>
+  </section>
+
+  ${assignments.map(assignment=>{
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[assignment.id]||{},assignment);
+    const status=assignmentStatus(assignment,evidence);
+    const prompts=assignmentUnifiedPrompts(assignment);
+    const evidenceSummary=assignmentEvidenceSummary(assignment);
+    const generated=state.documents.find(doc=>doc.type==="Assignment Evidence Pack"&&doc.assignmentId===assignment.id);
+
+    return `<details class="card assignment streamlined-assignment" data-assignment-id="${assignment.id}" ${openAssignmentId===assignment.id?"open":""}>
+      <summary>
+        <span class="number ${status.complete?"status-complete":(status.hasAny?"status-some":"status-none")}">${assignment.id}</span>
+        <span><b>${assignment.title} <em data-status-label="${assignment.id}">– ${status.complete?"Complete":(status.hasAny?"In progress":"Not started")}</em></b></span>
+      </summary>
+
+      <div class="assignment-checklist compact-checklist">
+        <div data-check-photos="${assignment.id}" class="assignment-check ${status.photoCount>=3?"done":""}">${status.photoCount>=3?"✓":"○"} 3 Photos minimum</div>
+        <div data-check-statement="${assignment.id}" class="assignment-check ${status.statementDone?"done":""}">${status.statementDone?"✓":"○"} 100 word statement</div>
+        <div data-check-prompts="${assignment.id}" class="assignment-check ${status.promptsDone?"done":""}">${status.promptsDone?"✓":"○"} All Prompts met</div>
+        <div data-check-pdf="${assignment.id}" class="assignment-check ${status.pdfGenerated?"done":""}">${status.pdfGenerated?"✓":"○"} PDF generated</div>
+      </div>
+
+      <section class="combined-upload streamlined-evidence">
+        <div class="evidence-heading">
+          <b>📎 Evidence required</b>
+          <span data-photo-count="${assignment.id}">${status.photoCount}/3 minimum · 9 maximum</span>
+        </div>
+        <p class="evidence-summary">${evidenceSummary.join(", ")}.</p>
+
+        <button class="secondary" data-toggle-upload="${assignment.id}" ${status.itemCount>=9?"disabled":""}>+ Add Photo or File</button>
+        <div class="upload-menu" data-upload-menu="${assignment.id}">
+          <label class="upload-choice primary-choice">📷 Take a Photo
+            <input type="file" accept="image/*" capture="environment" data-combined-upload="${assignment.id}">
+          </label>
+          <label class="upload-choice">🖼️ Upload Photos
+            <input type="file" accept="image/*" multiple data-combined-upload="${assignment.id}">
+          </label>
+          <label class="upload-choice">📄 Upload Files
+            <input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv" multiple data-combined-upload="${assignment.id}">
+          </label>
+          <button type="button" class="secondary" data-close-upload="${assignment.id}">Cancel</button>
+        </div>
+
+        <div class="evidence-file-list">
+          ${(evidence.evidenceItems||[]).slice(0,9).map((item,index)=>`
+            <div class="evidence-thumb-card">
+              ${item.isImage
+                ? `<button class="evidence-thumb-btn" data-preview-image="${assignment.id}-${index}" aria-label="Preview ${item.name||`evidence image ${index+1}`}">
+                    <img data-thumb-key="${item.key}" alt="${item.name||`Evidence image ${index+1}`}">
+                  </button>`
+                : `<button class="file-open-btn" data-open-file="${assignment.id}-${index}">📄 Open file</button>`}
+              <div class="evidence-thumb-meta">
+                <b>${item.name||`Evidence item ${index+1}`}</b>
+                <small>${item.isImage?"Photograph":(item.type||"File")}</small>
+              </div>
+              <button class="danger" data-remove-combined="${assignment.id}-${index}">Remove</button>
+            </div>`).join("")}
+        </div>
+
+        <h3>Explain how you completed this activity</h3>
+        <p class="evidence-prompt">Explain what you did, how you completed the activity, the tools, equipment and materials used, how you worked safely, how you checked the finished work, and how you solved any problems.</p>
+        <div class="prompt-guide required-prompts">
+          <small><b>You MUST include these points in your answer.</b> They turn green when mentioned:</small>
+          <div class="prompt-chips">
+            ${prompts.map((prompt,index)=>`<span class="prompt-chip ${promptMatchedWithAliases(evidence.description||"",prompt.term)?"matched":""}" data-prompt-chip="unified-${assignment.id}-${index}" data-term="${prompt.term}">${prompt.label}</span>`).join("")}
+          </div>
+        </div>
+        <textarea class="prompt-textarea unified-statement" data-description="${assignment.id}" maxlength="7000" placeholder="Write one clear statement of at least 100 words.">${evidence.description||""}</textarea>
+        <small class="char-count word-count" data-description-count="${assignment.id}">${wordCount(evidence.description)} / 100 words minimum</small>
+        <span class="autosave-note">Everything saves automatically</span>
+      </section>
+
+      <div class="button-row streamlined-pdf-row">
+        <div>
+          ${generated
+            ? `<small class="pdf-generated-info"><b>PDF last generated on ${generatedDateTime(generated.date)}</b><br>PDF located in Portfolio &gt; Documents</small>`
+            : `<small class="pdf-generated-info">PDF not generated yet.<br>Generated PDFs will be located in Portfolio &gt; Documents</small>`}
+        </div>
+        <button class="primary" data-pdf="${assignment.id}" ${status.ready?"":"disabled"}>Generate PDF</button>
+      </div>
+    </details>`;
+  }).join("")}`;
+
+  view().querySelectorAll("details[data-assignment-id]").forEach(details=>{
+    details.addEventListener("toggle",()=>{
+      if(details.open)openAssignmentId=Number(details.dataset.assignmentId);
+      else if(openAssignmentId===Number(details.dataset.assignmentId))openAssignmentId=null;
+    });
+  });
+
+  view().querySelectorAll("[data-toggle-upload]").forEach(button=>button.onclick=()=>{
+    view().querySelector(`[data-upload-menu="${button.dataset.toggleUpload}"]`)?.classList.toggle("open");
+  });
+  view().querySelectorAll("[data-close-upload]").forEach(button=>button.onclick=()=>{
+    view().querySelector(`[data-upload-menu="${button.dataset.closeUpload}"]`)?.classList.remove("open");
+  });
+
+  attachPreviewModalControls();
+
+  view().querySelectorAll("[data-thumb-key]").forEach(async image=>{
+    const source=await getImage(image.dataset.thumbKey);
+    if(source)image.src=source;
+  });
+
+  view().querySelectorAll("[data-preview-image]").forEach(button=>button.onclick=async()=>{
+    const [id,index]=button.dataset.previewImage.split("-").map(Number);
+    const assignment=assignments.find(item=>item.id===id);
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id]||{},assignment);
+    const images=(evidence.evidenceItems||[]).filter(item=>item.isImage);
+    const clicked=evidence.evidenceItems[index];
+    const imageIndex=Math.max(0,images.findIndex(item=>item.key===clicked?.key));
+    await openImagePreview(images,imageIndex);
+  });
+
+  view().querySelectorAll("[data-open-file]").forEach(button=>button.onclick=async()=>{
+    const [id,index]=button.dataset.openFile.split("-").map(Number);
+    const assignment=assignments.find(item=>item.id===id);
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id]||{},assignment);
+    const item=evidence.evidenceItems[index];
+    if(item)await openStoredFile(item);
+  });
+
+  view().querySelectorAll("[data-combined-upload]").forEach(input=>input.onchange=async()=>{
+    const id=Number(input.dataset.combinedUpload);
+    const assignment=assignments.find(item=>item.id===id);
+    const files=[...(input.files||[])];
+    if(!files.length)return;
+
+    state.evidence[id] ||= {};
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id],assignment);
+    const available=Math.max(0,9-(evidence.evidenceItems||[]).length);
+    if(!available){
+      alert("A maximum of 9 evidence items can be added to each assignment.");
+      input.value="";
+      return;
+    }
+    const selected=files.slice(0,available);
+    if(files.length>available)alert(`Only ${available} more evidence item${available===1?"":"s"} can be added. The maximum is 9.`);
+
+    const labels=assignmentEvidencePrompts(assignment);
+    for(const file of selected){
+      const isImage=file.type.startsWith("image/");
+      const key=`assignment-combined-${id}-${Date.now()}-${Math.random().toString(36).slice(2,7)}`;
+      if(isImage)await putImage(key,await resizeImage(file));
+      else await putFile(key,file);
+      const requiredIndex=Math.min(evidence.evidenceItems.length,2);
+      evidence.evidenceItems.push({
+        key,imageKey:isImage?key:null,fileKey:isImage?null:key,
+        name:evidence.evidenceItems.length<3?labels[requiredIndex].label:(file.name||`Supporting evidence ${evidence.evidenceItems.length-2}`),
+        type:file.type||"File",size:file.size||0,isImage
+      });
+    }
+    state.lastAssignment=id;
+    saveState(state);
+    refreshEvidenceKeepingPlace(id);
+  });
+
+  view().querySelectorAll("[data-remove-combined]").forEach(button=>button.onclick=async()=>{
+    const [id,index]=button.dataset.removeCombined.split("-").map(Number);
+    const assignment=assignments.find(item=>item.id===id);
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id]||{},assignment);
+    const item=evidence.evidenceItems[index];
+    if(item?.key){try{await deleteImage(item.key)}catch(error){}}
+    evidence.evidenceItems.splice(index,1);
+    saveState(state);
+    refreshEvidenceKeepingPlace(id);
+  });
+
+  const timers={};
+
+  const setCheck=(selector,done,label)=>{
+    const element=view().querySelector(selector);
+    if(!element)return;
+    element.classList.toggle("done",done);
+    element.textContent=`${done?"✓":"○"} ${label}`;
+  };
+
+  const refreshIndicators=id=>{
+    const assignment=assignments.find(item=>item.id===Number(id));
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id]||{},assignment);
+    const status=assignmentStatus(assignment,evidence);
+
+    setCheck(`[data-check-photos="${id}"]`,status.photoCount>=3,"3 Photos minimum");
+    setCheck(`[data-check-statement="${id}"]`,status.statementDone,"100 word statement");
+    setCheck(`[data-check-prompts="${id}"]`,status.promptsDone,"All Prompts met");
+    setCheck(`[data-check-pdf="${id}"]`,status.pdfGenerated,"PDF generated");
+
+    const statusLabel=view().querySelector(`[data-status-label="${id}"]`);
+    if(statusLabel)statusLabel.textContent=`– ${status.complete?"Complete":(status.hasAny?"In progress":"Not started")}`;
+
+    const pdfButton=view().querySelector(`[data-pdf="${id}"]`);
+    if(pdfButton)pdfButton.disabled=!status.ready;
+
+    const number=view().querySelector(`[data-assignment-id="${id}"] .number`);
+    if(number){
+      number.classList.toggle("status-complete",status.complete);
+      number.classList.toggle("status-some",!status.complete&&status.hasAny);
+      number.classList.toggle("status-none",!status.hasAny);
+    }
+  };
+
+  const saveText=id=>{
+    const assignment=assignments.find(item=>item.id===Number(id));
+    if(!assignment)return;
+    state.evidence[id] ||= {};
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id],assignment);
+    const statement=view().querySelector(`[data-description="${id}"]`);
+    if(statement)evidence.description=statement.value;
+    if(!evidence.date)evidence.date=new Date().toISOString().slice(0,10);
+    state.lastAssignment=Number(id);
+    saveState(state);
+  };
+  const schedule=id=>{
+    clearTimeout(timers[id]);
+    timers[id]=setTimeout(()=>saveText(id),250);
+  };
+
+  view().querySelectorAll("[data-description]").forEach(box=>{
+    const id=Number(box.dataset.description);
+    const refresh=()=>{
+      state.evidence[id] ||= {};
+      const assignment=assignments.find(item=>item.id===id);
+      const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id],assignment);
+      evidence.description=box.value;
+
+      const count=wordCount(box.value);
+      const counter=view().querySelector(`[data-description-count="${id}"]`);
+      if(counter){
+        counter.textContent=`${count} / 100 words minimum`;
+        counter.classList.toggle("valid",count>=100);
+      }
+
+      view().querySelectorAll(`[data-prompt-chip^="unified-${id}-"]`).forEach(chip=>{
+        chip.classList.toggle("matched",promptMatchedWithAliases(box.value,chip.dataset.term));
+      });
+      refreshIndicators(id);
+    };
+    box.addEventListener("input",()=>{refresh();schedule(id)});
+    box.addEventListener("blur",()=>saveText(id));
+    refresh();
+  });
+
+  view().querySelectorAll("[data-pdf]").forEach(button=>button.onclick=async()=>{
+    const id=Number(button.dataset.pdf);
+    const assignment=assignments.find(item=>item.id===id);
+    saveText(id);
+    const evidence=ensureUnifiedAssignmentEvidence(state.evidence[id]||{},assignment);
+    if(!assignmentStatus(assignment,evidence).ready){
+      alert("Add at least 3 photographs, write at least 100 words, and make sure every required prompt has turned green.");
+      return;
+    }
+
+    const previewWindow=window.open("","_blank");
+    if(previewWindow)previewWindow.document.write("<p style='font-family:sans-serif;padding:20px'>Generating your PDF…</p>");
+
+    button.disabled=true;
+    button.textContent="Generating…";
+    const result=await downloadAssignmentPdf(assignment,evidence,state.profile);
+    if(!result){
+      if(previewWindow&&!previewWindow.closed)previewWindow.close();
+      button.disabled=false;
+      button.textContent="Generate PDF";
+      return;
+    }
+
+    const generatedAt=new Date().toISOString();
+    const fileKey=`assignment-pdf-${id}`;
+    await putFile(fileKey,result.blob);
+    const documentRecord={
+      id:`assignment-${id}`,
+      type:"Assignment Evidence Pack",
+      assignmentId:id,
+      title:`Assignment ${id} - ${assignment.title}`,
+      date:generatedAt,
+      fileKey,
+      fileName:result.fileName,
+      mimeType:"application/pdf"
+    };
+    state.documents=state.documents.filter(doc=>doc.id!==documentRecord.id);
+    state.documents.unshift(documentRecord);
+    state.evidence[id].pdfGeneratedAt=generatedAt;
+    saveState(state);
+
+    if(previewWindow&&!previewWindow.closed){
+      previewWindow.location.href=result.url;
+    }else{
+      const link=document.createElement("a");
+      link.href=result.url;
+      link.download=result.fileName;
+      link.click();
+    }
+    setTimeout(()=>URL.revokeObjectURL(result.url),60000);
+    refreshEvidenceKeepingPlace(id);
+  });
+}
+
+
+function formatLearningDuration(value){
+  if(!value)return "";
+  const [hours,minutes]=value.split(":").map(Number);
+  const parts=[];
+  if(hours)parts.push(`${hours} hour${hours===1?"":"s"}`);
+  if(minutes)parts.push(`${minutes} minute${minutes===1?"":"s"}`);
+  return parts.join(" ")||"0 minutes";
+}
+
+function otj(){
+  view().innerHTML=`<section class="card"><h2>Off-the-Job Learning</h2>
+    <div class="grid">
+      <label>Activity
+        <select id="otjActivity">
+          ${assignments.map(a=>`<option value="${a.title}">Assignment ${a.id}: ${a.title}</option>`).join("")}
+          <option value="Other">Other</option>
+        </select>
+      </label>
+      <label>Learning time (hours and minutes)<input id="otjHours" type="time" value="01:00" step="300"></label>
+    </div>
+    <label id="otjOtherWrap" class="hidden">Other activity<input id="otjOther" placeholder="Enter the activity"></label>
+    <label>Date<input id="otjDate" type="date"></label>
+    <label>What did you do?<textarea id="otjDid" placeholder="Describe the activity you completed."></textarea></label>
+    <label>What did you learn?<textarea id="otjLearned" placeholder="Describe the new knowledge or skill you developed."></textarea></label>
+    <label>How will this help you at work?<textarea id="otjHelp" placeholder="Explain how you will apply this learning at work."></textarea></label>
+    <button class="primary" id="buildOtj">Generate entry</button>
+  </section><section id="otjResult"></section>`;
+
+  const activitySelect=document.getElementById("otjActivity");
+  activitySelect.onchange=()=>document.getElementById("otjOtherWrap").classList.toggle("hidden",activitySelect.value!=="Other");
+  document.getElementById("otjDate").value=new Date().toISOString().slice(0,10);
+
+  document.getElementById("buildOtj").onclick=()=>{
+    const activity=activitySelect.value==="Other"?(document.getElementById("otjOther").value.trim()||"Other learning activity"):activitySelect.value;
+    const learningTime=formatLearningDuration(document.getElementById("otjHours").value);
+    const completed=document.getElementById("otjDid").value.trim();
+    const learned=document.getElementById("otjLearned").value.trim();
+    const help=document.getElementById("otjHelp").value.trim();
+    const entry=`Date: ${ukDate(document.getElementById("otjDate").value)}
+Learning Time: ${learningTime||"Not entered"}
+Activity: ${activity}
+
+I completed - ${completed||"Not entered"}
+
+I learned - ${learned||"Not entered"}
+
+This will help me at work by - ${help||"Not entered"}`;
+    document.getElementById("otjResult").innerHTML=`<section class="card"><h3>Generated off-the-job learning entry</h3><textarea id="otjDraft">${entry}</textarea><button class="primary" id="copyOtj">📋 Copy Entry</button></section>`;
+    document.getElementById("copyOtj").onclick=async()=>{
+      await navigator.clipboard?.writeText(document.getElementById("otjDraft").value);
+      document.getElementById("copyOtj").textContent="Copied ✓";
+    };
+  };
+}
+
+function calculateDuration(start,finish){
+  if(!start||!finish)return "";
+  const [sh,sm]=start.split(":").map(Number);
+  const [fh,fm]=finish.split(":").map(Number);
+  let minutes=(fh*60+fm)-(sh*60+sm);
+  if(minutes<0)minutes+=24*60;
+  const hours=Math.floor(minutes/60);
+  const mins=minutes%60;
+  return `${hours?hours+" hour"+(hours===1?"":"s"):""}${hours&&mins?" ":""}${mins?mins+" minutes":""}`||"0 minutes";
+}
+function practical(){
+  view().innerHTML=`<section class="card"><span class="eyebrow">PRACTICAL ASSESSMENT</span><h2>Practical Marking</h2><p>The learner completes the self-mark first. The assessor can then mark the same wall and the PDF will compare both sets of judgements.</p><label>Task<select id="practicalTask">${practicalTasks.map((t,i)=>`<option value="${i}">${t.name}</option>`).join("")}</select></label></section><section id="practicalForm"></section>`;
+  const draw=()=>{
+    const task=practicalTasks[Number(document.getElementById("practicalTask").value)];
+    const record=state.practical[task.name]||{criteria:{},assessorCriteria:{}};
+    document.getElementById("practicalForm").innerHTML=`<section class="card"><h3>${task.name}</h3>${task.name==="Other"?`<label>Describe the practical task<input id="otherPracticalName" value="${record.customTaskDescription||""}" placeholder="e.g. Decorative garden wall with pier"></label>`:""}
+      <div class="grid">
+        <label>Time started<input id="timeStarted" type="time" value="${record.timeStarted||""}"></label>
+        <label>Time finished<input id="timeFinished" type="time" value="${record.timeFinished||""}"></label>
+        <label>Calculated time spent<input id="timeTaken" value="${record.timeTaken||""}" readonly></label>
+        <div><div class="upload-guide"><b>Before adding the practical photo:</b><ul><li>Show the complete work</li><li>Include a clear view of bond and finish</li><li>Make sure the image is well lit</li></ul></div><div class="upload-actions"><label class="upload-choice primary-choice">📷 Take Photo<input id="practicalCamera" type="file" accept="image/*" capture="environment"></label><label class="upload-choice">🖼️ Choose Existing Photo<input id="practicalPhoto" type="file" accept="image/*"></label></div></div>
+      </div>
+      <div class="assessment-columns">
+        <section class="assessment-panel learner-panel"><h3>Learner self-mark</h3><p class="muted">Rate your own finished work honestly.</p>
+          <div class="criteria">${task.criteria.map(c=>`<label>${c}<select data-learner-criterion="${c}">${["","Excellent","Good","Needs improvement","Not checked"].map(v=>`<option ${record.criteria?.[c]===v?"selected":""}>${v}</option>`).join("")}</select></label>`).join("")}</div>
+          <label>Learner reflection and improvement target<textarea id="practicalReflection">${record.reflection||""}</textarea></label>
+        </section>
+        <section class="assessment-panel assessor-panel"><h3>Assessor mark</h3><p class="muted">To be completed by the tutor or assessor after inspecting the same wall.</p>
+          <div class="grid compact-grid">
+            <label>Assessor name<input id="assessorName" value="${record.assessorName||state.profile.assessor||""}"></label>
+            <label>Assessment date<input id="assessorDate" type="date" value="${record.assessorDate||""}"></label>
+          </div>
+          <div class="criteria">${task.criteria.map(c=>`<label>${c}<select data-assessor-criterion="${c}">${["","Excellent","Good","Needs improvement","Not checked"].map(v=>`<option ${record.assessorCriteria?.[c]===v?"selected":""}>${v}</option>`).join("")}</select></label>`).join("")}</div>
+          <label>Assessor feedback<textarea id="assessorComments">${record.assessorComments||""}</textarea></label>
+          <div class="signature-wrap">
+            <b>Assessor signature</b>
+            <canvas id="assessorSignaturePad" class="signature-pad"></canvas>
+            <button type="button" class="secondary" id="clearAssessorSignature">Clear signature</button>
+          </div>
+        </section>
+      </div>
+      <div class="comparison-preview" id="comparisonPreview"></div>
+      <button class="primary" id="savePractical">Save and create comparison PDF</button>
+    </section>`;
+    const updateTime=()=>{document.getElementById("timeTaken").value=calculateDuration(document.getElementById("timeStarted").value,document.getElementById("timeFinished").value)};
+    const scoreOf=criteria=>{const vals=Object.values(criteria).filter(v=>["Excellent","Good","Needs improvement"].includes(v));return vals.length?Math.round(vals.reduce((n,v)=>n+(v==="Excellent"?3:v==="Good"?2:1),0)/(vals.length*3)*100):0};
+    const drawComparison=()=>{
+      const learner={};document.querySelectorAll("[data-learner-criterion]").forEach(s=>learner[s.dataset.learnerCriterion]=s.value);
+      const assessor={};document.querySelectorAll("[data-assessor-criterion]").forEach(s=>assessor[s.dataset.assessorCriterion]=s.value);
+      const learnerScore=scoreOf(learner),assessorScore=scoreOf(assessor),difference=assessorScore-learnerScore;
+      document.getElementById("comparisonPreview").innerHTML=`<div><span>Learner score</span><strong>${learnerScore}%</strong></div><div><span>Assessor score</span><strong>${assessorScore}%</strong></div><div><span>Difference</span><strong>${difference>0?"+":""}${difference}%</strong></div>`;
+    };
+    document.getElementById("timeStarted").oninput=updateTime;document.getElementById("timeFinished").oninput=updateTime;
+    document.querySelectorAll("[data-learner-criterion],[data-assessor-criterion]").forEach(s=>s.onchange=drawComparison);
+    updateTime();drawComparison();
+    const assessorSignaturePad=document.getElementById("assessorSignaturePad");
+    if(assessorSignaturePad){
+      const ctx=assessorSignaturePad.getContext("2d");
+      const width=assessorSignaturePad.clientWidth||600;
+      const height=170;
+      const ratio=Math.max(window.devicePixelRatio||1,1);
+      assessorSignaturePad.width=width*ratio;
+      assessorSignaturePad.height=height*ratio;
+      ctx.scale(ratio,ratio);
+      ctx.lineWidth=2;
+      ctx.lineCap="round";
+      ctx.strokeStyle="#202630";
+
+      if(record.assessorSignature){
+        const savedSignature=new Image();
+        savedSignature.onload=()=>ctx.drawImage(savedSignature,0,0,width,height);
+        savedSignature.src=record.assessorSignature;
+      }
+
+      let drawing=false;
+      const point=e=>{
+        const rect=assessorSignaturePad.getBoundingClientRect();
+        const source=e.touches?.[0]||e;
+        return {x:source.clientX-rect.left,y:source.clientY-rect.top};
+      };
+      const begin=e=>{
+        drawing=true;
+        const p=point(e);
+        ctx.beginPath();
+        ctx.moveTo(p.x,p.y);
+        e.preventDefault();
+      };
+      const move=e=>{
+        if(!drawing)return;
+        const p=point(e);
+        ctx.lineTo(p.x,p.y);
+        ctx.stroke();
+        e.preventDefault();
+      };
+      const finish=e=>{
+        if(!drawing)return;
+        drawing=false;
+        record.assessorSignature=assessorSignaturePad.toDataURL("image/png");
+        e?.preventDefault?.();
+      };
+
+      assessorSignaturePad.addEventListener("pointerdown",begin);
+      assessorSignaturePad.addEventListener("pointermove",move);
+      assessorSignaturePad.addEventListener("pointerup",finish);
+      assessorSignaturePad.addEventListener("pointerleave",finish);
+      assessorSignaturePad.addEventListener("touchstart",begin,{passive:false});
+      assessorSignaturePad.addEventListener("touchmove",move,{passive:false});
+      assessorSignaturePad.addEventListener("touchend",finish,{passive:false});
+
+      document.getElementById("clearAssessorSignature").onclick=()=>{
+        ctx.clearRect(0,0,width,height);
+        record.assessorSignature="";
+      };
+    }
+    document.getElementById("savePractical").onclick=async()=>{
+      const criteria={};document.querySelectorAll("[data-learner-criterion]").forEach(s=>criteria[s.dataset.learnerCriterion]=s.value);
+      const assessorCriteria={};document.querySelectorAll("[data-assessor-criterion]").forEach(s=>assessorCriteria[s.dataset.assessorCriterion]=s.value);
+      let imageKey=record.imageKey||"";const file=document.getElementById("practicalPhoto").files[0]||document.getElementById("practicalCamera").files[0];if(file){imageKey=`practical-${Date.now()}`;await putImage(imageKey,await resizeImage(file))}
+      const timeStarted=document.getElementById("timeStarted").value,timeFinished=document.getElementById("timeFinished").value,timeTaken=calculateDuration(timeStarted,timeFinished);
+      const saved={criteria,assessorCriteria,timeStarted,timeFinished,timeTaken,customTaskDescription:task.name==="Other"?(document.getElementById("otherPracticalName")?.value.trim()||"Other practical task"):"",reflection:document.getElementById("practicalReflection").value.trim(),assessorName:document.getElementById("assessorName").value.trim(),assessorDate:document.getElementById("assessorDate").value,assessorComments:document.getElementById("assessorComments").value.trim(),assessorSignature:record.assessorSignature||"",imageKey,score:scoreOf(criteria),assessorScore:scoreOf(assessorCriteria),date:new Date().toISOString()};
+      state.practical[task.name]=saved;state.documents.unshift({id:`practical-${Date.now()}`,type:"Practical Comparison Assessment",title:task.name,date:new Date().toISOString(),taskName:task.name});saveState(state);
+      await downloadPracticalPdf(task.name,saved,improvementGuidance,state.profile);
+    };
+  };
+  draw();document.getElementById("practicalTask").onchange=draw;
+}
+
+
+function assignmentQuizQuestions(assignment){
+  const file=assignmentBanks[assignment.id];
+  const bank=file?.questions||assignmentQuestionBank.filter(q=>q.assignment===assignment.id);
+  return bank.slice(0,file?.fixedQuestionCount||10);
+}
+let quizState=null;
+function assignmentQuiz(){
+  const completedAssignments=assignments.filter(a=>assignmentStatus(a,state.evidence[a.id]).complete && assignmentQuestionBank.some(q=>q.assignment===a.id));
+  const history=state.quizHistory||[];
+  const bestFor=id=>Math.max(0,...history.filter(x=>x.assignmentId===id).map(x=>x.score));
+  view().innerHTML=`<section class="card quiz-intro"><span class="eyebrow">TARGETED KNOWLEDGE PRACTICE</span><h2>Assignment Quizzes</h2><p>Complete a quiz linked to each finished assignment. Pass mark: 80%.</p></section>
+  <section class="card"><div class="section-heading"><div><h3>Available Quizzes</h3><p>Quizzes unlock when the related assignment evidence pack is complete.</p></div><span class="count-pill">${completedAssignments.length}/20 unlocked</span></div>
+  ${completedAssignments.length?completedAssignments.map(a=>{const best=bestFor(a.id);return `<div class="quiz-unlock"><div><b>Assignment ${a.id}: ${a.title}</b><small>${best?`Best score ${best}%`:`10 questions • Not attempted`}</small></div><button class="${best>=80?"secondary":"primary"}" data-assignment-quiz="${a.id}">${best>=80?"Try again":"Start quiz"}</button></div>`}).join(""):'<div class="empty-state"><b>No quizzes unlocked yet</b><p>Complete an assignment evidence pack to unlock its quiz.</p></div>'}
+  </section>`;
+  view().querySelectorAll("[data-assignment-quiz]").forEach(btn=>btn.onclick=()=>startAssignmentQuiz(assignments.find(a=>a.id===Number(btn.dataset.assignmentQuiz))));
+}
+
+function epaKnowledge(){
+  const history=state.quizHistory||[];
+  const epaRecords=history.filter(x=>x.epaReadiness);
+  const epaBest=Math.max(0,...epaRecords.map(x=>x.score));
+  view().innerHTML=`<section class="card quiz-intro"><span class="eyebrow">FINAL KNOWLEDGE CHECK</span><h2>EPA Knowledge Mock</h2><p>Complete one 40-question scenario-based assessment covering the knowledge and professional judgement expected at EPA.</p></section>
+  <section class="card"><div class="grid"><div class="metric"><span>Questions</span><strong>40</strong><small>Random answer order</small></div><div class="metric"><span>Best result</span><strong>${epaBest||"—"}${epaBest?"%":""}</strong><small>${epaRecords.length?`${epaRecords.length} attempt${epaRecords.length===1?"":"s"}`:"Not attempted"}</small></div></div><p class="locked">Answers and explanations are shown only after the assessment is finished.</p><button class="primary" id="startReadiness">Start EPA Knowledge Mock</button></section>`;
+  document.getElementById("startReadiness").onclick=startEpaReadiness;
+}
+
+function startQuiz(count){
+  quizState={
+    pool:assignmentQuestionBank.slice(0,count).map(shuffleQuestion),
+    index:0,
+    answers:[],
+    selected:null
+  };
+  quizQuestion();
+}
+function startEpaReadiness(){
+  quizState={pool:epaReadinessBank.map(shuffleQuestion).sort(()=>Math.random()-.5),index:0,answers:[],selected:null,epaReadiness:true,epaTitle:"EPA Knowledge Mock",returnRoute:"epaKnowledge"};
+  quizQuestion();
+}
+function startAssignmentQuiz(assignment){
+  quizState={
+    pool:assignmentQuizQuestions(assignment).map(shuffleQuestion),
+    index:0,
+    answers:[],
+    selected:null,
+    assignmentId:assignment.id,
+    returnRoute:"assignmentQuiz"
+  };
+  quizQuestion();
+}
+function quizQuestion(){
+  const q=quizState.pool[quizState.index];
+  view().innerHTML=`<section class="card quiz-question"><div class="quiz-meta"><span>${quizState.assignmentId?`Assignment ${quizState.assignmentId} Refresh`:quizState.epaTitle||"Quiz"}</span><b>Question ${quizState.index+1} of ${quizState.pool.length}</b></div><div class="quiz-progress"><i style="width:${(quizState.index)/quizState.pool.length*100}%"></i></div><div class="tag-row"><span>${q.topic||"General"}</span>${q.difficulty?`<span>${q.difficulty}</span>`:""}${q.ksbs?.length?`<span>${q.ksbs.join(" • ")}</span>`:""}</div><h2>${q.q}</h2>${q.options.map((o,i)=>`<button class="quiz-option" data-option="${i}"><span>${String.fromCharCode(65+i)}</span>${o}</button>`).join("")}<button class="primary confirm-wide" id="confirmQuiz" disabled>Confirm answer</button></section>`;
+  view().querySelectorAll("[data-option]").forEach(b=>b.onclick=()=>{quizState.selected=Number(b.dataset.option);view().querySelectorAll("[data-option]").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");document.getElementById("confirmQuiz").disabled=false});
+  document.getElementById("confirmQuiz").onclick=()=>quizFeedback(q);
+}
+function quizFeedback(q){
+  const correct=quizState.selected===q.answer;
+  const acceptable=quizState.selected===q.acceptable;
+  quizState.answers.push({q,correct,acceptable,selected:quizState.selected});
+  if(!correct&&!state.wrong.some(x=>x.q===q.q))state.wrong.push(q);
+  if(correct)state.wrong=state.wrong.filter(x=>x.q!==q.q);
+  saveState(state);
+  if(quizState.epaReadiness){quizState.index++;if(quizState.index>=quizState.pool.length)quizResult();else quizQuestion();return}
+  view().innerHTML=`<section class="card ${correct?"correct":"wrong"}"><h2>${correct?"Correct":acceptable?"Acceptable, but not the best answer":"Revision needed"}</h2><p><b>${q.options[q.answer]}</b></p><p>${q.explanation}</p><button class="primary" id="nextQuiz">${quizState.index===quizState.pool.length-1?"View result":"Next"}</button></section>`;
+  document.getElementById("nextQuiz").onclick=()=>{quizState.index++;if(quizState.index>=quizState.pool.length)quizResult();else quizQuestion()};
+}
+
+async function downloadEpaKnowledgeMockPdf(result,profile){
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF({unit:"mm",format:"a4"});
+  const margin=14,contentW=182,pageBottom=274;
+  const header=()=>addHeader(pdf,"EPA Knowledge Mock","Multiple-Choice Readiness Report");
+  const newPage=()=>{pdf.addPage();header();return 40};
+  const ensure=(y,h)=>y+h>pageBottom?newPage():y;
+
+  header();
+  let y=40;
+  y=detailBox(pdf,[
+    ["Learner",profile.learner||"Not entered"],
+    ["Date",pdfUkDate()],
+    ["Score",`${result.score}%`],
+    ["Readiness",result.band]
+  ],y);
+
+  y=sectionTitle(pdf,"Assessment Summary",y);
+  pdf.setFont("helvetica","bold");
+  pdf.setFontSize(11);
+  pdf.text(`${result.correct} of ${result.total} best answers selected`,margin,y);
+  y+=8;
+  pdf.setFont("helvetica","normal");
+  pdf.setFontSize(8.5);
+  const summaryLines=pdf.splitTextToSize(result.summary,contentW);
+  pdf.text(summaryLines,margin,y);
+  y+=summaryLines.length*4+8;
+
+  if(result.weak.length){
+    y=sectionTitle(pdf,"Priority Revision Topics",ensure(y,18));
+    result.weak.forEach((item,index)=>{
+      const lines=pdf.splitTextToSize(`${index+1}. ${item.topic} — ${item.pct}%`,contentW);
+      y=ensure(y,lines.length*4+3);
+      pdf.setFont("helvetica","normal");
+      pdf.setFontSize(8.5);
+      pdf.text(lines,margin,y);
+      y+=lines.length*4+3;
+    });
+    y+=4;
+  }
+
+  if(result.wrong.length){
+    y=sectionTitle(pdf,"Questions to Review",ensure(y,18));
+    result.wrong.forEach((answer,index)=>{
+      const parts=[
+        `${index+1}. ${answer.q.topic||"General"}: ${answer.q.q}`,
+        `Best answer: ${answer.q.options[answer.q.answer]}`,
+        `Explanation: ${answer.q.explanation}`
+      ];
+      const lines=pdf.splitTextToSize(parts.join("\n"),contentW-8);
+      const height=lines.length*4+9;
+      y=ensure(y,height+3);
+      pdf.setFillColor(index%2?247:239,index%2?248:242,index%2?250:245);
+      pdf.roundedRect(margin,y-3,contentW,height,2,2,"F");
+      pdf.setFont("helvetica","normal");
+      pdf.setFontSize(8);
+      pdf.text(lines,margin+4,y+2);
+      y+=height+4;
+    });
+  }
+
+  addFooter(pdf);
+  const blob=await saveGeneratedPdfToDocuments(pdf,"EPA Knowledge Mock","EPA Knowledge Mock");
+  downloadBlob(blob,"EPA-Knowledge-Mock.pdf");
+}
+
+function quizResult(){
+  const correct=quizState.answers.filter(x=>x.correct).length;
+  const score=Math.round(correct/quizState.answers.length*100);
+  state.quizHistory.unshift({date:new Date().toISOString(),score,correct,total:quizState.answers.length,assignmentId:quizState.assignmentId||null,epaReadiness:!!quizState.epaReadiness});saveState(state);
+  if(!quizState.epaReadiness){const passed=score>=80;view().innerHTML=`<section class="card result-card ${passed?"passed":"review"}"><h2>${passed?"Well done":"Keep revising"}</h2><div class="score">${score}%</div><p><b>${correct} of ${quizState.answers.length}</b> correct.</p><div class="button-row"><button class="secondary" data-route="${quizState.returnRoute||"assignmentQuiz"}">Back</button><button class="primary" data-route="cards">Open revision cards</button></div></section>`;return}
+  const band=score>=90?["EPA Ready","You have demonstrated strong and consistent knowledge across the assessment."]:score>=75?["Nearly EPA Ready","You are performing well. Focus on the weaker topics before the EPA."]:score>=60?["Developing","You have a reasonable foundation but need further targeted revision."]:["Needs Significant Revision","There are important knowledge gaps to address before EPA."];
+  const topicMap={};quizState.answers.forEach(a=>{const t=a.q.topic||"General";topicMap[t]??={right:0,total:0};topicMap[t].total++;if(a.correct)topicMap[t].right++});
+  const weak=Object.entries(topicMap).map(([topic,v])=>({topic,pct:Math.round(v.right/v.total*100)})).sort((a,b)=>a.pct-b.pct).slice(0,5);
+  const wrong=quizState.answers.filter(a=>!a.correct);
+  const knowledgeResult={score,correct,total:quizState.answers.length,band:band[0],summary:band[1],weak,wrong};
+  state.latestEpaKnowledgeResult=knowledgeResult;
+  saveState(state);
+  view().innerHTML=`<section class="card result-card ${score>=90?"passed":"review"}"><span class="eyebrow">EPA READINESS</span><h2>${band[0]}</h2><div class="score">${score}%</div><p><b>${correct} of 40</b> best answers selected.</p><p>${band[1]}</p></section><section class="card"><h3>Areas to revise</h3>${weak.map(x=>`<div class="split"><span>${x.topic}</span><b>${x.pct}%</b></div><div class="progress"><div style="width:${x.pct}%"></div></div>`).join("")}</section><section class="card"><h3>Questions to review</h3>${wrong.length?wrong.map((a,i)=>`<details class="question-box"><summary><b>${i+1}. ${a.q.topic}</b> — ${a.acceptable?"Acceptable answer chosen":"Incorrect answer"}</summary><p>${a.q.q}</p><p><b>Best answer:</b> ${a.q.options[a.q.answer]}</p><p>${a.q.explanation}</p></details>`).join(""):'<p>Excellent — no incorrect answers to review.</p>'}<div class="button-row"><button class="secondary" data-route="${quizState.returnRoute||"epaKnowledge"}">Back</button><button class="secondary" id="downloadEpaKnowledgeReport">Download PDF</button><button class="primary" data-route="cards">Open revision cards</button></div></section>`;
+  document.getElementById("downloadEpaKnowledgeReport").onclick=()=>downloadEpaKnowledgeMockPdf(knowledgeResult,state.profile);
+}
+
+function cards(){
+  if(!state.wrong.length){view().innerHTML=`<section class="card"><h2>Revision</h2><p>No revision cards are waiting.</p></section>`;return}
+  let index=0;
+  const draw=()=>{
+    const q=state.wrong[index];
+    view().innerHTML=`<section class="card flashcard" id="flashcard"><div class="front"><h2>${q.q}</h2><p>Tap to reveal</p></div><div class="back"><h2>${q.options[q.answer]}</h2><p>${q.explanation}</p></div></section><div class="button-row"><button class="secondary" id="previousCard">Previous</button><button class="primary" id="knownCard">I know this now</button><button class="secondary" id="nextCard">Next</button></div>`;
+    document.getElementById("flashcard").onclick=e=>e.currentTarget.classList.toggle("revealed");
+    document.getElementById("previousCard").onclick=()=>{index=(index-1+state.wrong.length)%state.wrong.length;draw()};
+    document.getElementById("nextCard").onclick=()=>{index=(index+1)%state.wrong.length;draw()};
+    document.getElementById("knownCard").onclick=()=>{state.wrong.splice(index,1);saveState(state);if(!state.wrong.length)cards();else{index%=state.wrong.length;draw()}};
+  };
+  draw();
+}
+
+function ksb(){
+  const all=[...new Set(Object.values(assignmentKsbMap).flat())].sort((a,b)=>{
+    const typeOrder={K:0,S:1,B:2};
+    return typeOrder[a[0]]-typeOrder[b[0]] || Number(a.slice(1))-Number(b.slice(1));
+  });
+  const completedIds=assignments.filter(a=>assignmentStatus(a,state.evidence[a.id]).complete).map(a=>a.id);
+  const quizPassedIds=[...new Set((state.quizHistory||[]).filter(x=>x.assignmentId&&x.score>=80).map(x=>x.assignmentId))];
+
+  const statusFor=ksb=>{
+    const linked=Object.entries(assignmentKsbMap).filter(([,list])=>list.includes(ksb)).map(([id])=>Number(id));
+    const evidence=linked.some(id=>completedIds.includes(id));
+    const quiz=linked.some(id=>quizPassedIds.includes(id));
+    return {linked,evidence,quiz,status:evidence&&quiz?"Achieved":evidence?"Evidence complete":"Not started"};
+  };
+
+  const groups={Knowledge:all.filter(x=>x.startsWith("K")),Skills:all.filter(x=>x.startsWith("S")),Behaviours:all.filter(x=>x.startsWith("B"))};
+  view().innerHTML=`<section class="card"><h2>KSB Progress</h2><p>This tracker is a learner guide. Formal KSB sign-off remains the responsibility of the assessor in Aptem.</p></section>
+  ${Object.entries(groups).map(([group,list])=>{
+    const achieved=list.filter(k=>statusFor(k).status==="Achieved").length;
+    return `<section class="card"><div class="split"><h3>${group}</h3><b>${achieved}/${list.length} achieved</b></div>
+      <div class="ksb-grid">${list.map(k=>{const s=statusFor(k);return `<details class="ksb-card ${s.status==="Achieved"?"achieved":s.evidence?"progressing":""}">
+        <summary><b>${k}</b><span>${s.status}</span></summary>
+        <p><b>Linked assignments:</b> ${s.linked.join(", ")}</p>
+        <p>${s.evidence?"✓ Assignment evidence completed":"○ Assignment evidence not completed"}</p>
+        <p>${s.quiz?"✓ Relevant assignment quiz passed at 80%+":"○ Relevant quiz not yet passed at 80%+"}</p>
+      </details>`}).join("")}</div>
+    </section>`;
+  }).join("")}`;
+}
+function witness(){
+  view().innerHTML=`<section class="card hero"><span class="eyebrow">WORKPLACE EVIDENCE</span><h2>Employer Hub</h2><p>Employers, supervisors and competent witnesses can create and sign a testimony confirming work they personally observed.</p><button class="primary" id="startWitness">Create witness testimony</button></section>
+  <section class="card"><h3>Saved witness testimonies</h3>${state.documents.filter(d=>d.type==="Witness Testimony").length?state.documents.filter(d=>d.type==="Witness Testimony").map(doc=>`<div class="doc"><div><b>${doc.title}</b><small>${new Date(doc.date).toLocaleDateString("en-GB")}</small></div><button class="secondary" data-witness-download="${doc.id}">Download PDF</button></div>`).join(""):`<p>No witness testimonies saved yet.</p>`}</section>`;
+  document.getElementById("startWitness").onclick=()=>witnessForm();
+  view().querySelectorAll("[data-witness-download]").forEach(b=>b.onclick=async()=>{const doc=state.documents.find(x=>x.id===b.dataset.witnessDownload);if(doc)await downloadWitnessPdf(doc,state.profile)});
+}
+
+function documents(){
+  view().innerHTML=`<section class="card"><h2>My Documents</h2>
+    <p>Generated and uploaded documents are stored on this device. Download important files before clearing browser data.</p>
+    <div class="button-row"><button class="secondary" id="uploadExternal">Upload external document</button></div><input id="externalFile" class="hidden" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xlsx,.xls">
+  </section>
+  ${state.documents.length?state.documents.map(doc=>`<section class="card doc">
+    <div><b>${doc.title}</b><small>${doc.type} • ${new Date(doc.date).toLocaleDateString("en-GB")}</small></div>
+    <div><button class="secondary" data-open-document="${doc.id}">Open PDF</button><button class="secondary" data-redownload="${doc.id}">Download PDF</button><button class="danger" data-delete="${doc.id}">Delete</button></div>
+  </section>`).join(""):'<section class="card"><p>No documents saved yet.</p></section>'}`;
+
+  document.getElementById("uploadExternal").onclick=()=>document.getElementById("externalFile").click();
+  document.getElementById("externalFile").onchange=async()=>{
+    const file=document.getElementById("externalFile").files[0];
+    if(!file)return;
+    const key=`external-${Date.now()}-${file.name}`;
+    await putFile(key,file);
+    state.documents.unshift({id:`external-${Date.now()}`,type:"External Document",title:file.name,date:new Date().toISOString(),fileKey:key,mime:file.type});
+    saveState(state);
+    documents();
+  };
+
+  view().querySelectorAll("[data-open-document]").forEach(b=>b.onclick=async()=>{
+    const doc=state.documents.find(x=>x.id===b.dataset.openDocument);
+    if(!doc)return;
+
+    if(doc.fileKey){
+      const file=await getFile(doc.fileKey);
+      if(!file){alert("The saved PDF could not be found on this device.");return}
+      openBlob(file);
+      return;
+    }
+
+    if(doc.type==="Assignment Evidence Pack"){
+      const assignment=assignments.find(x=>x.id===doc.assignmentId);
+      const result=await downloadAssignmentPdf(assignment,state.evidence[doc.assignmentId]||{},state.profile);
+      if(result)openBlob(result.blob);
+      return;
+    }
+
+    if(doc.type==="Witness Testimony"){
+      await downloadWitnessPdf(doc,state.profile,"open");
+      return;
+    }
+  });
+
+  view().querySelectorAll("[data-redownload]").forEach(b=>b.onclick=async()=>{
+    const doc=state.documents.find(x=>x.id===b.dataset.redownload);
+    if(doc.fileKey){
+      const file=await getFile(doc.fileKey);
+      if(!file){alert("This saved file could not be found on this device.");return}
+      const url=URL.createObjectURL(file);
+      const a=document.createElement("a");
+      a.href=url;
+      a.download=doc.filename||(`${doc.title}.pdf`);
+      a.click();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+    }else if(doc.type==="Assignment Evidence Pack"){
+      const assignment=assignments.find(x=>x.id===doc.assignmentId);
+      const result=await downloadAssignmentPdf(assignment,state.evidence[doc.assignmentId]||{},state.profile);
+      if(result)downloadBlob(result.blob,result.filename);
+    }else if(doc.type==="Witness Testimony"){
+      await downloadWitnessPdf(doc,state.profile,"download");
+    }else if(doc.type==="External Document"){
+      const file=await getFile(doc.fileKey);
+      const url=URL.createObjectURL(file);
+      const a=document.createElement("a");a.href=url;a.download=doc.title;a.click();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+    }else{
+      await downloadPracticalPdf(doc.taskName,state.practical[doc.taskName],improvementGuidance,state.profile);
+    }
+  });
+
+  view().querySelectorAll("[data-delete]").forEach(b=>b.onclick=async()=>{
+    const doc=state.documents.find(x=>x.id===b.dataset.delete);
+    if(doc?.fileKey){
+      try{await deleteFile(doc.fileKey)}catch(e){}
+    }
+    state.documents=state.documents.filter(x=>x.id!==b.dataset.delete);
+    saveState(state);
+    documents();
+  });
+}
+
+function witnessForm(){
+  view().innerHTML=`<section class="card"><h2>Witness Testimony</h2>
+    <div class="locked"><b>Important:</b> This should be completed and signed directly by the employer or competent witness. The app cannot independently verify identity, so the assessor should check witness details.</div>
+    <div class="grid">
+      <label>Learner name<input id="wtLearner" value="${state.profile.learner||""}"></label>
+      <label>Date observed<input id="wtDate" type="date"></label>
+      <label>Witness name<input id="wtName"></label>
+      <label>Job role<input id="wtRole"></label>
+      <label>Company<input id="wtCompany" value="${state.profile.employer||""}"></label>
+      <label>Contact email<input id="wtEmail" type="email"></label>
+    </div>
+    <label>Assignment / activity<input id="wtActivity" placeholder="e.g. Assignment 17 - Cavity wall with opening"></label>
+    <label>What did you personally observe the learner doing?<textarea id="wtObserved"></textarea></label>
+    <label>How did the learner demonstrate safe working, skill, quality and independence?<textarea id="wtComments"></textarea></label>
+    <label><input id="wtDeclaration" type="checkbox" style="width:auto"> I confirm this testimony is accurate and based on work I personally observed.</label>
+    <label>Witness signature</label>
+    <div class="signature-wrap">
+      <canvas id="witnessSignature" class="signature-pad"></canvas>
+      <button class="secondary" id="clearWitnessSignature">Clear signature</button>
+    </div>
+    <div class="button-row">
+      <button class="secondary" data-route="witness">Cancel</button>
+      <button class="primary" id="saveWitness">Save and download PDF</button>
+    </div>
+  </section>`;
+
+  const getWitnessSignature=setupSignaturePad(
+    document.getElementById("witnessSignature"),
+    document.getElementById("clearWitnessSignature")
+  );
+
+  document.getElementById("saveWitness").onclick=async()=>{
+    if(!document.getElementById("wtDeclaration").checked){
+      alert("The witness must confirm the declaration.");
+      return;
+    }
+    const doc={
+      id:`witness-${Date.now()}`,
+      type:"Witness Testimony",
+      title:document.getElementById("wtActivity").value.trim()||"Witness Testimony",
+      date:new Date().toISOString(),
+      data:{
+        learner:document.getElementById("wtLearner").value.trim(),
+        observedDate:document.getElementById("wtDate").value,
+        witness:document.getElementById("wtName").value.trim(),
+        role:document.getElementById("wtRole").value.trim(),
+        company:document.getElementById("wtCompany").value.trim(),
+        email:document.getElementById("wtEmail").value.trim(),
+        activity:document.getElementById("wtActivity").value.trim(),
+        observed:document.getElementById("wtObserved").value.trim(),
+        comments:document.getElementById("wtComments").value.trim(),
+        signature:getWitnessSignature(),
+        declaration:"I confirm this testimony is accurate and based on work I personally observed."
+      }
+    };
+    state.documents.unshift(doc);
+    saveState(state);
+    await downloadWitnessPdf(doc,state.profile,"download");
+    setRoute("witness");
+  };
+}
+
+
+async function phase3ClearLocalData(){
+  if(!confirm("Delete all Apprentice+ data stored on this device? Download any PDFs or evidence you need first."))return;
+  if(!confirm("This will remove saved assignment work, evidence, documents, EPA results, profile details and settings. This cannot be undone. Continue?"))return;
+  try{
+    localStorage.clear();
+    sessionStorage.clear();
+    if(window.indexedDB&&indexedDB.databases){
+      const databases=await indexedDB.databases();
+      await Promise.all(databases.filter(db=>db.name).map(db=>new Promise(resolve=>{
+        const request=indexedDB.deleteDatabase(db.name);
+        request.onsuccess=request.onerror=request.onblocked=()=>resolve();
+      })));
+    }
+    if("caches" in window){
+      const keys=await caches.keys();
+      await Promise.all(keys.map(key=>caches.delete(key)));
+    }
+    alert("All locally stored Apprentice+ information has been removed.");
+    location.href="../../?reset=1";
+  }catch(error){
+    console.error(error);
+    alert("Most local information was removed. Close Apprentice+ and use Chrome Site settings → Delete data and reset to finish.");
+  }
+}
+function phase3OpenApprenticeMenu(){
+  const launcher=document.querySelector(".applus-launcher");
+  if(launcher)launcher.click();
+  else alert("Close and reopen Apprentice+ to access the course menu.");
+}
+function settings(){
+  const developerUnlocked=sessionStorage.getItem("apprenticeshipPlusDeveloperUnlocked")==="1";
+  let developerSettings={course:null,pin:"2468"};
+  try{developerSettings={...developerSettings,...JSON.parse(localStorage.getItem("apprenticePlusSettingsV2")||"{}")}}catch(error){}
+
+  view().innerHTML=`<section class="card settings-hero">
+    <span class="eyebrow">APPRENTICESHIP+ SETTINGS</span>
+    <h2>Profile & Settings</h2>
+    <p>Manage learner details, privacy, backups and app information.</p>
+  </section>
+
+  <section class="card settings-section">
+    <div class="section-heading"><div><h3>🛡️ Privacy & data</h3><p>Your work stays on this device unless you choose to export it.</p></div></div>
+    <div class="settings-notice">Apprenticeship+ is a local document-creation and revision tool. Information entered into the app is stored on this device. Learner evidence is not sent to Apprenticeship+ servers. PDFs are only shared when the learner chooses to download and upload them to Aptem or another approved platform.</div>
+    <div class="settings-button-grid">
+      <button class="secondary" id="privacyNotice">Read privacy notice</button>
+      <button class="secondary" id="backup">Export data backup</button>
+      <button class="danger" id="clearAllLocalData">Clear all local data</button>
+    </div>
+    <p class="muted"><b>Important:</b> download any PDFs and evidence you need before clearing data.</p>
+  </section>
+
+
+  <section class="card settings-section">
+    <div class="section-heading"><div><h3>👤 Learner profile</h3><p>These details and the saved signature are added automatically to future PDFs.</p></div></div>
+    <div class="grid">
+      <label>Full learner name<input id="profileLearner" value="${state.profile.learner||""}"></label>
+      <label>Employer<input id="profileEmployer" value="${state.profile.employer||""}"></label>
+      <label>Assessor<input id="profileAssessor" value="${state.profile.assessor||""}"></label>
+      <label>Course<input value="Property Maintenance Operative" readonly></label>
+    </div>
+    <label>Learner signature</label>
+    <div class="signature-wrap">
+      <canvas id="learnerSignature" class="signature-pad"></canvas>
+      <button class="secondary" id="clearLearnerSignature">Clear signature</button>
+    </div>
+    <p class="muted">The signature is stored locally on this device and is only included when a PDF is generated.</p>
+    <button class="primary settings-wide" id="saveProfile">Save learner profile</button>
+  </section>
+
+  <section class="card settings-section">
+    <div class="section-heading"><div><h3>ℹ️ About Apprenticeship+</h3><p>Capture Evidence.</p></div></div>
+    <div class="about-grid">
+      <div><span>Course module</span><b>Property Maintenance Operative</b></div>
+      <div><span>Trade identity</span><b>Hammer</b></div>
+      <div><span>Data storage</span><b>Local device</b></div>
+      <div><span>Evidence destination</span><b>Aptem</b></div>
+    </div>
+  </section>
+
+  <section class="card settings-section" id="developerSection">
+    <div class="section-heading"><div><h3>🔐 Developer</h3><p>Course and protected platform controls.</p></div></div>
+    ${developerUnlocked?`
+      <div class="developer-unlocked">
+        <span class="trade-badge">✓ Developer access unlocked</span>
+        <p>Current course: <b>Property Maintenance Operative</b></p>
+        <button class="primary settings-wide" id="developerChangeCourse">Change course</button>
+        <div class="developer-pin-grid">
+          <input id="developerOldPin" type="password" inputmode="numeric" placeholder="Current PIN">
+          <input id="developerNewPin" type="password" inputmode="numeric" placeholder="New PIN (4–12 numbers)">
+          <button class="secondary" id="developerSavePin">Change PIN</button>
+        </div>
+        <p class="muted" id="developerMessage"></p>
+        <button class="secondary settings-wide" id="developerLock">Lock developer section</button>
+      </div>`:`
+      <div class="developer-lock">
+        <p>This section is locked. Enter the developer PIN to change the learner's course or update the PIN.</p>
+        <label>Developer PIN<input id="developerPin" type="password" inputmode="numeric" autocomplete="off"></label>
+        <button class="primary settings-wide" id="developerUnlock">Unlock developer section</button>
+        <p class="muted" id="developerError"></p>
+      </div>`}
+  </section>`;
+
+  const getSignature=setupSignaturePad(
+    document.getElementById("learnerSignature"),
+    document.getElementById("clearLearnerSignature"),
+    state.profile.signature||""
+  );
+
+  document.getElementById("saveProfile").onclick=()=>{
+    const learner=document.getElementById("profileLearner").value.trim();
+    if(!learner){alert("Please enter the learner's full name.");return}
+    state.profile={
+      learner,
+      employer:document.getElementById("profileEmployer").value.trim(),
+      assessor:document.getElementById("profileAssessor").value.trim(),
+      course:"Property Maintenance Operative",
+      signature:getSignature()
+    };
+    saveState(state);
+    alert("Learner profile saved.");
+    settings();
+  };
+
+  document.getElementById("privacyNotice").onclick=()=>alert(`Apprenticeship+ Privacy Notice\n\nApprenticeship+ is a local document-creation and revision tool. Information entered into the app is stored on this device. Learner evidence is not sent to Apprenticeship+ servers. PDFs are only shared when the learner chooses to download and upload them to Aptem or another approved platform.`);
+  document.getElementById("backup").onclick=()=>exportBackup(state);
+  document.getElementById("clearAllLocalData").onclick=phase3ClearLocalData;
+
+  if(developerUnlocked){
+    document.getElementById("developerChangeCourse").onclick=()=>{
+      sessionStorage.setItem("apprenticePlusCourseUnlocked","1");
+      location.href="../../?choose=1";
+    };
+    document.getElementById("developerSavePin").onclick=()=>{
+      const oldPin=document.getElementById("developerOldPin").value;
+      const newPin=document.getElementById("developerNewPin").value.trim();
+      const message=document.getElementById("developerMessage");
+      if(oldPin!==String(developerSettings.pin||"2468")){
+        message.textContent="Current PIN is incorrect.";
+        return;
+      }
+      if(!/^\d{4,12}$/.test(newPin)){
+        message.textContent="Use 4–12 numbers for the new PIN.";
+        return;
+      }
+      developerSettings.pin=newPin;
+      localStorage.setItem("apprenticePlusSettingsV2",JSON.stringify(developerSettings));
+      message.textContent="Developer PIN updated.";
+    };
+    document.getElementById("developerLock").onclick=()=>{
+      sessionStorage.removeItem("apprenticeshipPlusDeveloperUnlocked");
+      settings();
+    };
+  }else{
+    document.getElementById("developerUnlock").onclick=()=>{
+      const pin=document.getElementById("developerPin").value;
+      if(pin!==String(developerSettings.pin||"2468")){
+        document.getElementById("developerError").textContent="Incorrect developer PIN.";
+        return;
+      }
+      sessionStorage.setItem("apprenticeshipPlusDeveloperUnlocked","1");
+      settings();
+    };
+  }
+}
+
+render();
+
+let deferredPrompt=null;
 const isStandalone=()=>window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
 async function requestInstall(){
   if(isStandalone()){alert("Apprenticeship+ is already installed on this device.");return}
