@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "apprenticeship-plus-pmo-course-v2";
+const CACHE_NAME = "apprenticeship-plus-pmo-course-v3";
 
 const APP_FILES = [
   "./",
@@ -40,14 +40,15 @@ self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
   const url = new URL(event.request.url);
-  const isCourseCode =
+  const networkFirst =
     url.pathname.endsWith("/courses/pmo/") ||
     url.pathname.endsWith("/courses/pmo/index.html") ||
     url.pathname.endsWith("/courses/pmo/app.js") ||
-    url.pathname.endsWith("/courses/pmo/workbench-data.js") ||
-    url.pathname.endsWith("/courses/pmo/workbench.js");
+    url.pathname.endsWith("/courses/pmo/trade-logo.png") ||
+    url.pathname.endsWith("/courses/pmo/icon-192.png") ||
+    url.pathname.endsWith("/courses/pmo/icon-512.png");
 
-  if (isCourseCode) {
+  if (networkFirst) {
     event.respondWith(
       fetch(event.request, { cache: "no-store" })
         .then(response => {
