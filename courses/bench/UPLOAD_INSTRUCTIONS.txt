@@ -1,15 +1,18 @@
-BENCH JOINERY — FULL NAVIGATION RECOVERY
+BENCH JOINERY — MODERN DASHBOARD, STREAKS, ACHIEVEMENTS AND REMINDERS
 
-Open:
+In GitHub, open:
 courses > bench
 
 Upload and replace:
 - professional-navigation.js
 - professional-navigation.css
+- remove-workbench.js
+- modern-dashboard.js
+- modern-dashboard.css
 - service-worker.js
 
 Commit message:
-Restore stable Bench navigation
+Add modern dashboard and learner progress features
 
 Then:
 1. Fully close Apprentice+.
@@ -17,5 +20,15 @@ Then:
 3. Close it completely.
 4. Open it again.
 
-This restores the last known-good navigation menu and stops loading
-the experimental page-refinement controller that caused the empty blurred screen.
+Included:
+- modern home dashboard
+- assignment progress
+- evidence statistics
+- activity streak and longest streak
+- achievements
+- visual journey to EPA
+- reminders for photos and unfinished assignments
+- optional browser notifications
+- Workbench remains removed
+
+No AI writing or answer-generation features are included.
