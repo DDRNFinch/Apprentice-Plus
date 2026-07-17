@@ -1,0 +1,25 @@
+{
+  "assignment": 8,
+  "title": "Drainage Repairs",
+  "photoEvidence": [
+    "Before maintenance",
+    "Task in progress",
+    "Completed repair"
+  ],
+  "knowledgeQuestion": "Explain the principles involved in this task using examples from your workplace.",
+  "skillQuestion": "Describe how you completed the work safely, including tools, equipment and checks.",
+  "behaviourQuestion": "Explain how you demonstrated professional behaviour and worked with others where appropriate.",
+  "greenKeywords": [
+    "Drainage",
+    "Blockage",
+    "Inspection",
+    "Repair",
+    "Environment"
+  ],
+  "combinedStatementPrompt": "Write around 100 words describing the work completed, preparation, materials, safe working, quality checks, environmental considerations and how any issues were resolved.",
+  "KSBs": [
+    "K11",
+    "S11",
+    "B2"
+  ]
+}
