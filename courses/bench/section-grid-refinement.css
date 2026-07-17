@@ -1,0 +1,166 @@
+/* Portfolio and Revision section refinement */
+.ap-section-hero-hidden{
+  display:none!important;
+}
+
+.ap-section-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin:18px 0 28px;
+  align-items:stretch;
+}
+
+.ap-section-grid .ap-section-tile{
+  position:relative;
+  min-height:182px;
+  display:flex!important;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  gap:10px;
+  padding:20px!important;
+  margin:0!important;
+  border:1px solid rgba(7,91,99,.14)!important;
+  border-radius:22px!important;
+  background:linear-gradient(145deg,#fff,#f8fcfb)!important;
+  box-shadow:0 8px 22px rgba(3,63,70,.055)!important;
+  overflow:hidden;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  text-align:left!important;
+  touch-action:manipulation;
+}
+
+.ap-section-grid .ap-section-tile:active{
+  transform:scale(.985);
+}
+
+.ap-section-grid .ap-section-tile-wide{
+  grid-column:1/-1;
+  min-height:150px;
+}
+
+.ap-section-icon{
+  width:58px;
+  height:58px;
+  display:grid;
+  place-items:center;
+  flex:0 0 58px;
+  border-radius:18px;
+  background:linear-gradient(145deg,#e8f7f1,#dff1ec);
+  color:#075b63;
+  box-shadow:inset 0 0 0 1px rgba(7,91,99,.06);
+}
+
+.ap-section-icon svg{
+  width:30px;
+  height:30px;
+  fill:currentColor;
+}
+
+.ap-section-tile h2,
+.ap-section-tile h3,
+.ap-section-tile h4,
+.ap-section-tile strong,
+.ap-section-tile b{
+  margin:0!important;
+  color:#102b30!important;
+  font-size:1.08rem!important;
+  line-height:1.18!important;
+  font-weight:900!important;
+}
+
+.ap-section-tile p,
+.ap-section-tile small{
+  margin:0!important;
+  color:#687b7f!important;
+  font-size:.83rem!important;
+  line-height:1.35!important;
+  font-weight:700!important;
+}
+
+.ap-section-arrow{
+  position:absolute;
+  right:16px;
+  bottom:14px;
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:#edf7f4;
+  color:#075b63;
+  font-size:1.6rem;
+  line-height:1;
+  font-weight:700;
+}
+
+.ap-section-tile-knowledge .ap-section-icon,
+.ap-section-tile-employer .ap-section-icon{
+  background:linear-gradient(145deg,#fff4df,#f7ead0);
+  color:#9a6418;
+}
+
+.ap-section-tile-practical .ap-section-icon,
+.ap-section-tile-marking .ap-section-icon{
+  background:linear-gradient(145deg,#eaf1ff,#dfe9fb);
+  color:#3567a5;
+}
+
+.ap-section-tile-discussion .ap-section-icon,
+.ap-section-tile-otj .ap-section-icon{
+  background:linear-gradient(145deg,#f1ecff,#e8e0fb);
+  color:#7253a6;
+}
+
+@media(min-width:760px){
+  .ap-section-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .ap-section-grid .ap-section-tile-wide{
+    grid-column:auto;
+  }
+}
+
+@media(max-width:430px){
+  .ap-section-grid{
+    gap:11px;
+    margin-top:14px;
+  }
+
+  .ap-section-grid .ap-section-tile{
+    min-height:168px;
+    padding:17px!important;
+    border-radius:19px!important;
+  }
+
+  .ap-section-grid .ap-section-tile-wide{
+    min-height:138px;
+  }
+
+  .ap-section-icon{
+    width:52px;
+    height:52px;
+    flex-basis:52px;
+    border-radius:16px;
+  }
+
+  .ap-section-icon svg{
+    width:27px;
+    height:27px;
+  }
+
+  .ap-section-tile h2,
+  .ap-section-tile h3,
+  .ap-section-tile h4,
+  .ap-section-tile strong,
+  .ap-section-tile b{
+    font-size:1rem!important;
+  }
+
+  .ap-section-tile p,
+  .ap-section-tile small{
+    font-size:.77rem!important;
+  }
+}

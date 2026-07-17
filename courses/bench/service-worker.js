@@ -1,9 +1,9 @@
 "use strict";
-const CACHE_NAME="apprenticeship-plus-bench-dashboard-smooth-scroll-v2";
+const CACHE_NAME="apprenticeship-plus-bench-section-grid-v3";
 const APP_FILES=[
  "./","./index.html","./app.js",
  "./professional-navigation.js","./professional-navigation.css",
- "./remove-workbench.js","./modern-dashboard.js","./modern-dashboard.css",
+ "./remove-workbench.js","./modern-dashboard.js","./modern-dashboard.css","./section-grid-refinement.js","./section-grid-refinement.css",
  "./workbench-data.js","./workbench.js","./assignment-pdf.js",
  "./register-service-worker.js","./manifest.json",
  "./trade-logo.png","./icon-192.png","./icon-512.png"
@@ -24,12 +24,12 @@ self.addEventListener("fetch",event=>{
    fetch(event.request,{cache:"no-store"}).then(r=>r.text()).then(source=>{
     const loader=`
 ;(function(){
- ['./professional-navigation.css?v=dash-1','./modern-dashboard.css?v=2'].forEach(function(href){
+ ['./professional-navigation.css?v=dash-1','./modern-dashboard.css?v=2','./section-grid-refinement.css?v=1'].forEach(function(href){
   if(!document.querySelector('link[href^="'+href.split('?')[0]+'"]')){
    const link=document.createElement('link');link.rel='stylesheet';link.href=href;document.head.appendChild(link);
   }
  });
- ['./professional-navigation.js?v=dash-1','./remove-workbench.js?v=1','./modern-dashboard.js?v=2'].forEach(function(src){
+ ['./professional-navigation.js?v=dash-1','./remove-workbench.js?v=1','./modern-dashboard.js?v=2','./section-grid-refinement.js?v=1'].forEach(function(src){
   if(!document.querySelector('script[src^="'+src.split('?')[0]+'"]')){
    const script=document.createElement('script');script.src=src;script.defer=true;document.head.appendChild(script);
   }
@@ -41,6 +41,6 @@ self.addEventListener("fetch",event=>{
   return;
  }
 
- const fresh=/\/courses\/bench\/(?:$|index\.html$|professional-navigation\.(?:js|css)$|remove-workbench\.js$|modern-dashboard\.(?:js|css)$)/.test(url.pathname);
+ const fresh=/\/courses\/bench\/(?:$|index\.html$|professional-navigation\.(?:js|css)$|remove-workbench\.js$|modern-dashboard\.(?:js|css)$|section-grid-refinement\.(?:js|css)$)/.test(url.pathname);
  event.respondWith((fresh?fetch(event.request,{cache:"no-store"}):caches.match(event.request).then(c=>c||fetch(event.request))).catch(()=>caches.match(event.request)));
 });
