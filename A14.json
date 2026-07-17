@@ -1,0 +1,26 @@
+{
+  "assignment": 14,
+  "title": "Wall Tiling Repairs",
+  "overview": "Complete a workplace task relating to wall tiling repairs and record evidence.",
+  "photoEvidence": [
+    "Preparation of work area",
+    "Safe working during the repair",
+    "Finished repair meeting specification"
+  ],
+  "knowledgeQuestion": "Explain the principles, materials and regulations relevant to this task.",
+  "skillQuestion": "Describe how you planned, completed and checked the repair.",
+  "behaviourQuestion": "Describe how you demonstrated safe working, responsibility and professionalism.",
+  "combinedStatementPrompt": "Produce a 100-word workplace statement including planning, tools, materials, PPE, quality checks, waste handling and problem solving.",
+  "greenKeywords": [
+    "Setting out",
+    "Cutting",
+    "Tiles",
+    "Adhesive",
+    "Grout"
+  ],
+  "KSBs": [
+    "K17",
+    "S16",
+    "B3"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "assignment": 11,
+  "title": "Windows, Doors & Carpentry Repairs",
+  "overview": "Complete a workplace task relating to windows, doors & carpentry repairs and record evidence.",
+  "photoEvidence": [
+    "Preparation of work area",
+    "Safe working during the repair",
+    "Finished repair meeting specification"
+  ],
+  "knowledgeQuestion": "Explain the principles, materials and regulations relevant to this task.",
+  "skillQuestion": "Describe how you planned, completed and checked the repair.",
+  "behaviourQuestion": "Describe how you demonstrated safe working, responsibility and professionalism.",
+  "combinedStatementPrompt": "Produce a 100-word workplace statement including planning, tools, materials, PPE, quality checks, waste handling and problem solving.",
+  "greenKeywords": [
+    "Window",
+    "Door",
+    "Glazing",
+    "Ironmongery",
+    "Repair"
+  ],
+  "KSBs": [
+    "K14",
+    "S13",
+    "B2",
+    "B3"
+  ]
+}

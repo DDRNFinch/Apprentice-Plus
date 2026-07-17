@@ -1,0 +1,27 @@
+{
+  "assignment": 13,
+  "title": "Painting & Decorating",
+  "overview": "Complete a workplace task relating to painting & decorating and record evidence.",
+  "photoEvidence": [
+    "Preparation of work area",
+    "Safe working during the repair",
+    "Finished repair meeting specification"
+  ],
+  "knowledgeQuestion": "Explain the principles, materials and regulations relevant to this task.",
+  "skillQuestion": "Describe how you planned, completed and checked the repair.",
+  "behaviourQuestion": "Describe how you demonstrated safe working, responsibility and professionalism.",
+  "combinedStatementPrompt": "Produce a 100-word workplace statement including planning, tools, materials, PPE, quality checks, waste handling and problem solving.",
+  "greenKeywords": [
+    "Preparation",
+    "Painting",
+    "Sealant",
+    "Finish",
+    "Waste"
+  ],
+  "KSBs": [
+    "K16",
+    "S15",
+    "B1",
+    "B2"
+  ]
+}
