@@ -1,0 +1,4 @@
+/* Remove remaining legacy Bench home-screen cards */
+.ap-old-home-remove{
+  display:none!important;
+}
