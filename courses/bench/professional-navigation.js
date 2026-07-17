@@ -186,6 +186,13 @@
   function rebuild(){
     const select = findNavigationSelect();
     if(!select) return;
+
+    // Do not rebuild the menu while it is open. Updating the menu list itself
+    // creates DOM mutations, which previously caused the panel contents to be removed.
+    if(backdrop && backdrop.classList.contains("open")){
+      return;
+    }
+
     if(select !== activeSelect || !shell || !document.contains(shell)){
       initialise(select);
     }else{
@@ -198,14 +205,25 @@
   });
 
   let queued = false;
-  new MutationObserver(() => {
-    if(queued) return;
+  const observer = new MutationObserver(mutations => {
+    // Ignore mutations created inside our own navigation panel.
+    const externalChange = mutations.some(mutation => {
+      const target = mutation.target.nodeType === Node.ELEMENT_NODE
+        ? mutation.target
+        : mutation.target.parentElement;
+      return !target?.closest?.(".ap-nav-shell,.ap-nav-backdrop");
+    });
+
+    if(!externalChange || queued) return;
+
     queued = true;
     requestAnimationFrame(() => {
       queued = false;
       rebuild();
     });
-  }).observe(document.documentElement, {childList:true, subtree:true});
+  });
+
+  observer.observe(document.documentElement, {childList:true, subtree:true});
 
   if(document.readyState === "loading"){
     document.addEventListener("DOMContentLoaded", rebuild);
