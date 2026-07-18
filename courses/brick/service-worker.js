@@ -1,9 +1,9 @@
 "use strict";
-const CACHE_NAME="apprenticeship-plus-brick-free-local-reminders-v11";
+const CACHE_NAME="apprenticeship-plus-brick-single-home-setup-v12";
 const APP_FILES=[
  "./","./index.html",
  './professional-navigation.js','./professional-navigation.css','./remove-workbench.js','./modern-dashboard.js','./modern-dashboard.css','./section-grid-force-fix.js','./section-grid-force-fix.css','./section-grid-cleanup.js','./section-grid-cleanup.css','./portfolio-blank-fix.js','./portfolio-blank-fix.css',
- "./legacy-home-cleanup.js","./legacy-home-cleanup.css","./local-reminders.js","./local-reminders.css","./remove-old-home.js","./remove-old-home.css","./remove-smart-reminders.css","./register-service-worker.js","./manifest.json",
+ "./legacy-home-cleanup.js","./legacy-home-cleanup.css","./local-reminders.js","./local-reminders.css","./replace-home.js","./replace-home.css","./first-login-setup.js","./first-login-setup.css","./remove-old-home.js","./remove-old-home.css","./remove-smart-reminders.css","./register-service-worker.js","./manifest.json",
  "./trade-logo.png","./icon-192.png","./icon-512.png"
 ];
 
@@ -20,6 +20,7 @@ self.addEventListener("fetch",event=>{
  if(page){
   event.respondWith(fetch(event.request,{cache:"no-store"}).then(r=>r.text()).then(html=>{
    const styles=[
+    './replace-home.css?v=12','./first-login-setup.css?v=12',
     './remove-old-home.css?v=10',
     './remove-smart-reminders.css?v=10',
     './legacy-home-cleanup.css?v=8','./local-reminders.css?v=11',
@@ -28,6 +29,7 @@ self.addEventListener("fetch",event=>{
     './portfolio-blank-fix.css?v=1'
    ];
    const scripts=[
+    './replace-home.js?v=12','./first-login-setup.js?v=12',
     './remove-old-home.js?v=10',
     './legacy-home-cleanup.js?v=8','./local-reminders.js?v=11',
     './professional-navigation.js?v=1','./remove-workbench.js?v=1',
