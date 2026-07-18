@@ -871,10 +871,27 @@ function detailBox(pdf,items,y){
 // Assignment PDF generation is isolated in assignment-pdf.js.
 
 function downloadBlob(blob,filename){
+  const safeName=String(filename||"Apprenticeship-Plus-Document.pdf").replace(/[\/:*?"<>|]+/g,"-");
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||
+    (navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
   const url=URL.createObjectURL(blob);
+
+  if(isIOS){
+    // iOS Safari ignores forced Blob downloads and may block a new tab after
+    // asynchronous PDF generation. Opening the Blob in the current tab is the
+    // reliable Apple workflow: Share > Save to Files.
+    try{
+      sessionStorage.setItem("apprenticeshipPlusLastPdfName",safeName);
+    }catch(error){}
+    window.location.assign(url);
+    setTimeout(()=>URL.revokeObjectURL(url),300000);
+    return;
+  }
+
   const link=document.createElement("a");
   link.href=url;
-  link.download=filename;
+  link.download=safeName;
+  link.rel="noopener";
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -883,14 +900,20 @@ function downloadBlob(blob,filename){
 
 function openBlob(blob,previewWindow=null){
   const url=URL.createObjectURL(blob);
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||
+    (navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+
+  if(isIOS){
+    window.location.assign(url);
+    setTimeout(()=>URL.revokeObjectURL(url),300000);
+    return;
+  }
+
   if(previewWindow&&!previewWindow.closed){
     previewWindow.location.href=url;
   }else{
-    const opened=window.open(url,"_blank");
-    if(!opened){
-      // The download still succeeds even if the browser blocks a new tab.
-      console.info("PDF preview was blocked by the browser.");
-    }
+    const opened=window.open(url,"_blank","noopener");
+    if(!opened) window.location.assign(url);
   }
   setTimeout(()=>URL.revokeObjectURL(url),120000);
 }
@@ -1408,14 +1431,31 @@ async function saveGeneratedPdfToDocuments(pdf,title,type){
 }
 
 function downloadBlob(blob,filename){
+  const safeName=String(filename||"Apprenticeship-Plus-Document.pdf").replace(/[\/:*?"<>|]+/g,"-");
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||
+    (navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
   const url=URL.createObjectURL(blob);
+
+  if(isIOS){
+    // iOS Safari ignores forced Blob downloads and may block a new tab after
+    // asynchronous PDF generation. Opening the Blob in the current tab is the
+    // reliable Apple workflow: Share > Save to Files.
+    try{
+      sessionStorage.setItem("apprenticeshipPlusLastPdfName",safeName);
+    }catch(error){}
+    window.location.assign(url);
+    setTimeout(()=>URL.revokeObjectURL(url),300000);
+    return;
+  }
+
   const link=document.createElement("a");
   link.href=url;
-  link.download=filename;
+  link.download=safeName;
+  link.rel="noopener";
   document.body.appendChild(link);
   link.click();
   link.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
 }
 
 async function downloadEpaPracticalMockPdf(record,profile){
@@ -2898,109 +2938,3 @@ window.addEventListener("appinstalled",()=>document.getElementById("installBar")
 document.getElementById("installNow")?.addEventListener("click",requestInstall);
 document.getElementById("installLater")?.addEventListener("click",()=>document.getElementById("installBar")?.classList.add("hidden"));
 if(isStandalone())document.getElementById("installBar")?.classList.add("hidden");
-
-/* Apprenticeship+: reliable Continue Assignment navigation */
-(function(){
-  function continueToAssignment(button){
-    const match = (button?.textContent || "").match(/Assignment\s+(\d+)/i);
-    const assignmentId = Number(button?.dataset?.openAssignment || (match && match[1]));
-    if (!Number.isFinite(assignmentId) || assignmentId < 1) return false;
-
-    try {
-      if (typeof openAssignmentId !== "undefined") openAssignmentId = assignmentId;
-      if (typeof state === "object" && state) {
-        state.lastAssignment = assignmentId;
-        if (typeof saveState === "function") saveState(state);
-      }
-
-      if (typeof go === "function") {
-        go("evidence");
-        return true;
-      }
-
-      const evidenceTab =
-        document.querySelector('[data-route="evidence"]') ||
-        document.querySelector('[data-tab="evidence"]') ||
-        [...document.querySelectorAll("button")].find(
-          el => /assignments|evidence/i.test(el.textContent || "")
-        );
-
-      if (evidenceTab) {
-        evidenceTab.click();
-        setTimeout(() => {
-          const assignmentButton =
-            document.querySelector(`[data-open-assignment="${assignmentId}"]`) ||
-            document.querySelector(`[data-assignment-id="${assignmentId}"]`);
-          if (assignmentButton && assignmentButton !== button) assignmentButton.click();
-        }, 100);
-        return true;
-      }
-    } catch (error) {
-      console.error("Continue Assignment navigation error:", error);
-    }
-    return false;
-  }
-
-  document.addEventListener("click", function(event){
-    const button = event.target.closest(
-      '[data-open-assignment], button, a'
-    );
-    if (!button || !/Continue\s+Assignment\s+\d+/i.test(button.textContent || "")) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    continueToAssignment(button);
-  }, true);
-
-  window.continueToAssignment = continueToAssignment;
-})();
-
-
-/* Apprenticeship+: make browser/gesture Back return to the course Home dropdown */
-(function(){
-  let handlingBackGesture = false;
-
-  function returnToCourseHome(){
-    if (handlingBackGesture) return;
-    handlingBackGesture = true;
-
-    try {
-      if (typeof openAssignmentId !== "undefined") openAssignmentId = null;
-
-      if (typeof go === "function") {
-        go("home");
-      } else {
-        const homeControl =
-          document.querySelector('[data-route="home"]') ||
-          document.querySelector('[data-tab="home"]') ||
-          [...document.querySelectorAll("button, a, select option")].find(
-            element => /^home$/i.test((element.textContent || "").trim())
-          );
-
-        if (homeControl) {
-          if (homeControl.tagName === "OPTION") {
-            const select = homeControl.closest("select");
-            if (select) {
-              select.value = homeControl.value;
-              select.dispatchEvent(new Event("change", { bubbles:true }));
-            }
-          } else {
-            homeControl.click();
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Back gesture navigation error:", error);
-    }
-
-    history.pushState({ apprenticeshipPlusCourse:true }, "", location.href);
-    setTimeout(() => { handlingBackGesture = false; }, 50);
-  }
-
-  if (!history.state || !history.state.apprenticeshipPlusCourse) {
-    history.replaceState({ apprenticeshipPlusCourse:true }, "", location.href);
-  }
-  history.pushState({ apprenticeshipPlusCourse:true }, "", location.href);
-
-  window.addEventListener("popstate", returnToCourseHome);
-  window.returnToCourseHome = returnToCourseHome;
-})();
