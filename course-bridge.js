@@ -18,8 +18,8 @@
   window.__APPRENTICESHIP_PLUS_SHARED_ACADEMY_LOADER__ = true;
 
   const rootPath = new URL("./", document.currentScript?.src || window.location.href);
-  const academyCssUrl = new URL("shared/academy.css?v=8", rootPath).href;
-  const academyJsUrl = new URL("shared/academy.js?v=8", rootPath).href;
+  const academyCssUrl = new URL("shared/academy.css?v=10", rootPath).href;
+  const academyJsUrl = new URL("shared/academy.js?v=10", rootPath).href;
 
   if (!document.querySelector('link[data-ap-shared-academy]')) {
     const stylesheet = document.createElement("link");
