@@ -1,17 +1,11 @@
-SITE CARPENTRY — FINAL BENCH-MATCHING UPDATE
+SITE CARPENTRY — DIRECT INDEX UPDATE
 
 Open:
 courses > site
 
-Upload and replace every file in this ZIP.
+Upload and replace every file in this ZIP, including index.html.
 
 Commit message:
-Match Site Carpentry to working Bench version
+Update Site Carpentry directly to match Bench
 
-This includes:
-- the modern dashboard as the only home screen
-- removal of the old home cards
-- free local reminders
-- reminder types, days and preferred time below learner details
-- correct saved learner-profile detection
-- first-login setup prompt only when details or reminders are incomplete
+This version links the dashboard, navigation, local reminders, profile controls and setup prompt directly inside index.html, exactly like the working Brick fix. It no longer relies on the service worker injecting those files.
