@@ -222,6 +222,8 @@
     },true);
   }
 
+  window.ApprenticeshipPlusAcademy={open,close,render};
+
   new MutationObserver(initialise).observe(document.documentElement,{childList:true,subtree:true});
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initialise);
   else initialise();
