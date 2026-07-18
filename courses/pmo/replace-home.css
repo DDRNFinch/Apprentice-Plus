@@ -1,0 +1,4 @@
+/* Make the modern dashboard the only home screen */
+.ap-remove-legacy-home{
+  display:none!important;
+}
