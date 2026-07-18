@@ -18,8 +18,8 @@
   window.__APPRENTICESHIP_PLUS_SHARED_ACADEMY_LOADER__ = true;
 
   const rootPath = new URL("./", document.currentScript?.src || window.location.href);
-  const academyCssUrl = new URL("shared/academy.css?v=11", rootPath).href;
-  const academyJsUrl = new URL("shared/academy.js?v=11", rootPath).href;
+  const academyCssUrl = new URL("shared/academy.css?v=12", rootPath).href;
+  const academyJsUrl = new URL("shared/academy.js?v=12", rootPath).href;
 
   if (!document.querySelector('link[data-ap-shared-academy]')) {
     const stylesheet = document.createElement("link");
@@ -38,3 +38,31 @@
   }
 })();
 
+
+
+/* Total XP on the main Apprentice+ home page */
+(function mountHomeXp(){
+  "use strict";
+  function isAcademyVisible(){return !!document.querySelector(".academy-view .apa-page");}
+  function target(){return document.querySelector("main")||document.querySelector("#app")||document.querySelector(".app-shell")||document.body;}
+  function render(){
+    const api=window.ApprenticeshipPlusAcademy;
+    if(!api?.getMetrics)return;
+    if(isAcademyVisible()){document.querySelector(".ap-home-xp-card")?.remove();return;}
+    const root=target();
+    if(!root||root===document.body&&document.body.children.length<2)return;
+    const m=api.getMetrics();
+    let card=document.querySelector(".ap-home-xp-card");
+    if(!card){
+      card=document.createElement("section");card.className="ap-home-xp-card";
+      const anchor=root.querySelector(".current-section,.section-selector,.dashboard-header,.home-header,header+*")||root.firstElementChild;
+      if(anchor?.parentNode===root)anchor.insertAdjacentElement("afterend",card);else root.prepend(card);
+    }
+    const html=`<div class="ap-home-xp-icon">★</div><div class="ap-home-xp-copy"><small>APPRENTICESHIP+ PROGRESS</small><strong>${Number(m.xp||0).toLocaleString()} total XP</strong><span>${Number(m.bonusXP||0).toLocaleString()} bonus XP from badges and milestones</span></div><div class="ap-home-xp-level">Level ${m.level}</div>`;
+    if(card.innerHTML!==html)card.innerHTML=html;
+  }
+  function schedule(){setTimeout(render,250)}
+  window.addEventListener("load",schedule);
+  document.addEventListener("click",schedule,true);
+  new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
+})();
