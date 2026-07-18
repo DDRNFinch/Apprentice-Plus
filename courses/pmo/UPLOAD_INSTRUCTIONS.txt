@@ -1,23 +1,17 @@
-PROPERTY MAINTENANCE — SINGLE HOME AND FIRST-LOGIN SETUP
+PROPERTY MAINTENANCE — FINAL BENCH-MATCHING UPDATE
 
 Open:
 courses > pmo
 
-Upload and replace:
-- replace-home.js
-- replace-home.css
-- first-login-setup.js
-- first-login-setup.css
-- service-worker.js
+Upload and replace every file in this ZIP.
 
 Commit message:
-Replace old home and add first login setup
+Match Property Maintenance to working Bench version
 
-This update:
-- makes the modern dashboard the only home screen
-- removes all remaining old home cards
-- removes the old Smart Reminders card
-- keeps the navigation and notification bell
-- shows a setup popup when learner details are missing
-- shows a setup popup when reminder preferences are missing
-- sends the learner to Profile / Settings to complete setup
+This includes:
+- the modern dashboard as the only home screen
+- removal of the old home cards
+- free local reminders
+- reminder types, days and preferred time below learner details
+- correct saved learner-profile detection
+- first-login setup prompt only when details or reminders are incomplete

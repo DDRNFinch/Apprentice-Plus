@@ -1,33 +1,28 @@
 "use strict";
 (function(){
-  if(window.__AP_FIRST_LOGIN_SETUP__) return;
-  window.__AP_FIRST_LOGIN_SETUP__ = true;
+  if(window.__AP_FIRST_LOGIN_SETUP_FIXED__) return;
+  window.__AP_FIRST_LOGIN_SETUP_FIXED__=true;
 
   const COURSE='Property Maintenance';
-  const SEEN_KEY="apprenticePlusSetupPromptSeenV1";
+  const APP_STATE_KEY="brick_buddy_2_0";
   const REMINDER_KEY="apprenticePlusLocalReminderPreferencesV3";
-  const clean=value=>String(value||"").replace(/\s+/g," ").trim().toLowerCase();
+  const PROMPT_KEY="apprenticePlusSetupPromptDismissedV2";
+  const clean=v=>String(v||"").replace(/\s+/g," ").trim().toLowerCase();
+
+  function savedProfile(){
+    try{
+      const state=JSON.parse(localStorage.getItem(APP_STATE_KEY)||"null");
+      return state?.profile||{};
+    }catch{return {}}
+  }
 
   function learnerDetailsComplete(){
-    const knownKeys=[
-      "learnerName","apprenticeName","learnerDetails","apprenticePlusLearnerProfile",
-      "apprenticePlusProfile","profileData"
-    ];
-    for(const key of knownKeys){
-      const value=localStorage.getItem(key);
-      if(!value)continue;
-      try{
-        const parsed=JSON.parse(value);
-        if(parsed && typeof parsed==="object"){
-          const name=parsed.name||parsed.learnerName||parsed.fullName||parsed.firstName;
-          if(String(name||"").trim())return true;
-        }
-      }catch{
-        if(String(value).trim().length>1)return true;
-      }
-    }
-    const inputs=[...document.querySelectorAll('input[name*="name" i],input[id*="name" i]')];
-    return inputs.some(input=>String(input.value||"").trim().length>1);
+    const profile=savedProfile();
+    return !!(
+      String(profile.learner||"").trim() &&
+      String(profile.employer||"").trim() &&
+      String(profile.assessor||"").trim()
+    );
   }
 
   function remindersComplete(){
@@ -37,82 +32,79 @@
     }catch{return false}
   }
 
-  function goTo(label){
-    const wanted=clean(label);
+  function closePrompt(){
+    document.querySelector("#ap-setup-overlay")?.remove();
+  }
+
+  function navigateToProfile(){
     const select=[...document.querySelectorAll("select")].find(s=>
-      [...s.options].some(o=>clean(o.textContent).includes(wanted))
+      [...s.options].some(o=>clean(o.textContent).includes("profile"))
     );
     if(select){
-      const option=[...select.options].find(o=>clean(o.textContent).includes(wanted));
-      if(option){
-        select.value=option.value;
-        select.dispatchEvent(new Event("change",{bubbles:true}));
-        close();
-        return;
-      }
+      const option=[...select.options].find(o=>clean(o.textContent).includes("profile"));
+      select.value=option.value;
+      select.dispatchEvent(new Event("change",{bubbles:true}));
+      closePrompt();
+      return;
     }
-    const clickable=[...document.querySelectorAll("button,a")].find(el=>clean(el.textContent).includes(wanted));
-    if(clickable){clickable.click();close()}
+    const target=[...document.querySelectorAll("button,a")].find(el=>
+      clean(el.textContent).includes("profile")
+    );
+    target?.click();
+    closePrompt();
   }
 
-  function close(){
-    document.querySelector("#ap-setup-overlay")?.classList.remove("open");
-  }
-
-  function build(){
+  function buildPrompt(){
     if(document.querySelector("#ap-setup-overlay"))return;
     const detailsMissing=!learnerDetailsComplete();
     const remindersMissing=!remindersComplete();
-    if(!detailsMissing&&!remindersMissing)return;
-    if(localStorage.getItem(SEEN_KEY)==="dismissed")return;
+    if(!detailsMissing&&!remindersMissing){
+      localStorage.removeItem(PROMPT_KEY);
+      return;
+    }
+    if(localStorage.getItem(PROMPT_KEY)==="1")return;
 
     const overlay=document.createElement("div");
     overlay.id="ap-setup-overlay";
-    overlay.className="ap-setup-overlay";
+    overlay.className="ap-setup-overlay open";
     overlay.innerHTML=`
       <div class="ap-setup-card">
         <small>GET STARTED</small>
         <h2>Finish setting up Apprentice+</h2>
         <p>Complete these quick steps so ${COURSE} can personalise your dashboard and reminders.</p>
         <div class="ap-setup-list">
-          ${detailsMissing?`<div class="ap-setup-item"><span>1</span><div><strong>Complete learner details</strong><div>Add your name and learner information.</div></div></div>`:""}
+          ${detailsMissing?`<div class="ap-setup-item"><span>1</span><div><strong>Complete learner details</strong><div>Add your name, employer and assessor.</div></div></div>`:""}
           ${remindersMissing?`<div class="ap-setup-item"><span>${detailsMissing?2:1}</span><div><strong>Choose reminder settings</strong><div>Select reminder types, days and your preferred time.</div></div></div>`:""}
         </div>
         <div class="ap-setup-actions">
-          ${detailsMissing?`<button class="ap-setup-primary" id="ap-setup-profile">Complete learner details</button>`:""}
-          ${remindersMissing?`<button class="${detailsMissing?"ap-setup-secondary":"ap-setup-primary"}" id="ap-setup-reminders">Set reminder preferences</button>`:""}
+          <button class="ap-setup-primary" id="ap-open-profile">${detailsMissing?"Complete learner details":"Set reminder preferences"}</button>
           <button class="ap-setup-later" id="ap-setup-later">Remind me later</button>
         </div>
       </div>`;
     document.body.appendChild(overlay);
+    overlay.querySelector("#ap-open-profile").onclick=navigateToProfile;
+    overlay.querySelector("#ap-setup-later").onclick=()=>{
+      localStorage.setItem(PROMPT_KEY,"1");
+      closePrompt();
+    };
+  }
 
-    overlay.querySelector("#ap-setup-profile")?.addEventListener("click",()=>goTo("profile"));
-    overlay.querySelector("#ap-setup-reminders")?.addEventListener("click",()=>goTo("profile"));
-    overlay.querySelector("#ap-setup-later").addEventListener("click",()=>{
-      localStorage.setItem(SEEN_KEY,"dismissed");
-      close();
+  function monitorSave(){
+    document.addEventListener("click",event=>{
+      if(!event.target.closest("#saveProfile,#ap-profile-save-prefs"))return;
+      setTimeout(()=>{
+        if(learnerDetailsComplete()&&remindersComplete()){
+          localStorage.removeItem(PROMPT_KEY);
+          closePrompt();
+        }
+      },350);
     });
-
-    setTimeout(()=>overlay.classList.add("open"),500);
   }
 
-  function reconsider(){
-    if(learnerDetailsComplete()&&remindersComplete()){
-      localStorage.removeItem(SEEN_KEY);
-      close();
-    }
-  }
-
-  let tries=0;
-  const timer=setInterval(()=>{
-    build();
-    reconsider();
-    if(++tries>30)clearInterval(timer);
-  },300);
-
-  new MutationObserver(()=>requestAnimationFrame(()=>{build();reconsider()}))
-    .observe(document.documentElement,{childList:true,subtree:true});
-
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",build);
-  else build();
+  const start=()=>{
+    monitorSave();
+    setTimeout(buildPrompt,650);
+  };
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);
+  else start();
 })();
