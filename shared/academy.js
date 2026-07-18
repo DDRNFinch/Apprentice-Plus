@@ -1255,3 +1255,24 @@ window.ApprenticeshipPlusAcademy = window.ApprenticeshipPlusAcademy || {};
  api.getLearningStreak=function(){return Number(localStorage.getItem('academy_streak')||1);};
  api.setLearningStreak=function(days){localStorage.setItem('academy_streak',days);};
 })(window.ApprenticeshipPlusAcademy);
+
+
+// Phase 8.5 Notification Foundation
+window.ApprenticeshipPlusAcademy = window.ApprenticeshipPlusAcademy || {};
+(function(api){
+ api.notifications = JSON.parse(localStorage.getItem("ap_notifications")||"[]");
+ api.addNotification=function(type,title,message){
+   const n={id:Date.now(),type,title,message,date:new Date().toISOString(),read:false};
+   api.notifications.unshift(n);
+   localStorage.setItem("ap_notifications",JSON.stringify(api.notifications));
+   return n;
+ };
+ api.getNotifications=function(){return api.notifications;};
+ api.markNotificationRead=function(id){
+   api.notifications=api.notifications.map(n=>n.id===id?{...n,read:true}:n);
+   localStorage.setItem("ap_notifications",JSON.stringify(api.notifications));
+ };
+ api.getAchievementTimeline=function(){
+   return api.notifications.filter(n=>["badge","level","certificate"].includes(n.type));
+ };
+})(window.ApprenticeshipPlusAcademy);
