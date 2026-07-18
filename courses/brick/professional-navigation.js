@@ -5,7 +5,7 @@
 
   const icons = {
     home:"⌂", assignments:"▤", portfolio:"▣",
-    workbench:"⚒", revision:"◫", profile:"●"
+    workbench:"⚒", revision:"◫", academy:"★", profile:"●"
   };
   const normalise = value => String(value || "").trim().toLowerCase();
 
@@ -87,6 +87,33 @@
         });
         list.appendChild(button);
       });
+
+      // Premium Academy is a shared section and is opened directly rather than
+      // relying on the course application's internal route list.
+      if(![...select.options].some(option => normalise(option.textContent) === "academy")){
+        const academyButton = document.createElement("button");
+        academyButton.type = "button";
+        academyButton.className = "ap-nav-item ap-academy-nav-item";
+        academyButton.innerHTML = `
+          <span class="ap-nav-item-icon">${icons.academy}</span>
+          <span class="ap-nav-item-copy">
+            <strong>Academy</strong>
+            <small>Short courses, achievements and certificates</small>
+          </span>
+          <span class="ap-nav-item-status">›</span>`;
+        academyButton.addEventListener("click", () => {
+          academyButton.classList.add("pressed");
+          setTimeout(() => {
+            closeMenu();
+            window.ApprenticeshipPlusAcademy?.open?.();
+          }, 90);
+        });
+        const profileButton = [...list.querySelectorAll(".ap-nav-item")].find(button =>
+          normalise(button.querySelector("strong")?.textContent) === "profile"
+        );
+        if(profileButton) list.insertBefore(academyButton, profileButton);
+        else list.appendChild(academyButton);
+      }
     }
 
     function openMenu(){
