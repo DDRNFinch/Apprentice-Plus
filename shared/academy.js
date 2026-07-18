@@ -8,20 +8,48 @@
   const ACHIEVEMENT_KEY="apprenticeshipPlusAchievementSnapshotV1";
 
   
-// Phase 8.2 badge foundation
-const BADGE_KEY="apprenticeshipPlusBadgeGalleryV1";
+// Achievement badges and milestone rewards
+const BADGE_KEY="apprenticeshipPlusBadgeGalleryV2";
+const BONUS_XP_KEY="apprenticeshipPlusAchievementBonusXpV1";
+const MILESTONE_KEY="apprenticeshipPlusXpMilestonesV1";
+const CELEBRATION_KEY="apprenticeshipPlusCelebrationQueueV1";
 const DEFAULT_BADGES=[
-{id:"first-course",title:"First Steps",desc:"Complete your first Academy course."},
-{id:"perfect-score",title:"Perfect Score",desc:"Achieve 100% in any assessment."},
-{id:"five-courses",title:"Dedicated Learner",desc:"Complete five Academy courses."},
-{id:"ten-certs",title:"Certificate Collector",desc:"Earn ten Academy certificates."},
-{id:"level20",title:"Master Apprentice",desc:"Reach Level 20."}
+{id:"first-course",icon:"🚀",title:"First Steps",desc:"Complete your first Academy course.",reward:100,metric:"completed",target:1},
+{id:"perfect-score",icon:"💯",title:"Perfect Score",desc:"Achieve 100% in an Academy assessment.",reward:150,metric:"highestScore",target:100},
+{id:"three-courses",icon:"🔥",title:"On a Roll",desc:"Complete three Academy courses.",reward:200,metric:"completed",target:3},
+{id:"five-courses",icon:"🏆",title:"Dedicated Learner",desc:"Complete five Academy courses.",reward:300,metric:"completed",target:5},
+{id:"all-courses",icon:"🎓",title:"Academy Graduate",desc:"Complete every Academy course.",reward:500,metric:"completed",target:8},
+{id:"five-certs",icon:"📜",title:"Certificate Collector",desc:"Earn five Academy certificates.",reward:250,metric:"certificates",target:5},
+{id:"ten-attempts",icon:"🧠",title:"Knowledge Builder",desc:"Complete ten assessment attempts.",reward:150,metric:"attempts",target:10},
+{id:"hundred-questions",icon:"⚡",title:"Quick Thinker",desc:"Answer one hundred assessment questions.",reward:250,metric:"questionsAnswered",target:100},
+{id:"five-hundred-minutes",icon:"⏱️",title:"Learning Legend",desc:"Reach 500 estimated learning minutes.",reward:350,metric:"learningMinutes",target:500},
+{id:"level10",icon:"⭐",title:"Rising Star",desc:"Reach Apprentice+ Level 10.",reward:400,metric:"level",target:10},
+{id:"level20",icon:"👑",title:"Master Apprentice",desc:"Reach Apprentice+ Level 20.",reward:1000,metric:"level",target:20}
+];
+const XP_MILESTONES=[
+{id:"xp-500",icon:"✨",title:"500 XP",target:500,reward:50},
+{id:"xp-1000",icon:"🌟",title:"1,000 XP",target:1000,reward:100},
+{id:"xp-2500",icon:"🏅",title:"2,500 XP",target:2500,reward:200},
+{id:"xp-5000",icon:"🏆",title:"5,000 XP",target:5000,reward:300},
+{id:"xp-10000",icon:"💎",title:"10,000 XP",target:10000,reward:500},
+{id:"xp-20000",icon:"👑",title:"20,000 XP",target:20000,reward:1000}
 ];
 function getBadges(){
  try{return {...Object.fromEntries(DEFAULT_BADGES.map(b=>[b.id,false])),...JSON.parse(localStorage.getItem(BADGE_KEY)||"{}")};}
  catch(e){return Object.fromEntries(DEFAULT_BADGES.map(b=>[b.id,false]));}
 }
 function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
+function achievementBonusXP(){return Number(localStorage.getItem(BONUS_XP_KEY)||0);}
+function addAchievementBonusXP(amount){localStorage.setItem(BONUS_XP_KEY,String(achievementBonusXP()+Number(amount||0)));}
+function milestoneState(){try{return JSON.parse(localStorage.getItem(MILESTONE_KEY)||"{}");}catch(e){return {};}}
+function saveMilestoneState(v){localStorage.setItem(MILESTONE_KEY,JSON.stringify(v));}
+function queueCelebration(item){
+ try{const q=JSON.parse(localStorage.getItem(CELEBRATION_KEY)||"[]");q.push(item);localStorage.setItem(CELEBRATION_KEY,JSON.stringify(q.slice(-8)));}catch(e){}
+}
+function takeCelebration(){
+ try{const q=JSON.parse(localStorage.getItem(CELEBRATION_KEY)||"[]");const item=q.shift()||null;localStorage.setItem(CELEBRATION_KEY,JSON.stringify(q));return item;}catch(e){return null;}
+}
+
 
 
   const COURSES=[
@@ -744,6 +772,39 @@ function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
     return snapshot;
   }
 
+  function badgeMetricValue(badge,stats,level){
+    if(badge.metric==="level")return level;
+    return Number(stats[badge.metric]||0);
+  }
+
+  function syncAchievementRewards(baseXp){
+    const stats=achievementStatistics();
+    const badges=getBadges();
+    const level=levelForXP(baseXp+achievementBonusXP()).level;
+    let badgeChanged=false;
+    DEFAULT_BADGES.forEach(badge=>{
+      if(!badges[badge.id]&&badgeMetricValue(badge,stats,level)>=badge.target){
+        badges[badge.id]=true;
+        addAchievementBonusXP(badge.reward);
+        queueCelebration({type:"badge",icon:badge.icon,title:"Badge unlocked!",name:badge.title,reward:badge.reward});
+        badgeChanged=true;
+      }
+    });
+    if(badgeChanged)saveBadges(badges);
+
+    const milestones=milestoneState();
+    let runningXp=baseXp+achievementBonusXP();
+    XP_MILESTONES.forEach(milestone=>{
+      if(!milestones[milestone.id]&&runningXp>=milestone.target){
+        milestones[milestone.id]=true;
+        addAchievementBonusXP(milestone.reward);
+        runningXp+=milestone.reward;
+        queueCelebration({type:"milestone",icon:milestone.icon,title:"XP milestone reached!",name:milestone.title,reward:milestone.reward});
+      }
+    });
+    saveMilestoneState(milestones);
+  }
+
   function metrics(){
     const data=readDashboard();
     const completed=Number(data.completed||data.completedAssignments||0);
@@ -751,11 +812,14 @@ function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
     const streak=Number(data.streak||0);
     const academy=academyXP();
     const appXp=completed*120+Math.min(photos,100)*8+Math.min(streak,30)*25;
-    const xp=appXp+academy;
+    const baseXp=appXp+academy;
+    syncAchievementRewards(baseXp);
+    const bonusXP=achievementBonusXP();
+    const xp=baseXp+bonusXP;
     const levelData=levelForXP(xp);
     achievementSnapshot();
     return {
-      completed,photos,streak,xp,academyXP:academy,
+      completed,photos,streak,xp,baseXp,bonusXP,academyXP:academy,
       level:levelData.level,title:levelData.title,progress:levelData.progress,
       nextLevel:levelData.next
     };
@@ -851,7 +915,7 @@ function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
 
       <section class="apa-snapshot">
         <div><strong>${m.completed}</strong><span>Assignments completed</span></div>
-        <div><strong>${m.academyXP}</strong><span>Academy XP earned</span></div>
+        <div class="apa-total-xp-stat"><strong>${m.xp.toLocaleString()}</strong><span>Total XP</span><small>Includes ${m.bonusXP.toLocaleString()} bonus XP</small></div>
         <div><strong>${passed}</strong><span>Courses passed</span></div>
         <div><strong>${passed}</strong><span>Certificates earned</span></div>
       </section>
@@ -1022,6 +1086,8 @@ function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
     const m=metrics();
     const snapshot=achievementSnapshot();
     const s=snapshot.statistics;
+    const badges=getBadges();
+    const milestones=milestoneState();
     const nextText=m.nextLevel
       ?`${Math.max(0,m.nextLevel.min-m.xp).toLocaleString()} XP needed for Level ${m.nextLevel.level}`
       :"Maximum Academy level reached";
@@ -1034,7 +1100,7 @@ function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
           <div>
             <small>APPRENTICESHIP+ LEVEL</small>
             <h1>${esc(m.title)}</h1>
-            <p>${m.xp.toLocaleString()} total XP</p>
+            <p>${m.xp.toLocaleString()} total XP · ${m.bonusXP.toLocaleString()} reward XP</p>
           </div>
         </div>
         <div class="apa-achievement-progress">
@@ -1044,51 +1110,61 @@ function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
       </section>
 
       <section class="apa-achievement-summary">
-        <article><small>ACADEMY COMPLETION</small><strong>${s.completion}%</strong><span>${s.completed} of ${COURSES.length} courses passed</span></article>
-        <article><small>ACADEMY XP</small><strong>${snapshot.academyXp.toLocaleString()}</strong><span>Earned from passed courses</span></article>
-        <article><small>CERTIFICATES</small><strong>${s.certificates}</strong><span>In-house certificates earned</span></article>
+        <article><small>TOTAL XP</small><strong>${m.xp.toLocaleString()}</strong><span>All Apprentice+ activity and rewards</span></article>
+        <article><small>REWARD XP</small><strong>+${m.bonusXP.toLocaleString()}</strong><span>Earned from badges and milestones</span></article>
+        <article><small>BADGES</small><strong>${Object.values(badges).filter(Boolean).length}/${DEFAULT_BADGES.length}</strong><span>Achievement badges unlocked</span></article>
       </section>
 
-      <section class="apa-panel">
-        <div class="apa-heading">
-          <div><small>LEARNING STATISTICS</small><h2>Your Academy activity</h2><p>These figures are calculated from progress stored on this device.</p></div>
-          <span>${s.started} started</span>
-        </div>
-        <div class="apa-achievement-stats">
-          <article><strong>${s.started}</strong><span>Courses started</span></article>
-          <article><strong>${s.completed}</strong><span>Courses completed</span></article>
-          <article><strong>${s.averageScore}%</strong><span>Average best score</span></article>
-          <article><strong>${s.highestScore}%</strong><span>Highest score</span></article>
-          <article><strong>${s.attempts}</strong><span>Assessment attempts</span></article>
-          <article><strong>${s.questionsAnswered}</strong><span>Questions answered</span></article>
-          <article><strong>${s.pagesViewed}</strong><span>Learning pages viewed</span></article>
-          <article><strong>${s.learningMinutes}</strong><span>Estimated learning minutes</span></article>
-        </div>
-      </section>
-
-      <section class="apa-panel">
-        <div class="apa-heading">
-          <div><small>LEVEL JOURNEY</small><h2>20 apprentice levels</h2><p>Complete Academy courses and build evidence across Apprentice+ to progress.</p></div>
-          <span>Level ${m.level}</span>
-        </div>
-        <div class="apa-level-journey">
-          ${ACADEMY_LEVELS.map(level=>{
-            const state=level.level<m.level?"complete":level.level===m.level?"current":"locked";
-            return `<article class="${state}">
-              <span>${level.level<m.level?"✓":level.level}</span>
-              <div><strong>${esc(level.title)}</strong><small>${level.min.toLocaleString()} XP</small></div>
+      <section class="apa-panel apa-badge-centre">
+        <div class="apa-heading"><div><small>BADGE COLLECTION</small><h2>Unlock, collect and earn XP</h2><p>Every badge awards bonus XP the first time it is unlocked.</p></div><span>${Object.values(badges).filter(Boolean).length} unlocked</span></div>
+        <div class="apa-badge-grid">
+          ${DEFAULT_BADGES.map(badge=>{
+            const unlocked=!!badges[badge.id];
+            const value=badgeMetricValue(badge,s,m.level);
+            const percent=Math.min(100,Math.round((value/Math.max(1,badge.target))*100));
+            return `<article class="apa-badge-card ${unlocked?"unlocked":"locked"}">
+              <div class="apa-badge-icon">${unlocked?badge.icon:"🔒"}</div>
+              <small>${unlocked?"UNLOCKED":"IN PROGRESS"}</small>
+              <h3>${esc(badge.title)}</h3>
+              <p>${esc(badge.desc)}</p>
+              <div class="apa-badge-progress"><i style="width:${percent}%"></i></div>
+              <div class="apa-badge-foot"><span>${Math.min(value,badge.target)}/${badge.target}</span><b>+${badge.reward} XP</b></div>
             </article>`;
           }).join("")}
         </div>
       </section>
 
-      <section class="apa-panel apa-foundation-note">
-        <small>PHASE 8.1 FOUNDATION</small>
-        <h2>Achievement data is now active</h2>
-        <p>Your level, Academy completion and learning statistics are saved locally. Automatic badges and badge progress will be added in Phase 8.2.</p>
+      <section class="apa-panel apa-milestone-centre">
+        <div class="apa-heading"><div><small>XP MILESTONES</small><h2>Your reward road</h2><p>Reach each XP target to trigger confetti, unlock the milestone and collect bonus XP.</p></div><span>${Object.values(milestones).filter(Boolean).length}/${XP_MILESTONES.length}</span></div>
+        <div class="apa-milestone-road">
+          ${XP_MILESTONES.map(item=>{
+            const unlocked=!!milestones[item.id];
+            const percent=Math.min(100,Math.round((m.xp/item.target)*100));
+            return `<article class="${unlocked?"complete":""}">
+              <div class="apa-milestone-medal">${unlocked?item.icon:"🔒"}</div>
+              <div><small>${unlocked?"MILESTONE COMPLETE":"KEEP GOING"}</small><h3>${item.title}</h3><div class="apa-milestone-bar"><i style="width:${percent}%"></i></div><span>${Math.min(m.xp,item.target).toLocaleString()} / ${item.target.toLocaleString()} XP</span></div>
+              <b>+${item.reward} XP</b>
+            </article>`;
+          }).join("")}
+        </div>
+      </section>
+
+      <section class="apa-panel">
+        <div class="apa-heading"><div><small>LEARNING STATISTICS</small><h2>Your Academy activity</h2><p>Calculated from progress stored on this device.</p></div><span>${s.started} started</span></div>
+        <div class="apa-achievement-stats">
+          <article><strong>${s.completed}</strong><span>Courses completed</span></article>
+          <article><strong>${s.certificates}</strong><span>Certificates earned</span></article>
+          <article><strong>${s.averageScore}%</strong><span>Average best score</span></article>
+          <article><strong>${s.highestScore}%</strong><span>Highest score</span></article>
+          <article><strong>${s.attempts}</strong><span>Assessment attempts</span></article>
+          <article><strong>${s.questionsAnswered}</strong><span>Questions answered</span></article>
+          <article><strong>${s.pagesViewed}</strong><span>Learning pages viewed</span></article>
+          <article><strong>${s.learningMinutes}</strong><span>Learning minutes</span></article>
+        </div>
       </section>
     </div>`;
   }
+
 
   function certificatesMarkup(){
     const passed=COURSES.filter(course=>courseProgress(course.id).passed);
@@ -1115,6 +1191,18 @@ function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
     </div>`;
   }
 
+  function showCelebration(){
+    const item=takeCelebration();
+    if(!item)return;
+    const overlay=document.createElement("div");
+    overlay.className="apa-celebration";
+    overlay.innerHTML=`<div class="apa-confetti" aria-hidden="true">${Array.from({length:32},(_,i)=>`<i style="--i:${i}"></i>`).join("")}</div><div class="apa-celebration-card"><div>${item.icon||"🏆"}</div><small>${esc(item.title||"Achievement unlocked")}</small><h2>${esc(item.name||"")}</h2><strong>+${Number(item.reward||0).toLocaleString()} XP</strong><button type="button">Collect reward</button></div>`;
+    document.body.appendChild(overlay);
+    const close=()=>{overlay.classList.add("closing");setTimeout(()=>{overlay.remove();showCelebration();},260)};
+    overlay.querySelector("button").onclick=close;
+    setTimeout(()=>overlay.classList.add("show"),30);
+  }
+
   function renderInto(container,screen="main",payload={}){
     if(!container)return;
     container.classList.add("academy-view");
@@ -1129,6 +1217,7 @@ function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
     else if(screen==="result")container.innerHTML=resultMarkup(payload.course,payload.score,payload.passed);
     bind(container,screen,payload);
     window.scrollTo({top:0,behavior:"auto"});
+    setTimeout(showCelebration,140);
   }
 
   function findCourse(id){
@@ -1232,40 +1321,32 @@ function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
   }
 
   window.ApprenticeshipPlusAcademy={
-    version:"phase8-6-v2",
+    version:"v1-achievements-v12",
     renderInto,
-    courses:COURSES,getBadges,saveBadges,defaultBadges:DEFAULT_BADGES
+    courses:COURSES,getBadges,saveBadges,defaultBadges:DEFAULT_BADGES,
+    badgeDatabase:DEFAULT_BADGES,xpMilestones:XP_MILESTONES,
+    getMetrics:metrics,getTotalXP:()=>metrics().xp,getBonusXP:achievementBonusXP,
+    refreshAchievements:()=>metrics()
   };
 })();
 
-// ===== Phase 8.3 Badge Intelligence =====
+// ===== Badge Intelligence API =====
 window.ApprenticeshipPlusAcademy = window.ApprenticeshipPlusAcademy || {};
-
 ApprenticeshipPlusAcademy.getUnlockedBadges = function(){
-  const badges = JSON.parse(localStorage.getItem('ap_badges')||'{}');
-  return Object.keys(badges).filter(k=>badges[k]===true);
+  const state=ApprenticeshipPlusAcademy.getBadges?.()||{};
+  return Object.keys(state).filter(id=>state[id]===true);
 };
-
 ApprenticeshipPlusAcademy.unlockBadge = function(id){
-  const badges = JSON.parse(localStorage.getItem('ap_badges')||'{}');
-  if(!badges[id]){
-    badges[id]=true;
-    localStorage.setItem('ap_badges',JSON.stringify(badges));
-  }
+  const state=ApprenticeshipPlusAcademy.getBadges?.()||{};
+  if(!state[id]){state[id]=true;ApprenticeshipPlusAcademy.saveBadges?.(state);}
 };
-
 ApprenticeshipPlusAcademy.getNextBadge = function(){
-  const defs = ApprenticeshipPlusAcademy.badgeDatabase || [];
-  const unlocked = ApprenticeshipPlusAcademy.getUnlockedBadges();
-  return defs.find(b=>!unlocked.includes(b.id)) || null;
+  const unlocked=ApprenticeshipPlusAcademy.getUnlockedBadges();
+  return (ApprenticeshipPlusAcademy.badgeDatabase||[]).find(b=>!unlocked.includes(b.id))||null;
 };
-
 ApprenticeshipPlusAcademy.getBadgeProgress = function(){
-  const defs = ApprenticeshipPlusAcademy.badgeDatabase || [];
-  return {
-    unlocked: ApprenticeshipPlusAcademy.getUnlockedBadges().length,
-    total: defs.length
-  };
+  const total=(ApprenticeshipPlusAcademy.badgeDatabase||[]).length;
+  return {unlocked:ApprenticeshipPlusAcademy.getUnlockedBadges().length,total};
 };
 
 
@@ -1302,7 +1383,7 @@ window.ApprenticeshipPlusAcademy = window.ApprenticeshipPlusAcademy || {};
 
 // Phase 8.6 final polish
 window.ApprenticeshipPlusAcademy=window.ApprenticeshipPlusAcademy||{};
-window.ApprenticeshipPlusAcademy.version="phase8-6-v2";
+window.ApprenticeshipPlusAcademy.version="v1-achievements-v12";
 window.ApprenticeshipPlusAcademy.getAchievementSummary=function(){
  const badges=(window.ApprenticeshipPlusAcademy.getUnlockedBadges?.()||[]).length;
  const notes=(window.ApprenticeshipPlusAcademy.getNotifications?.()||[]).length;
