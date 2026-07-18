@@ -1276,3 +1276,13 @@ window.ApprenticeshipPlusAcademy = window.ApprenticeshipPlusAcademy || {};
    return api.notifications.filter(n=>["badge","level","certificate"].includes(n.type));
  };
 })(window.ApprenticeshipPlusAcademy);
+
+
+// Phase 8.6 final polish
+window.ApprenticeshipPlusAcademy=window.ApprenticeshipPlusAcademy||{};
+window.ApprenticeshipPlusAcademy.version="phase8-6-v1";
+window.ApprenticeshipPlusAcademy.getAchievementSummary=function(){
+ const badges=(window.ApprenticeshipPlusAcademy.getUnlockedBadges?.()||[]).length;
+ const notes=(window.ApprenticeshipPlusAcademy.getNotifications?.()||[]).length;
+ return {badges,notifications:notes,version:this.version};
+};
