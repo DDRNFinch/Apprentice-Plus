@@ -1,10 +1,28 @@
 "use strict";
 (function(){
-  if(window.ApprenticeshipPlusAcademy?.version==="phase7-v1") return;
+  if(window.ApprenticeshipPlusAcademy?.version==="phase8-1-v1") return;
 
   const STORAGE_KEY="apprenticeshipPlusAcademyProgressV1";
   const PROFILE_KEY="apprenticeshipPlusAcademyLearnerProfileV1";
   const CERTIFICATE_KEY="apprenticeshipPlusAcademyCertificatesV1";
+  const ACHIEVEMENT_KEY="apprenticeshipPlusAchievementSnapshotV1";
+
+  
+// Phase 8.2 badge foundation
+const BADGE_KEY="apprenticeshipPlusBadgeGalleryV1";
+const DEFAULT_BADGES=[
+{id:"first-course",title:"First Steps",desc:"Complete your first Academy course."},
+{id:"perfect-score",title:"Perfect Score",desc:"Achieve 100% in any assessment."},
+{id:"five-courses",title:"Dedicated Learner",desc:"Complete five Academy courses."},
+{id:"ten-certs",title:"Certificate Collector",desc:"Earn ten Academy certificates."},
+{id:"level20",title:"Master Apprentice",desc:"Reach Level 20."}
+];
+function getBadges(){
+ try{return {...Object.fromEntries(DEFAULT_BADGES.map(b=>[b.id,false])),...JSON.parse(localStorage.getItem(BADGE_KEY)||"{}")};}
+ catch(e){return Object.fromEntries(DEFAULT_BADGES.map(b=>[b.id,false]));}
+}
+function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
+
 
   const COURSES=[
     {
@@ -387,6 +405,29 @@
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   }[ch]));
 
+  const ACADEMY_LEVELS=[
+    {level:1,title:"New Starter",min:0},
+    {level:2,title:"Getting Started",min:250},
+    {level:3,title:"Active Learner",min:500},
+    {level:4,title:"Developing Apprentice",min:850},
+    {level:5,title:"Knowledge Builder",min:1250},
+    {level:6,title:"Committed Learner",min:1750},
+    {level:7,title:"Skills Explorer",min:2300},
+    {level:8,title:"Confident Apprentice",min:2900},
+    {level:9,title:"Progress Maker",min:3600},
+    {level:10,title:"Academy Achiever",min:4400},
+    {level:11,title:"Advanced Learner",min:5300},
+    {level:12,title:"Workplace Professional",min:6300},
+    {level:13,title:"Knowledge Specialist",min:7400},
+    {level:14,title:"High Performer",min:8600},
+    {level:15,title:"Course Champion",min:9900},
+    {level:16,title:"Advanced Apprentice",min:11300},
+    {level:17,title:"EPA Contender",min:12800},
+    {level:18,title:"EPA Ready",min:14400},
+    {level:19,title:"Academy Expert",min:16100},
+    {level:20,title:"Apprenticeship+ Master",min:18000}
+  ];
+
   function loadProgress(){
     try{
       const value=JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");
@@ -612,23 +653,76 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
     },0);
   }
 
+  function achievementStatistics(){
+    const progresses=COURSES.map(course=>({course,progress:courseProgress(course.id)}));
+    const started=progresses.filter(item=>item.progress.lessonsViewed.length>0||item.progress.attempts>0).length;
+    const completed=progresses.filter(item=>item.progress.passed).length;
+    const certificates=completed;
+    const attempts=progresses.reduce((sum,item)=>sum+Number(item.progress.attempts||0),0);
+    const questionsAnswered=progresses.reduce((sum,item)=>sum+(Number(item.progress.attempts||0)*Number(item.course.questions?.length||0)),0);
+    const scores=progresses.filter(item=>item.progress.bestScore>0).map(item=>Number(item.progress.bestScore));
+    const averageScore=scores.length?Math.round(scores.reduce((sum,score)=>sum+score,0)/scores.length):0;
+    const highestScore=scores.length?Math.max(...scores):0;
+    const pagesViewed=progresses.reduce((sum,item)=>sum+new Set(item.progress.lessonsViewed||[]).size,0);
+    const learningMinutes=Math.round(progresses.reduce((sum,item)=>{
+      const totalPages=Math.max(1,item.course.lessons?.length||1);
+      const viewed=Math.min(totalPages,new Set(item.progress.lessonsViewed||[]).size);
+      return sum+(Number(item.course.minutes||0)*(viewed/totalPages));
+    },0));
+    const completion=Math.round((completed/Math.max(1,COURSES.length))*100);
+    return {
+      started,completed,certificates,attempts,questionsAnswered,
+      averageScore,highestScore,pagesViewed,learningMinutes,completion
+    };
+  }
+
+  function levelForXP(xp){
+    const current=[...ACADEMY_LEVELS].reverse().find(item=>xp>=item.min)||ACADEMY_LEVELS[0];
+    const next=ACADEMY_LEVELS.find(item=>item.level===current.level+1)||null;
+    const progress=next
+      ?Math.max(0,Math.min(100,Math.round(((xp-current.min)/(next.min-current.min))*100)))
+      :100;
+    return {...current,next,progress};
+  }
+
+  function saveAchievementSnapshot(snapshot){
+    try{
+      localStorage.setItem(ACHIEVEMENT_KEY,JSON.stringify(snapshot));
+    }catch(error){}
+  }
+
+  function achievementSnapshot(){
+    const stats=achievementStatistics();
+    const academyXp=academyXP();
+    const level=levelForXP(academyXp);
+    const snapshot={
+      updatedAt:new Date().toISOString(),
+      academyXp,
+      level:level.level,
+      levelTitle:level.title,
+      nextLevelXp:level.next?.min||level.min,
+      levelProgress:level.progress,
+      statistics:stats
+    };
+    saveAchievementSnapshot(snapshot);
+    return snapshot;
+  }
+
   function metrics(){
     const data=readDashboard();
     const completed=Number(data.completed||data.completedAssignments||0);
     const photos=Number(data.photos||data.photoCount||0);
     const streak=Number(data.streak||0);
-    const xp=completed*120+Math.min(photos,100)*8+Math.min(streak,30)*25+academyXP();
-    const levels=[
-      {level:1,title:"Starter",min:0,next:500},
-      {level:2,title:"Developing Apprentice",min:500,next:1200},
-      {level:3,title:"Skilled Apprentice",min:1200,next:2200},
-      {level:4,title:"Advanced Apprentice",min:2200,next:3500},
-      {level:5,title:"EPA Contender",min:3500,next:5000},
-      {level:6,title:"EPA Ready",min:5000,next:7000}
-    ];
-    const current=[...levels].reverse().find(item=>xp>=item.min)||levels[0];
-    const progress=Math.max(0,Math.min(100,Math.round(((xp-current.min)/(current.next-current.min))*100)));
-    return {completed,photos,streak,xp,academyXP:academyXP(),level:current.level,title:current.title,progress};
+    const academy=academyXP();
+    const appXp=completed*120+Math.min(photos,100)*8+Math.min(streak,30)*25;
+    const xp=appXp+academy;
+    const levelData=levelForXP(xp);
+    achievementSnapshot();
+    return {
+      completed,photos,streak,xp,academyXP:academy,
+      level:levelData.level,title:levelData.title,progress:levelData.progress,
+      nextLevel:levelData.next
+    };
   }
 
   function trade(){
@@ -890,17 +984,72 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
 
   function achievementMarkup(){
     const m=metrics();
-    return `<div class="apa-page">
+    const snapshot=achievementSnapshot();
+    const s=snapshot.statistics;
+    const nextText=m.nextLevel
+      ?`${Math.max(0,m.nextLevel.min-m.xp).toLocaleString()} XP needed for Level ${m.nextLevel.level}`
+      :"Maximum Academy level reached";
+    return `<div class="apa-page apa-achievement-page">
       <button class="apa-back" type="button" data-academy-screen="main">‹ Back to Academy</button>
-      <section class="apa-panel">
-        <small>ACHIEVEMENT CENTRE</small><h1>Level ${m.level}: ${esc(m.title)}</h1>
-        <div class="apa-stat-grid">
-          <div><strong>${m.xp}</strong><span>Total XP</span></div>
-          <div><strong>${m.academyXP}</strong><span>Academy XP</span></div>
-          <div><strong>${m.completed}/20</strong><span>Assignments</span></div>
-          <div><strong>${COURSES.filter(c=>courseProgress(c.id).passed).length}</strong><span>Courses passed</span></div>
+
+      <section class="apa-achievement-hero">
+        <div class="apa-achievement-level">
+          <div class="apa-big-level"><span>${m.level}</span><small>OF 20</small></div>
+          <div>
+            <small>APPRENTICESHIP+ LEVEL</small>
+            <h1>${esc(m.title)}</h1>
+            <p>${m.xp.toLocaleString()} total XP</p>
+          </div>
         </div>
-        <button class="apa-disabled" disabled>Progress certificate — planned for a later Academy update</button>
+        <div class="apa-achievement-progress">
+          <div><strong>${m.progress}%</strong><span>${esc(nextText)}</span></div>
+          <div class="apa-level-track"><i style="width:${m.progress}%"></i></div>
+        </div>
+      </section>
+
+      <section class="apa-achievement-summary">
+        <article><small>ACADEMY COMPLETION</small><strong>${s.completion}%</strong><span>${s.completed} of ${COURSES.length} courses passed</span></article>
+        <article><small>ACADEMY XP</small><strong>${snapshot.academyXp.toLocaleString()}</strong><span>Earned from passed courses</span></article>
+        <article><small>CERTIFICATES</small><strong>${s.certificates}</strong><span>In-house certificates earned</span></article>
+      </section>
+
+      <section class="apa-panel">
+        <div class="apa-heading">
+          <div><small>LEARNING STATISTICS</small><h2>Your Academy activity</h2><p>These figures are calculated from progress stored on this device.</p></div>
+          <span>${s.started} started</span>
+        </div>
+        <div class="apa-achievement-stats">
+          <article><strong>${s.started}</strong><span>Courses started</span></article>
+          <article><strong>${s.completed}</strong><span>Courses completed</span></article>
+          <article><strong>${s.averageScore}%</strong><span>Average best score</span></article>
+          <article><strong>${s.highestScore}%</strong><span>Highest score</span></article>
+          <article><strong>${s.attempts}</strong><span>Assessment attempts</span></article>
+          <article><strong>${s.questionsAnswered}</strong><span>Questions answered</span></article>
+          <article><strong>${s.pagesViewed}</strong><span>Learning pages viewed</span></article>
+          <article><strong>${s.learningMinutes}</strong><span>Estimated learning minutes</span></article>
+        </div>
+      </section>
+
+      <section class="apa-panel">
+        <div class="apa-heading">
+          <div><small>LEVEL JOURNEY</small><h2>20 apprentice levels</h2><p>Complete Academy courses and build evidence across Apprentice+ to progress.</p></div>
+          <span>Level ${m.level}</span>
+        </div>
+        <div class="apa-level-journey">
+          ${ACADEMY_LEVELS.map(level=>{
+            const state=level.level<m.level?"complete":level.level===m.level?"current":"locked";
+            return `<article class="${state}">
+              <span>${level.level<m.level?"✓":level.level}</span>
+              <div><strong>${esc(level.title)}</strong><small>${level.min.toLocaleString()} XP</small></div>
+            </article>`;
+          }).join("")}
+        </div>
+      </section>
+
+      <section class="apa-panel apa-foundation-note">
+        <small>PHASE 8.1 FOUNDATION</small>
+        <h2>Achievement data is now active</h2>
+        <p>Your level, Academy completion and learning statistics are saved locally. Automatic badges and badge progress will be added in Phase 8.2.</p>
       </section>
     </div>`;
   }
@@ -1061,8 +1210,8 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
   }
 
   window.ApprenticeshipPlusAcademy={
-    version:"phase7-v1",
+    version:"phase8-1-v1",
     renderInto,
-    courses:COURSES
+    courses:COURSES,getBadges,saveBadges,defaultBadges:DEFAULT_BADGES
   };
 })();
