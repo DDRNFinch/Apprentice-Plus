@@ -1,6 +1,6 @@
 "use strict";
 (function(){
-  if(window.ApprenticeshipPlusAcademy?.version==="phase4-v1") return;
+  if(window.ApprenticeshipPlusAcademy?.version==="phase5-v1") return;
 
   const STORAGE_KEY="apprenticeshipPlusAcademyProgressV1";
   const PROFILE_KEY="apprenticeshipPlusAcademyLearnerProfileV1";
@@ -111,7 +111,120 @@
         }
       ]
     },
-    {id:"coshh-awareness",title:"COSHH Awareness",category:"Health & Safety",minutes:20,xp:500,status:"coming-soon"},
+    {
+      id:"coshh-awareness",
+      title:"COSHH Awareness",
+      category:"Health & Safety",
+      minutes:20,
+      xp:500,
+      passMark:90,
+      status:"available",
+      description:"Learn how hazardous substances can affect health and how COSHH information, controls, storage and emergency procedures reduce risk.",
+      lessons:[
+        {
+          title:"What COSHH means",
+          text:"COSHH stands for the Control of Substances Hazardous to Health Regulations. COSHH requires employers to assess risks from hazardous substances and prevent or adequately control exposure. Workers must follow the controls, training and instructions provided.",
+          points:["Control hazardous substances","Assess exposure risks","Use the agreed controls"]
+        },
+        {
+          title:"Recognising hazardous substances",
+          text:"Hazardous substances may be liquids, dusts, fumes, vapours, gases, mists or biological agents. Construction examples include cement, wood dust, solvents, adhesives, paints, cleaning chemicals and silica dust.",
+          points:["Check labels and packaging","Consider dust, vapour and fumes","Do not rely only on smell"]
+        },
+        {
+          title:"Hazard labels and pictograms",
+          text:"Chemical containers use hazard pictograms and warning statements. These can identify risks such as flammability, corrosion, toxicity, serious health effects or environmental harm. Never use an unlabelled substance.",
+          points:["Read the product label","Understand warning symbols","Report missing or damaged labels"]
+        },
+        {
+          title:"Safety Data Sheets",
+          text:"A Safety Data Sheet provides detailed information about a substance, including hazards, handling, storage, exposure controls, first aid, spill response and disposal. It supports the COSHH assessment but does not replace it.",
+          points:["Check handling instructions","Find first-aid information","Use the correct storage guidance"]
+        },
+        {
+          title:"Routes of exposure",
+          text:"Hazardous substances can enter the body by breathing them in, swallowing them, skin or eye contact, or injection through damaged skin. The controls must match the likely route of exposure.",
+          points:["Inhalation","Skin and eye contact","Ingestion or injection"]
+        },
+        {
+          title:"The control hierarchy",
+          text:"The best control is to remove the hazardous substance or replace it with a safer alternative. Where this is not possible, use engineering controls such as enclosure, extraction or wet methods before relying on PPE and RPE.",
+          points:["Eliminate or substitute first","Use extraction or wet methods","PPE is the final layer"]
+        },
+        {
+          title:"Using PPE and RPE",
+          text:"PPE and RPE must be suitable for the substance and task. Respiratory protection must have the correct filter and fit the wearer. Tight-fitting masks require face-fit testing and a clean-shaven seal area.",
+          points:["Select the correct protection","Inspect before use","Wear and remove it correctly"]
+        },
+        {
+          title:"Storage and housekeeping",
+          text:"Keep hazardous substances in approved, labelled containers and store them securely according to the assessment and Safety Data Sheet. Keep lids closed, separate incompatible products and prevent contamination of drains, soil and work areas.",
+          points:["Use labelled containers","Secure storage areas","Keep workspaces clean"]
+        },
+        {
+          title:"Spills and emergencies",
+          text:"Follow the site emergency procedure for spills, splashes or exposure. Raise the alarm, isolate the area and use the correct spill kit only if trained. Seek first aid and report the incident or near miss.",
+          points:["Do not improvise","Use emergency information","Report exposure promptly"]
+        },
+        {
+          title:"Health surveillance and reporting",
+          text:"Some work may require health surveillance, such as checks for dermatitis or breathing problems. Attend any required checks and report symptoms early. Records and early intervention help prevent long-term ill health.",
+          points:["Report symptoms early","Attend required surveillance","Review controls after problems"]
+        }
+      ],
+      questions:[
+        {
+          q:"What does COSHH stand for?",
+          options:["Control of Site Health Hazards","Control of Substances Hazardous to Health","Construction Operations Safety and Health Handbook","Chemical Organisation Storage and Handling"],
+          answer:1
+        },
+        {
+          q:"Which can be a hazardous substance?",
+          options:["Only liquids with a warning label","Dust, fumes, vapour, gases and liquids","Only products kept in a chemical store","Only substances that smell strong"],
+          answer:1
+        },
+        {
+          q:"What should you do with an unlabelled chemical container?",
+          options:["Use a small amount to identify it","Smell it carefully","Do not use it and report it","Pour it into another container"],
+          answer:2
+        },
+        {
+          q:"What information can a Safety Data Sheet provide?",
+          options:["Employee attendance records","Hazards, handling, first aid and spill response","The site's fire-alarm test dates","Only the purchase price"],
+          answer:1
+        },
+        {
+          q:"Which is a route of exposure?",
+          options:["Inhalation","Measurement","Inspection","Supervision"],
+          answer:0
+        },
+        {
+          q:"What should be considered before relying on PPE?",
+          options:["Working faster","Elimination, substitution and engineering controls","Using two pairs of gloves for every task","Moving the substance outdoors"],
+          answer:1
+        },
+        {
+          q:"What is required for a tight-fitting respirator to work correctly?",
+          options:["A face-fit test and a good seal","A hard hat worn over it","A larger filter than specified","A wet face seal"],
+          answer:0
+        },
+        {
+          q:"How should hazardous substances normally be stored?",
+          options:["In any convenient drinks bottle","In approved labelled containers according to instructions","With lids removed for ventilation","Next to drains for easy cleaning"],
+          answer:1
+        },
+        {
+          q:"What should you do after a hazardous-substance splash or exposure?",
+          options:["Wait until the end of the shift","Follow emergency procedures, seek first aid and report it","Wash the area only if it hurts","Continue working while someone checks the label"],
+          answer:1
+        },
+        {
+          q:"Why may health surveillance be required?",
+          options:["To replace the COSHH assessment","To detect work-related health effects early","To decide who receives PPE","To record productivity"],
+          answer:1
+        }
+      ]
+    },
     {id:"equality-diversity",title:"Equality and Diversity",category:"Personal Development",minutes:15,xp:500,status:"coming-soon"},
     {id:"british-values",title:"British Values",category:"Personal Development",minutes:15,xp:500,status:"coming-soon"},
     {id:"fire-safety",title:"Fire Safety Awareness",category:"Health & Safety",minutes:15,xp:500,status:"coming-soon"},
@@ -450,7 +563,7 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
 
       <section class="apa-panel" id="apa-course-library">
         <div class="apa-heading">
-          <div><small>SHORT COURSES</small><h2>Academy course library</h2><p>Manual Handling is now available. More shared courses will be added using the same course engine.</p></div>
+          <div><small>SHORT COURSES</small><h2>Academy course library</h2><p>Manual Handling and COSHH Awareness are now available. More shared courses will be added using the same course engine.</p></div>
           <span>${COURSES.filter(c=>c.status==="available").length} available</span>
         </div>
         <div class="apa-course-list">${COURSES.map(courseCard).join("")}</div>
@@ -640,7 +753,7 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
                 <button type="button" data-certificate-course="${course.id}">Open certificate</button>
               </article>`;
             }).join("")}</div>`
-          :`<div class="apa-empty"><div>PDF</div><h2>No Academy certificates yet</h2><p>Pass Manual Handling with 90% or higher to unlock your first in-house certificate.</p></div>`}
+          :`<div class="apa-empty"><div>PDF</div><h2>No Academy certificates yet</h2><p>Pass an available Academy course with 90% or higher to unlock an in-house certificate.</p></div>`}
         <p class="apa-smallprint">Certificate records are stored on this device. Clearing the website's stored data will remove locally saved progress and certificate records.</p>
       </section>
     </div>`;
@@ -765,7 +878,7 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
   }
 
   window.ApprenticeshipPlusAcademy={
-    version:"phase4-v1",
+    version:"phase5-v1",
     renderInto,
     courses:COURSES
   };

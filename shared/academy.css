@@ -73,3 +73,9 @@
 .apa-certificate-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:18px 0}.apa-certificate-facts div{padding:15px;border-radius:15px;background:#f0f7f5;text-align:center}.apa-certificate-facts strong,.apa-certificate-facts span{display:block}.apa-certificate-facts strong{color:#08705e}.apa-certificate-facts span{font-size:.72rem;color:#708486;margin-top:4px}
 .apa-certificate-list article small{display:block;margin-top:4px;font-size:.65rem;color:#879596;word-break:break-all}.apa-certificate-list article button{background:#087267;color:#fff;cursor:pointer}
 @media(max-width:620px){.apa-certificate-facts{grid-template-columns:1fr}.apa-certificate-list article button{grid-column:2;width:100%}}
+
+
+/* Phase 5 course-library refinement */
+.apa-course-card.available .apa-course-status span{background:#e5f6ee;color:#08704f}
+.apa-course-card.available:hover{transform:translateY(-1px)}
+.apa-course-card{transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}
