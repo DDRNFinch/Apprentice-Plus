@@ -1,29 +1,9 @@
-importScripts("https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js");
-importScripts("https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js");
-firebase.initializeApp({"apiKey": "AIzaSyCIILT-Lg2fQ2SI3uswbCCCzvpqk3SLVXg", "authDomain": "apprentice-plus-notifications.firebaseapp.com", "projectId": "apprentice-plus-notifications", "storageBucket": "apprentice-plus-notifications.firebasestorage.app", "messagingSenderId": "709798823441", "appId": "1:709798823441:web:29845352ac571c507c93b0", "measurementId": "G-H45SQ5BCZG"});
-const apMessaging=firebase.messaging();
-apMessaging.onBackgroundMessage(payload=>{
- const data=payload.data||{},note=payload.notification||{};
- return self.registration.showNotification(note.title||data.title||"Apprenticeship+",{
-  body:note.body||data.body||"",icon:"./icon-192.png",badge:"./icon-192.png",
-  data:{route:data.route||"Home",url:data.url||"./"}
- });
-});
-self.addEventListener("notificationclick",event=>{
- event.notification.close();
- const targetUrl=new URL(event.notification.data?.url||"./",self.location.href).href;
- event.waitUntil(clients.matchAll({type:"window",includeUncontrolled:true}).then(list=>{
-  for(const client of list){if("focus" in client)return client.focus();}
-  return clients.openWindow(targetUrl);
- }));
-});
-
 "use strict";
-const CACHE_NAME="apprenticeship-plus-site-home-cleanup-v10";
+const CACHE_NAME="apprenticeship-plus-site-free-local-reminders-v11";
 const APP_FILES=[
  "./","./index.html","./app.js",
  './professional-navigation.js','./professional-navigation.css','./remove-workbench.js','./modern-dashboard.js','./modern-dashboard.css','./section-grid-force-fix.js','./section-grid-force-fix.css','./section-grid-cleanup.js','./section-grid-cleanup.css','./portfolio-blank-fix.js','./portfolio-blank-fix.css',
- "./assignment-pdf.js","./legacy-home-cleanup.js","./legacy-home-cleanup.css","./firebase-notifications.js","./firebase-notifications.css","./remove-old-home.js","./remove-old-home.css","./remove-smart-reminders.css","./register-service-worker.js","./manifest.json",
+ "./assignment-pdf.js","./legacy-home-cleanup.js","./legacy-home-cleanup.css","./local-reminders.js","./local-reminders.css","./remove-old-home.js","./remove-old-home.css","./remove-smart-reminders.css","./register-service-worker.js","./manifest.json",
  "./trade-logo.png","./icon-192.png","./icon-512.png"
 ];
 
@@ -43,14 +23,14 @@ self.addEventListener("fetch",event=>{
  var styles=[
   './remove-old-home.css?v=10',
   './remove-smart-reminders.css?v=10',
-  './legacy-home-cleanup.css?v=8','./firebase-notifications.css?v=8',
+  './legacy-home-cleanup.css?v=8','./local-reminders.css?v=11',
   './professional-navigation.css?v=1','./modern-dashboard.css?v=1',
   './section-grid-force-fix.css?v=1','./section-grid-cleanup.css?v=1',
   './portfolio-blank-fix.css?v=1'
  ];
  var scripts=[
   './remove-old-home.js?v=10',
-  './legacy-home-cleanup.js?v=8','./firebase-notifications.js?v=8',
+  './legacy-home-cleanup.js?v=8','./local-reminders.js?v=11',
   './professional-navigation.js?v=1','./remove-workbench.js?v=1',
   './modern-dashboard.js?v=1','./section-grid-force-fix.js?v=1',
   './section-grid-cleanup.js?v=1','./portfolio-blank-fix.js?v=1'
