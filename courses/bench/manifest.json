@@ -1,22 +1,36 @@
 {
-  "name": "Bench Buddy",
-  "short_name": "Bench Buddy",
-  "description": "An apprenticeship companion for Bench Joinery learners.",
+  "name": "Apprenticeship+",
+  "short_name": "Apprenticeship+",
+  "description": "Capture apprenticeship evidence, create PDFs, revise and prepare for EPA.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f3f0eb",
-  "theme_color": "#9d2525",
+  "background_color": "#002d33",
+  "theme_color": "#043f46",
   "icons": [
     {
-      "src": "./icon-192.png",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "./icon-512.png",
+      "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "maskable-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "maskable-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
