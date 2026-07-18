@@ -1,23 +1,25 @@
-APPRENTICESHIP+ INSTALL BUTTON FIX
+APPRENTICESHIP+ IPHONE PDF FIX
 
-Upload these files to the ROOT of Apprentice-Plus:
+Upload while preserving the folders.
 
-- install-apprenticeship-plus.js
-- install-apprenticeship-plus.css
-- install-course-option.js
-- install-course-option.css
-- service-worker.js
+ROOT:
+- ios-pdf-guidance.js
+- ios-pdf-guidance.css
+
+COURSES:
+- courses/bench/app.js
+- courses/site/app.js
+- courses/brick/index.html
+- courses/pmo/index.html
+- courses/pmo/app.js
 
 Commit message:
-Fix Apprenticeship+ installation button
+Fix PDF generation on iPhone and iPad
 
-After committing:
-1. Fully close the browser/app.
-2. Reopen the main Apprenticeship+ website.
-3. Use the install popup again.
+Behaviour:
+- Samsung/Android and desktop continue downloading PDFs normally.
+- iPhone/iPad opens the finished PDF in Apple's PDF viewer.
+- The learner taps Share, then Save to Files.
+- This avoids the iOS Safari Blob-download restriction that caused the button to appear to do nothing.
 
-The button now:
-- opens the automatic Android installer when the browser supports it
-- waits for the browser installation event correctly
-- shows exact Samsung Internet or Chrome instructions when automatic installation is unavailable
-- always installs the main Apprenticeship+ app, never an individual trade
+After committing, fully close the app/browser and reopen it before testing.

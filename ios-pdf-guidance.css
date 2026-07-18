@@ -1,0 +1,1 @@
+.ap-ios-pdf-toast{position:fixed;left:50%;bottom:82px;z-index:99999;transform:translateX(-50%);width:min(420px,calc(100% - 28px));padding:13px 16px;border-radius:14px;background:#073f46;color:#fff;font-weight:800;text-align:center;box-shadow:0 14px 38px rgba(0,0,0,.28)}
