@@ -1,5 +1,5 @@
 "use strict";
-const CACHE_NAME="apprenticeship-plus-bench-single-home-setup-v12";
+const CACHE_NAME="apprenticeship-plus-bench-profile-reminders-fix-v13";
 const APP_FILES=[
  "./","./index.html","./app.js",
  "./professional-navigation.js","./professional-navigation.css",
@@ -39,7 +39,7 @@ self.addEventListener("fetch",event=>{
   './remove-old-home.css?v=10',
   './remove-smart-reminders.css?v=10',
   './remove-old-home.css?v=9',
-  './legacy-home-cleanup.css?v=8','./local-reminders.css?v=11',
+  './legacy-home-cleanup.css?v=8','./local-reminders.css?v=13',
   './professional-navigation.css?v=6',
   './modern-dashboard.css?v=6',
   './section-grid-force-fix.css?v=6',
@@ -47,10 +47,10 @@ self.addEventListener("fetch",event=>{
   './portfolio-blank-fix.css?v=6'
  ];
  var scripts=[
-  './replace-home.js?v=12','./first-login-setup.js?v=12',
+  './replace-home.js?v=12','./first-login-setup.js?v=13',
   './remove-old-home.js?v=10',
   './remove-old-home.js?v=9',
-  './legacy-home-cleanup.js?v=8','./local-reminders.js?v=11',
+  './legacy-home-cleanup.js?v=8','./local-reminders.js?v=13',
   './professional-navigation.js?v=6',
   './remove-workbench.js?v=6',
   './modern-dashboard.js?v=6',

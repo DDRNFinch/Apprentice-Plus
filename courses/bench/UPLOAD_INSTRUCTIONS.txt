@@ -1,23 +1,19 @@
-BENCH JOINERY — SINGLE HOME AND FIRST-LOGIN SETUP
+BENCH JOINERY — PROFILE REMINDERS AND SETUP FIX
 
 Open:
 courses > bench
 
 Upload and replace:
-- replace-home.js
-- replace-home.css
+- local-reminders.js
+- local-reminders.css
 - first-login-setup.js
-- first-login-setup.css
 - service-worker.js
 
 Commit message:
-Replace old home and add first login setup
+Fix learner setup and reminder controls
 
-This update:
-- makes the modern dashboard the only home screen
-- removes all remaining old home cards
-- removes the old Smart Reminders card
-- keeps the navigation and notification bell
-- shows a setup popup when learner details are missing
-- shows a setup popup when reminder preferences are missing
-- sends the learner to Profile / Settings to complete setup
+This fixes:
+- saved learner details are now read from the course's real saved profile
+- the setup popup stops appearing after name, employer and assessor are saved
+- reminder day/time/type controls appear directly below Learner profile
+- reminder settings remain in Profile & Settings
