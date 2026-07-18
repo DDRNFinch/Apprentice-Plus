@@ -1,5 +1,5 @@
 "use strict";
-const CACHE_NAME="apprenticeship-plus-bench-main-install-v16";
+const CACHE_NAME="apprenticeship-plus-bench-academy-first-class-v1";
 const APP_FILES=[
  "./","./index.html","./app.js",
  "./professional-navigation.js","./professional-navigation.css",

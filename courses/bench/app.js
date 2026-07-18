@@ -1260,6 +1260,7 @@ function mainRouteFor(name){
   if(["practical","documents","witness","otj"].includes(name))return "portfolio";
   if(["cards","assignmentQuiz","epaKnowledge","epaPracticalMock","epaDiscussionMock"].includes(name))return "revision";
   if(name==="settings")return "settings";
+  if(name==="academy")return "academy";
   if(name==="workbench")return "workbench";
   if(name==="evidence")return "evidence";
   return "home";
@@ -1295,6 +1296,7 @@ function headerNav(){
     ["home","Home","icon-home"],
     ["evidence","Assignments","icon-assignments"],
     ["portfolio","Portfolio","icon-portfolio"],
+    ["academy","Academy","icon-academy"],
     ["workbench","Workbench","icon-workbench"],
     ["revision","Revision","icon-revision"],
     ["settings","Profile","icon-profile"]
@@ -1312,7 +1314,7 @@ function headerNav(){
 }
 
 function render(){
-  const routes={home,evidence,portfolio,workbench,revision,otj,practical,cards,assignmentQuiz,epaKnowledge,epaPracticalMock,epaDiscussionMock,witness,documents,settings};
+  const routes={home,evidence,portfolio,academy,workbench,revision,otj,practical,cards,assignmentQuiz,epaKnowledge,epaPracticalMock,epaDiscussionMock,witness,documents,settings};
   app.innerHTML=headerNav()+`<section id="view"></section>`;
   const activeMain=mainRouteFor(routeName);
   document.querySelectorAll(".tabs [data-route]").forEach(b=>b.classList.toggle("active",b.dataset.route===activeMain));
@@ -1321,6 +1323,16 @@ function render(){
 }
 
 function view(){return document.getElementById("view")}
+
+function academy(){
+  const container=view();
+  if(window.ApprenticeshipPlusAcademy?.renderInto){
+    window.ApprenticeshipPlusAcademy.renderInto(container);
+  }else{
+    container.innerHTML=`<section class="card hero"><span class="eyebrow">APPRENTICESHIP+ ACADEMY</span><h2>Academy is loading</h2><p>Please wait a moment and open Academy again.</p></section>`;
+  }
+}
+
 
 
 function portfolio(){
