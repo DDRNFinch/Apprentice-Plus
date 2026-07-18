@@ -1,6 +1,25 @@
-Upload all files to the ROOT of Apprentice-Plus.
+APPRENTICESHIP+ MAIN INSTALL PROMPT
+
+Upload the contents of this ZIP while preserving the folders.
+
+ROOT:
+install-apprenticeship-plus.js
+install-apprenticeship-plus.css
+install-course-option.js
+install-course-option.css
+service-worker.js
+
+COURSES:
+courses/bench/service-worker.js
+courses/site/index.html and service-worker.js
+courses/pmo/index.html and service-worker.js
+courses/brick/index.html and service-worker.js
 
 Commit message:
-Fix Apprenticeship+ app icon sizing
+Add main Apprenticeship+ installation prompt
 
-Then remove the existing installed shortcut/app from the phone and install it again, because Android caches app icons.
+This:
+- asks first-time visitors to install Apprenticeship+
+- always installs the root Apprenticeship+ app
+- never installs an individual trade
+- adds an installation option to every trade Options/Profile section
