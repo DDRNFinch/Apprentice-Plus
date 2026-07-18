@@ -524,115 +524,151 @@ function saveBadges(v){localStorage.setItem(BADGE_KEY,JSON.stringify(v));}
     return record;
   }
 
-  function certificateName(){
-    return String(loadProfile().name||"").trim();
+  function findLearnerName(){
+    const direct=String(loadProfile().name||"").trim();
+    if(direct)return direct;
+    const preferredKeys=[
+      "apprenticePlusSettingsV2","apprenticePlusProfile","apprenticeshipPlusProfile",
+      "learnerProfile","userProfile","profile","apProfile"
+    ];
+    const nameFields=["learnerName","fullName","displayName","apprenticeName","name"];
+    const inspect=value=>{
+      if(!value||typeof value!=="object")return"";
+      for(const field of nameFields){
+        const candidate=value[field];
+        if(typeof candidate==="string"&&candidate.trim().length>=2)return candidate.trim();
+      }
+      for(const nested of ["learner","user","profile","settings","personalDetails"]){
+        const found=inspect(value[nested]);
+        if(found)return found;
+      }
+      return"";
+    };
+    for(const key of preferredKeys){
+      try{
+        const found=inspect(JSON.parse(localStorage.getItem(key)||"null"));
+        if(found){saveProfile({...loadProfile(),name:found});return found;}
+      }catch(error){}
+    }
+    for(let index=0;index<localStorage.length;index++){
+      const key=localStorage.key(index)||"";
+      if(!/profile|learner|apprentice|setting|user/i.test(key))continue;
+      try{
+        const found=inspect(JSON.parse(localStorage.getItem(key)||"null"));
+        if(found){saveProfile({...loadProfile(),name:found});return found;}
+      }catch(error){}
+    }
+    return"Learner";
   }
 
-  function certificateMarkup(course){
+  function certificateName(){
+    return findLearnerName();
+  }
+
+  function certificatePreviewMarkup(course){
     const record=ensureCertificateRecord(course);
-    const profile=loadProfile();
-    const name=String(profile.name||"").trim();
-    return `<div class="apa-page">
+    const name=certificateName();
+    return `<div class="apa-page apa-certificate-viewer-page">
       <button class="apa-back" type="button" data-academy-screen="certificates">‹ Certificate library</button>
-      <section class="apa-panel apa-certificate-setup">
-        <small>IN-HOUSE CERTIFICATE</small>
-        <h1>${esc(course.title)}</h1>
-        <p>Enter the learner name exactly as it should appear. The certificate can then be opened and saved as a PDF using the phone or browser print menu.</p>
-        <label class="apa-field">
-          <span>Learner name</span>
-          <input type="text" maxlength="80" autocomplete="name" value="${esc(name)}" data-certificate-name placeholder="Enter learner's full name">
-        </label>
-        <div class="apa-certificate-facts">
-          <div><strong>${record.score}%</strong><span>Best score</span></div>
-          <div><strong>${formatDate(record.completedAt)}</strong><span>Completed</span></div>
-          <div><strong>${course.xp}</strong><span>XP earned</span></div>
+      <section class="apa-panel apa-certificate-viewer-panel">
+        <div class="apa-heading apa-certificate-viewer-heading">
+          <div><small>IN-HOUSE CERTIFICATE</small><h1>${esc(course.title)}</h1><p>Preview the complete A4 portrait certificate or download it directly as a PDF.</p></div>
         </div>
-        <div class="apa-course-actions">
-          <button class="apa-primary-action" type="button" data-open-certificate="${course.id}">Open certificate</button>
+        <div class="apa-a4-preview-wrap">
+          <article class="apa-a4-certificate" data-a4-certificate>
+            <div class="apa-a4-inner">
+              <div class="apa-a4-brand"><span>APPRENTICESHIP+</span><b>ACADEMY</b></div>
+              <div class="apa-a4-kicker">CERTIFICATE OF COMPLETION</div>
+              <h2>In-house Training<br>Certificate</h2>
+              <p class="apa-a4-presented">This certificate is presented to</p>
+              <div class="apa-a4-name">${esc(name)}</div>
+              <p class="apa-a4-statement">for successfully completing the Apprenticeship+ Academy learning module</p>
+              <div class="apa-a4-course">${esc(course.title)}</div>
+              <div class="apa-a4-details">
+                <div><strong>${record.score}%</strong><span>ASSESSMENT SCORE</span></div>
+                <div><strong>${formatDate(record.completedAt)}</strong><span>COMPLETION DATE</span></div>
+                <div><strong>${record.certificateId}</strong><span>CERTIFICATE ID</span></div>
+              </div>
+              <p class="apa-a4-disclaimer">This certificate confirms completion of an Apprenticeship+ in-house learning module. It is not an accredited qualification, regulated award, licence to practise, or certificate issued by an awarding organisation.</p>
+            </div>
+          </article>
+        </div>
+        <div class="apa-certificate-viewer-actions">
+          <button class="apa-primary-action" type="button" data-download-certificate="${course.id}">Download PDF</button>
           <button class="apa-secondary-action" type="button" data-course-id="${course.id}">Return to course</button>
         </div>
-        <p class="apa-smallprint">This is an Apprenticeship+ in-house training certificate. It is not an accredited qualification, regulated award or awarding-organisation certificate.</p>
       </section>
     </div>`;
   }
 
-  function printableCertificate(course,name){
-    const record=ensureCertificateRecord(course);
-    const safeName=esc(name);
-    const safeTitle=esc(course.title);
-    const completed=formatDate(record.completedAt);
-    return `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${safeTitle} Certificate</title>
-<style>
-@page{size:A4 landscape;margin:0}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#e9f1ef;color:#14383a}
-body{padding:18px}
-.certificate{width:calc(297mm - 20mm);min-height:calc(210mm - 20mm);margin:auto;background:#fff;border:10px solid #075e59;padding:12px;box-shadow:0 14px 50px rgba(0,0,0,.16)}
-.inner{min-height:calc(190mm - 24px);border:2px solid #e1b94c;padding:28px 42px;text-align:center;position:relative;overflow:hidden}
-.inner:before,.inner:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:#e8f5f1;z-index:0}
-.inner:before{left:-150px;top:-150px}.inner:after{right:-150px;bottom:-150px}
-.content{position:relative;z-index:1}
-.brand{display:inline-flex;gap:10px;align-items:center;font-weight:900;letter-spacing:.12em;color:#075e59}
-.brand b{background:#ffe38a;color:#533f08;border-radius:999px;padding:7px 12px}
-.kicker{margin-top:32px;font-size:15px;letter-spacing:.22em;font-weight:800;color:#668080}
-h1{font-size:42px;margin:12px 0 8px;color:#075e59}
-.presented{font-size:18px;color:#718486;margin-top:22px}
-.name{font-family:Georgia,serif;font-size:42px;font-style:italic;color:#142f31;margin:12px auto 18px;padding-bottom:12px;border-bottom:2px solid #d8e4e1;max-width:760px}
-.statement{font-size:18px;line-height:1.55;max-width:820px;margin:0 auto}
-.course{font-size:31px;font-weight:900;color:#08745f;margin:12px 0}
-.details{display:flex;justify-content:center;gap:46px;margin-top:30px;flex-wrap:wrap}
-.details div{min-width:150px}.details strong,.details span{display:block}.details strong{font-size:18px}.details span{font-size:12px;letter-spacing:.09em;color:#728586;margin-top:5px}
-.disclaimer{font-size:10px;color:#7d8989;max-width:760px;margin:30px auto 0;line-height:1.45}
-.actions{max-width:1000px;margin:12px auto;display:flex;justify-content:center;gap:10px}
-.actions button{border:0;border-radius:12px;padding:12px 18px;font-weight:800}.print{background:#075e59;color:#fff}.close{background:#fff;color:#31595a}
-@media print{body{padding:0;background:#fff}.certificate{width:297mm;height:210mm;box-shadow:none}.actions{display:none}}
-@media(max-width:800px){body{padding:7px}.certificate{width:100%;min-height:auto;border-width:6px}.inner{min-height:0;padding:24px 15px}.kicker{margin-top:18px}h1{font-size:30px}.name{font-size:31px}.course{font-size:24px}.details{gap:18px}.statement{font-size:16px}}
-</style>
-</head>
-<body>
-<div class="actions"><button class="print" onclick="window.print()">Save / Print PDF</button><button class="close" onclick="window.close()">Close</button></div>
-<section class="certificate">
-  <div class="inner">
-    <div class="content">
-      <div class="brand"><span>APPRENTICESHIP+</span><b>ACADEMY</b></div>
-      <div class="kicker">CERTIFICATE OF COMPLETION</div>
-      <h1>In-house Training Certificate</h1>
-      <div class="presented">This certificate is presented to</div>
-      <div class="name">${safeName}</div>
-      <div class="statement">for successfully completing the Apprenticeship+ Academy learning module</div>
-      <div class="course">${safeTitle}</div>
-      <div class="details">
-        <div><strong>${record.score}%</strong><span>ASSESSMENT SCORE</span></div>
-        <div><strong>${completed}</strong><span>COMPLETION DATE</span></div>
-        <div><strong>${record.certificateId}</strong><span>CERTIFICATE ID</span></div>
-      </div>
-      <div class="disclaimer">This certificate confirms completion of an Apprenticeship+ in-house learning module. It is not an accredited qualification, regulated award, licence to practise, or certificate issued by an awarding organisation.</div>
-    </div>
-  </div>
-</section>
-</body>
-</html>`;
+  function pdfText(value){
+    return String(value||"").replace(/[^\x20-\x7E]/g," ").replace(/\\/g,"\\\\").replace(/\(/g,"\\(").replace(/\)/g,"\\)");
   }
 
-  function openPrintableCertificate(course,name){
-    const cleanName=String(name||"").trim();
-    if(!cleanName)return false;
-    saveProfile({...loadProfile(),name:cleanName});
+  function pdfCentered(text,y,size,font="F1",colour="0.03 0.37 0.35"){
+    const safe=pdfText(text);
+    const estimated=safe.length*size*0.52;
+    const x=Math.max(35,(595-estimated)/2);
+    return `${colour} rg BT /${font} ${size} Tf ${x.toFixed(1)} ${y} Td (${safe}) Tj ET\n`;
+  }
+
+  function certificatePdfBlob(course){
+    const record=ensureCertificateRecord(course);
+    const name=certificateName();
+    let stream="";
+    stream+="1 1 1 rg 0 0 595 842 re f\n";
+    stream+="0.03 0.37 0.35 RG 8 w 18 18 559 806 re S\n";
+    stream+="0.88 0.71 0.25 RG 2 w 31 31 533 780 re S\n";
+    stream+="0.91 0.96 0.95 rg 31 680 533 131 re f\n";
+    stream+=pdfCentered("APPRENTICESHIP+",770,13,"F2");
+    stream+="0.88 0.71 0.25 rg 365 752 96 28 re f\n";
+    stream+="0.24 0.20 0.05 rg BT /F2 11 Tf 383 762 Td (ACADEMY) Tj ET\n";
+    stream+=pdfCentered("CERTIFICATE OF COMPLETION",720,11,"F2","0.31 0.43 0.43");
+    stream+=pdfCentered("In-house Training",664,30,"F2");
+    stream+=pdfCentered("Certificate",627,30,"F2");
+    stream+=pdfCentered("This certificate is presented to",576,12,"F1","0.40 0.49 0.49");
+    stream+=pdfCentered(name,525,29,"F3","0.08 0.18 0.19");
+    stream+="0.82 0.88 0.87 RG 1 w 100 505 395 0 re S\n";
+    stream+=pdfCentered("for successfully completing the Apprenticeship+ Academy",469,12,"F1","0.25 0.35 0.35");
+    stream+=pdfCentered("learning module",450,12,"F1","0.25 0.35 0.35");
+    stream+=pdfCentered(course.title,402,21,"F2");
+    stream+="0.94 0.97 0.96 rg 67 270 461 86 re f\n";
+    stream+=pdfCentered(`${record.score}%     |     ${formatDate(record.completedAt)}     |     ${record.certificateId}`,316,10,"F2","0.03 0.37 0.35");
+    stream+=pdfCentered("SCORE                 COMPLETION DATE                 CERTIFICATE ID",292,7,"F1","0.42 0.51 0.51");
+    stream+=pdfCentered("This certificate confirms completion of an Apprenticeship+ in-house learning module.",112,8,"F1","0.43 0.49 0.49");
+    stream+=pdfCentered("It is not an accredited qualification, regulated award, licence to practise, or awarding-organisation certificate.",96,7,"F1","0.43 0.49 0.49");
+
+    const objects=[];
+    objects.push("<< /Type /Catalog /Pages 2 0 R >>");
+    objects.push("<< /Type /Pages /Kids [3 0 R] /Count 1 >>");
+    objects.push("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R /F2 6 0 R /F3 7 0 R >> >> /Contents 4 0 R >>");
+    objects.push(`<< /Length ${stream.length} >>\nstream\n${stream}endstream`);
+    objects.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
+    objects.push("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>");
+    objects.push("<< /Type /Font /Subtype /Type1 /BaseFont /Times-Italic >>");
+    let pdf="%PDF-1.4\n";
+    const offsets=[0];
+    objects.forEach((obj,index)=>{offsets.push(pdf.length);pdf+=`${index+1} 0 obj\n${obj}\nendobj\n`;});
+    const xref=pdf.length;
+    pdf+=`xref\n0 ${objects.length+1}\n0000000000 65535 f \n`;
+    offsets.slice(1).forEach(offset=>{pdf+=String(offset).padStart(10,"0")+" 00000 n \n";});
+    pdf+=`trailer\n<< /Size ${objects.length+1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+    return new Blob([pdf],{type:"application/pdf"});
+  }
+
+  function downloadCertificatePdf(course){
     const record=ensureCertificateRecord(course);
     const records=loadCertificates();
     records[course.id]={...record,generatedAt:new Date().toISOString()};
     saveCertificates(records);
-    const popup=window.open("","_blank");
-    if(!popup)return false;
-    popup.document.open();
-    popup.document.write(printableCertificate(course,cleanName));
-    popup.document.close();
-    return true;
+    const url=URL.createObjectURL(certificatePdfBlob(course));
+    const link=document.createElement("a");
+    link.href=url;
+    link.download=`ApprenticeshipPlus-${course.title.replace(/[^a-z0-9]+/gi,"-").replace(/^-|-$/g,"")}-Certificate.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
   }
 
   function readDashboard(){
@@ -974,7 +1010,7 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
           ?`<div class="apa-unlocked"><strong>+${course.xp} XP earned</strong><span>Your in-house certificate is ready.</span></div>`
           :`<div class="apa-warning">You need ${course.passMark}% to pass. Review the learning pages and try again.</div>`}
         <div class="apa-course-actions">
-          ${passed?`<button class="apa-primary-action" type="button" data-certificate-course="${course.id}">Create certificate</button>`:`<button class="apa-primary-action" type="button" data-course-id="${course.id}">Return to course</button>`}
+          ${passed?`<button class="apa-primary-action" type="button" data-certificate-course="${course.id}">View certificate</button>`:`<button class="apa-primary-action" type="button" data-course-id="${course.id}">Return to course</button>`}
           <button class="apa-secondary-action" type="button" data-start-assessment="${course.id}">${passed?"Retake assessment":"Try again"}</button>
         </div>
         <p class="apa-smallprint">This records completion of an Apprenticeship+ in-house learning module. It is not an accredited qualification or awarding-body certificate.</p>
@@ -1060,7 +1096,7 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
       <button class="apa-back" type="button" data-academy-screen="main">‹ Back to Academy</button>
       <section class="apa-panel">
         <div class="apa-heading">
-          <div><small>DOCUMENT LIBRARY</small><h1>Your in-house certificates</h1><p>Open a certificate, enter the learner name and use Save / Print PDF.</p></div>
+          <div><small>DOCUMENT LIBRARY</small><h1>Your in-house certificates</h1><p>View the complete certificate or download it directly as a portrait A4 PDF.</p></div>
           <span>${passed.length} unlocked</span>
         </div>
         ${passed.length
@@ -1070,7 +1106,7 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
               return `<article>
                 <div>PDF</div>
                 <div><strong>${esc(course.title)}</strong><span>${progress.bestScore}% · ${formatDate(record.completedAt)}</span><small>${record.certificateId}</small></div>
-                <button type="button" data-certificate-course="${course.id}">Open certificate</button>
+                <div class="apa-certificate-card-actions"><button type="button" data-certificate-course="${course.id}">View certificate</button><button type="button" data-download-certificate="${course.id}">Download PDF</button></div>
               </article>`;
             }).join("")}</div>`
           :`<div class="apa-empty"><div>PDF</div><h2>No Academy certificates yet</h2><p>Pass an available Academy course with 90% or higher to unlock an in-house certificate.</p></div>`}
@@ -1085,7 +1121,7 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
     if(screen==="main")container.innerHTML=mainMarkup();
     else if(screen==="achievements")container.innerHTML=achievementMarkup();
     else if(screen==="certificates")container.innerHTML=certificatesMarkup();
-    else if(screen==="certificate")container.innerHTML=certificateMarkup(payload.course);
+    else if(screen==="certificate")container.innerHTML=certificatePreviewMarkup(payload.course);
     else if(screen==="course")container.innerHTML=courseIntro(payload.course);
     else if(screen==="lesson")container.innerHTML=lessonMarkup(payload.course,payload.index);
     else if(screen==="assessment")container.innerHTML=assessmentIntro(payload.course);
@@ -1154,25 +1190,11 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
         if(course&&courseProgress(course.id).passed)renderInto(container,"certificate",{course});
       };
     });
-    container.querySelectorAll("[data-open-certificate]").forEach(button=>{
+    container.querySelectorAll("[data-download-certificate]").forEach(button=>{
       button.onclick=()=>{
-        const course=findCourse(button.dataset.openCertificate);
-        const input=container.querySelector("[data-certificate-name]");
-        const name=String(input?.value||"").trim();
-        if(!name){
-          input?.focus();
-          input?.classList.add("invalid");
-          return;
-        }
-        input?.classList.remove("invalid");
-        if(!openPrintableCertificate(course,name)){
-          alert("The certificate window was blocked. Please allow pop-ups for Apprentice+ and try again.");
-        }
+        const course=findCourse(button.dataset.downloadCertificate);
+        if(course&&courseProgress(course.id).passed)downloadCertificatePdf(course);
       };
-    });
-    container.querySelector("[data-certificate-name]")?.addEventListener("input",event=>{
-      event.target.classList.remove("invalid");
-      saveProfile({...loadProfile(),name:event.target.value});
     });
 
     if(screen==="quiz"){
@@ -1210,7 +1232,7 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
   }
 
   window.ApprenticeshipPlusAcademy={
-    version:"phase8-1-v1",
+    version:"phase8-6-v2",
     renderInto,
     courses:COURSES,getBadges,saveBadges,defaultBadges:DEFAULT_BADGES
   };
@@ -1280,7 +1302,7 @@ window.ApprenticeshipPlusAcademy = window.ApprenticeshipPlusAcademy || {};
 
 // Phase 8.6 final polish
 window.ApprenticeshipPlusAcademy=window.ApprenticeshipPlusAcademy||{};
-window.ApprenticeshipPlusAcademy.version="phase8-6-v1";
+window.ApprenticeshipPlusAcademy.version="phase8-6-v2";
 window.ApprenticeshipPlusAcademy.getAchievementSummary=function(){
  const badges=(window.ApprenticeshipPlusAcademy.getUnlockedBadges?.()||[]).length;
  const notes=(window.ApprenticeshipPlusAcademy.getNotifications?.()||[]).length;

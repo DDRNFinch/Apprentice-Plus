@@ -112,3 +112,46 @@
 .apa-achievement-card{border-radius:18px;transition:.2s ease;box-shadow:0 8px 24px rgba(0,0,0,.08)}
 .apa-achievement-card:hover{transform:translateY(-2px)}
 .apa-badge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+
+/* Certificate overhaul — portrait A4 viewer and direct PDF download */
+.apa-certificate-list article{grid-template-columns:54px minmax(0,1fr) auto}
+.apa-certificate-card-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.apa-certificate-card-actions button{min-width:128px}
+.apa-certificate-card-actions button+button{background:#e7f3ef;color:#076b5e;border:1px solid #c8e3da}
+.apa-certificate-viewer-panel{overflow:hidden}
+.apa-certificate-viewer-heading{margin-bottom:18px}
+.apa-a4-preview-wrap{width:100%;display:flex;justify-content:center;padding:12px;border-radius:22px;background:#eaf2f0;overflow:hidden}
+.apa-a4-certificate{position:relative;width:min(100%,594px);aspect-ratio:210/297;background:#fff;border:8px solid #075e59;padding:9px;box-shadow:0 16px 38px rgba(16,54,55,.16);color:#14383a}
+.apa-a4-inner{position:relative;width:100%;height:100%;overflow:hidden;border:2px solid #e1b94c;padding:7% 7% 5%;text-align:center;display:flex;flex-direction:column;align-items:center}
+.apa-a4-inner:before,.apa-a4-inner:after{content:"";position:absolute;width:42%;aspect-ratio:1;border-radius:50%;background:#e8f5f1;z-index:0}
+.apa-a4-inner:before{left:-27%;top:-18%}.apa-a4-inner:after{right:-27%;bottom:-18%}
+.apa-a4-inner>*{position:relative;z-index:1}
+.apa-a4-brand{display:flex;align-items:center;gap:8px;font-size:clamp(.53rem,2vw,.78rem);font-weight:950;letter-spacing:.12em;color:#075e59}
+.apa-a4-brand b{padding:.45em .8em;border-radius:999px;background:#ffe38a;color:#533f08;letter-spacing:.08em}
+.apa-a4-kicker{margin-top:10%;font-size:clamp(.48rem,1.8vw,.72rem);font-weight:900;letter-spacing:.22em;color:#668080}
+.apa-a4-certificate h2{margin:3.5% 0 0;font-size:clamp(1.35rem,6vw,2.6rem);line-height:1.05;color:#075e59}
+.apa-a4-presented{margin:7% 0 0;font-size:clamp(.63rem,2.4vw,1rem);color:#718486}
+.apa-a4-name{width:82%;margin:2.5% auto 0;padding-bottom:2.5%;border-bottom:1px solid #d8e4e1;font-family:Georgia,serif;font-size:clamp(1.35rem,5.5vw,2.4rem);font-style:italic;color:#142f31;white-space:normal;overflow-wrap:anywhere}
+.apa-a4-statement{max-width:82%;margin:5% auto 0;font-size:clamp(.55rem,2.1vw,.9rem);line-height:1.45;color:#4f6669}
+.apa-a4-course{margin:3.5% 0 0;font-size:clamp(1rem,4vw,1.75rem);font-weight:950;color:#08745f}
+.apa-a4-details{width:92%;display:grid;grid-template-columns:.72fr 1.1fr 1.8fr;gap:2%;margin-top:auto;padding:4% 3%;border-radius:12px;background:#f0f7f5}
+.apa-a4-details strong,.apa-a4-details span{display:block}
+.apa-a4-details strong{font-size:clamp(.48rem,1.8vw,.78rem);overflow-wrap:anywhere}
+.apa-a4-details span{margin-top:5px;font-size:clamp(.34rem,1.2vw,.52rem);font-weight:800;letter-spacing:.08em;color:#728586}
+.apa-a4-disclaimer{max-width:90%;margin:4.5% auto 0;font-size:clamp(.34rem,1.25vw,.52rem);line-height:1.4;color:#7d8989}
+.apa-certificate-viewer-actions{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:18px}
+@media(max-width:620px){
+  .apa-certificate-list article{grid-template-columns:48px minmax(0,1fr)}
+  .apa-certificate-card-actions{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;width:100%}
+  .apa-certificate-card-actions button{min-width:0;width:100%}
+  .apa-a4-preview-wrap{padding:7px;border-radius:16px}
+  .apa-a4-certificate{border-width:5px;padding:5px}
+  .apa-a4-inner{border-width:1px}
+  .apa-certificate-viewer-actions{grid-template-columns:1fr}
+}
+@media print{
+  body *{visibility:hidden!important}
+  .apa-a4-certificate,.apa-a4-certificate *{visibility:visible!important}
+  .apa-a4-certificate{position:fixed;inset:0;width:210mm;height:297mm;aspect-ratio:auto;margin:0;border-width:8mm;padding:4mm;box-shadow:none}
+  .apa-a4-inner{border-width:.8mm}
+}
