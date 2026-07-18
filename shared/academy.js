@@ -1,6 +1,6 @@
 "use strict";
 (function(){
-  if(window.ApprenticeshipPlusAcademy?.version==="phase5-v1") return;
+  if(window.ApprenticeshipPlusAcademy?.version==="phase6-v1") return;
 
   const STORAGE_KEY="apprenticeshipPlusAcademyProgressV1";
   const PROFILE_KEY="apprenticeshipPlusAcademyLearnerProfileV1";
@@ -227,9 +227,84 @@
     },
     {id:"equality-diversity",title:"Equality and Diversity",category:"Personal Development",minutes:15,xp:500,status:"coming-soon"},
     {id:"british-values",title:"British Values",category:"Personal Development",minutes:15,xp:500,status:"coming-soon"},
-    {id:"fire-safety",title:"Fire Safety Awareness",category:"Health & Safety",minutes:15,xp:500,status:"coming-soon"},
-    {id:"ppe-awareness",title:"PPE Awareness",category:"Health & Safety",minutes:15,xp:500,status:"coming-soon"},
-    {id:"environmental-awareness",title:"Environmental Awareness",category:"Sustainability",minutes:15,xp:500,status:"coming-soon"},
+    {
+      id:"fire-safety",title:"Fire Safety Awareness",category:"Health & Safety",minutes:15,xp:500,passMark:90,status:"available",
+      description:"Learn how fires start, how to prevent them, what fire signs and alarms mean, and how to respond safely during an emergency.",
+      lessons:[
+        {title:"How fire starts",text:"Fire needs heat, fuel and oxygen. This is known as the fire triangle. Removing any one of these elements can prevent or extinguish a fire.",points:["Heat","Fuel","Oxygen"]},
+        {title:"Common workplace causes",text:"Common causes include faulty electrical equipment, hot work, smoking materials, poor housekeeping, flammable liquids and unattended heating equipment.",points:["Control ignition sources","Maintain equipment","Keep work areas tidy"]},
+        {title:"Fire prevention",text:"Good prevention includes safe storage, removing waste, checking electrical equipment, following hot-work controls and keeping exits clear.",points:["Reduce fuel load","Store materials safely","Keep escape routes clear"]},
+        {title:"Fire classes",text:"Different fuels create different fire classes. Extinguishers are selected according to the fuel involved, such as solids, flammable liquids, gases, metals or cooking oils.",points:["Identify the fuel","Use the correct extinguisher","Never guess"]},
+        {title:"Fire extinguishers",text:"Extinguishers should only be used by trained people when it is safe to do so and there is a clear escape route. Personal safety always comes first.",points:["Raise the alarm first","Keep an exit behind you","Do not take risks"]},
+        {title:"Alarms and signs",text:"Know the site alarm, fire action notices, assembly point, emergency exits and fire-door signs. Report damaged or obstructed signs immediately.",points:["Recognise the alarm","Follow fire signs","Know the assembly point"]},
+        {title:"Evacuation",text:"When the alarm sounds, stop work, make the area safe only if this can be done immediately, leave by the nearest safe route and go to the assembly point.",points:["Do not delay","Do not use lifts","Report to the assembly point"]},
+        {title:"Fire doors and exits",text:"Fire doors help contain smoke and flames. They must not be wedged open unless fitted with an approved automatic release device. Escape routes must remain unobstructed.",points:["Keep fire doors effective","Protect escape routes","Report defects"]},
+        {title:"Hot work",text:"Hot work such as welding, grinding or torch-on roofing can create sparks and heat. Follow the permit system, remove combustibles and provide fire-watch arrangements.",points:["Use permits","Control sparks","Maintain a fire watch"]},
+        {title:"After an incident",text:"Do not re-enter until authorised. Report what you saw, cooperate with investigations and ensure any used equipment or extinguishers are replaced.",points:["Wait for permission","Provide accurate information","Review controls"]}],
+      questions:[
+        {q:"What three elements make up the fire triangle?",options:["Heat, fuel and oxygen","Smoke, flame and water","Fuel, electricity and foam","Air, dust and sparks"],answer:0},
+        {q:"What should you do first if you discover a fire?",options:["Look for an extinguisher","Raise the alarm","Open nearby doors","Finish the task"],answer:1},
+        {q:"Why must escape routes be kept clear?",options:["For deliveries","For quick safe evacuation","To improve lighting","To store equipment"],answer:1},
+        {q:"When may an extinguisher be used?",options:["By anyone immediately","Only when trained, safe and with a clear exit","Only after the fire service arrives","Whenever smoke is visible"],answer:1},
+        {q:"What should happen when the fire alarm sounds?",options:["Wait at the workstation","Leave by the nearest safe route","Collect belongings","Use the lift"],answer:1},
+        {q:"Why should fire doors not be wedged open?",options:["They may be damaged by airflow","They help contain fire and smoke","They are expensive","They block noise"],answer:1},
+        {q:"Which activity may require a hot-work permit?",options:["Sweeping","Grinding","Measuring","Painting with water-based paint"],answer:1},
+        {q:"What should happen at the assembly point?",options:["Leave site immediately","Report so attendance can be checked","Return for tools","Stand near the entrance"],answer:1},
+        {q:"What is a key fire-prevention measure?",options:["Allowing waste to build up","Removing combustible waste","Disabling alarms","Blocking fire doors"],answer:1},
+        {q:"When can you re-enter after an evacuation?",options:["When smoke clears","When authorised","After five minutes","When colleagues return"],answer:1}]
+    },
+    {
+      id:"ppe-awareness",title:"PPE Awareness",category:"Health & Safety",minutes:15,xp:500,passMark:90,status:"available",
+      description:"Learn how to select, inspect, wear, maintain and report problems with personal protective equipment and respiratory protective equipment.",
+      lessons:[
+        {title:"What PPE is",text:"PPE is equipment worn to reduce exposure to hazards. It includes helmets, eye protection, gloves, footwear, hearing protection, high-visibility clothing and fall-protection equipment.",points:["PPE reduces exposure","It must suit the hazard","It does not remove the hazard"]},
+        {title:"PPE and the hierarchy",text:"PPE is usually the final layer of control. Hazards should first be eliminated or reduced through safer methods, substitution, guarding, extraction or engineering controls.",points:["Control the hazard first","Use PPE as additional protection","Follow the risk assessment"]},
+        {title:"Correct selection",text:"PPE must be appropriate for the task, wearer and environment. Consider protection level, compatibility, size, comfort and relevant standards.",points:["Match PPE to the risk","Check compatibility","Use the correct size"]},
+        {title:"Head and foot protection",text:"Safety helmets protect against falling or striking objects. Safety footwear may protect toes, soles and ankles. Inspect both before use and replace damaged equipment.",points:["Check helmet shell and harness","Check boots and soles","Replace damaged items"]},
+        {title:"Eye and face protection",text:"Safety glasses, goggles and face shields provide different levels of protection. Select according to impact, dust, splash, radiation or chemical risk.",points:["Use the correct rating","Ensure a secure fit","Keep lenses clean"]},
+        {title:"Hand protection",text:"Different gloves protect against different hazards. Cut-resistant gloves may not protect against chemicals, and some gloves can create entanglement risk near rotating machinery.",points:["Match glove to hazard","Check for damage","Avoid entanglement"]},
+        {title:"Hearing protection",text:"Earplugs and earmuffs must provide suitable protection and be worn correctly. Overprotection can make communication and warning signals harder to hear.",points:["Use the required protection zone","Fit correctly","Maintain hygiene"]},
+        {title:"RPE basics",text:"RPE protects against airborne contaminants. It must be suitable for the hazard, have the correct filter and be worn correctly. Tight-fitting masks require face-fit testing.",points:["Choose the correct filter","Complete face-fit testing","Check the seal"]},
+        {title:"Inspection and maintenance",text:"Inspect PPE before use, clean it as instructed and store it to prevent damage or contamination. Do not modify PPE or use it beyond its service life.",points:["Pre-use inspection","Correct cleaning","Safe storage"]},
+        {title:"Reporting problems",text:"Report missing, damaged, unsuitable or poorly fitting PPE immediately. Stop the task where protection is inadequate and obtain a suitable replacement.",points:["Do not improvise","Report defects","Replace unsuitable PPE"]}],
+      questions:[
+        {q:"What is the main purpose of PPE?",options:["To remove all workplace hazards","To reduce exposure to hazards","To replace training","To make work faster"],answer:1},
+        {q:"Where does PPE normally sit in the hierarchy of control?",options:["As the first control in every case","As a final layer after higher-level controls","Above elimination","It is not part of the hierarchy"],answer:1},
+        {q:"What should PPE selection be based on?",options:["Colour preference","The hazard, task and wearer","The cheapest option","What another worker uses"],answer:1},
+        {q:"What should happen before using a safety helmet?",options:["Paint it","Inspect the shell and harness","Remove the harness","Drill ventilation holes"],answer:1},
+        {q:"Which protection may be suitable for chemical splashes?",options:["Ordinary sunglasses","Appropriate goggles or face protection","A wool hat","Earplugs"],answer:1},
+        {q:"Why can gloves be unsafe near rotating machinery?",options:["They become too warm","They may become entangled","They reduce noise","They attract dust"],answer:1},
+        {q:"What is important when using hearing protection?",options:["Wear it loosely","Fit it correctly","Remove it near noisy tools","Share used earplugs"],answer:1},
+        {q:"What is required for tight-fitting RPE?",options:["A loose fit","Face-fit testing and a good seal","A hard hat only","Two filters of any type"],answer:1},
+        {q:"What should happen to damaged PPE?",options:["Continue using it carefully","Report and replace it","Repair it with tape without approval","Hide the damage"],answer:1},
+        {q:"How should PPE be stored?",options:["Where it can become contaminated","According to instructions in a clean protected place","Outside in all weather","Mixed with waste"],answer:1}]
+    },
+    {
+      id:"environmental-awareness",title:"Environmental Awareness",category:"Sustainability",minutes:15,xp:500,passMark:90,status:"available",
+      description:"Learn how to reduce waste, use materials efficiently, prevent pollution and support more sustainable working practices.",
+      lessons:[
+        {title:"Environmental responsibilities",text:"Everyone has a responsibility to prevent environmental harm. Follow site procedures, environmental plans, waste rules and instructions for protecting land, water, air and wildlife.",points:["Follow site controls","Report incidents","Protect the local environment"]},
+        {title:"The waste hierarchy",text:"The waste hierarchy prioritises prevention, reuse, recycling and recovery before disposal. The best waste is the waste that is never created.",points:["Prevent waste","Reuse materials","Recycle correctly"]},
+        {title:"Material efficiency",text:"Accurate measuring, careful cutting, correct storage and good planning reduce waste. Order the right quantities and protect materials from weather, damage and contamination.",points:["Plan before cutting","Store materials correctly","Use offcuts where suitable"]},
+        {title:"Waste sorting",text:"Separate waste into the correct containers. Mixing materials can prevent recycling and increase disposal costs. Never place hazardous waste in general waste.",points:["Use labelled skips","Avoid contamination","Separate hazardous waste"]},
+        {title:"Preventing water pollution",text:"Cement washout, oils, fuels, chemicals and silt must not enter drains, watercourses or soil. Use designated washout areas, spill controls and protected storage.",points:["Protect drains","Use bunded storage","Control wash water"]},
+        {title:"Air quality and dust",text:"Dust, fumes and emissions can affect people and the environment. Use extraction, wet methods, covers, maintenance and approved work methods to reduce release.",points:["Control dust at source","Cover loose materials","Maintain equipment"]},
+        {title:"Noise and nuisance",text:"Noise, vibration, light and traffic can affect neighbours and wildlife. Work within permitted hours and follow controls for deliveries, machinery and temporary lighting.",points:["Reduce unnecessary noise","Respect working hours","Consider neighbours"]},
+        {title:"Energy and water",text:"Switch off unused equipment, prevent leaks and use water efficiently. Small actions repeated across a project can significantly reduce environmental impact.",points:["Turn equipment off","Report leaks","Avoid unnecessary water use"]},
+        {title:"Spill response",text:"Raise the alarm, stop the source if safe, protect drains and use the correct spill kit. Report all spills and dispose of contaminated materials as instructed.",points:["Act quickly","Protect drainage","Report and record"]},
+        {title:"Sustainable behaviour",text:"Good environmental performance depends on everyday behaviour. Challenge poor practice respectfully, suggest improvements and choose lower-impact methods where possible.",points:["Follow procedures","Suggest improvements","Take personal responsibility"]}],
+      questions:[
+        {q:"What is the first priority in the waste hierarchy?",options:["Disposal","Prevention","Landfill","Incineration"],answer:1},
+        {q:"Which action improves material efficiency?",options:["Cutting without measuring","Accurate planning and cutting","Leaving materials uncovered","Ordering excessive quantities"],answer:1},
+        {q:"Why should waste be sorted?",options:["To make skips look tidy","To support recycling and prevent contamination","To increase disposal costs","To avoid labels"],answer:1},
+        {q:"Where should cement washout water go?",options:["Into a surface drain","Into a designated controlled washout area","Onto bare soil","Into a watercourse"],answer:1},
+        {q:"What can reduce dust emissions?",options:["Dry sweeping only","Extraction or wet methods","Removing covers","Increasing vehicle speed"],answer:1},
+        {q:"What should happen to an oil spill?",options:["Wash it into a drain","Follow spill procedures and protect drains","Cover it with general waste","Ignore small spills"],answer:1},
+        {q:"How can energy use be reduced?",options:["Leave equipment idling","Switch off unused equipment","Use more temporary lighting","Ignore leaks"],answer:1},
+        {q:"What should happen to hazardous waste?",options:["Mix it with general waste","Place it in the correct designated container","Burn it on site","Bury it"],answer:1},
+        {q:"Which can cause environmental nuisance?",options:["Noise and unnecessary lighting","Accurate cutting","Waste sorting","Switching equipment off"],answer:0},
+        {q:"What is good environmental behaviour?",options:["Ignoring poor practice","Following controls and suggesting improvements","Using drains for disposal","Mixing waste streams"],answer:1}]
+    },
     {id:"mental-health-awareness",title:"Mental Health Awareness",category:"Wellbeing",minutes:20,xp:500,status:"coming-soon"}
   ];
 
@@ -493,7 +568,10 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
     if(course.status!=="available")return"Coming soon";
     const progress=courseProgress(course.id);
     if(progress.passed)return`Passed · ${progress.bestScore}%`;
-    if(progress.lessonsViewed.length)return"Continue learning";
+    if(progress.lessonsViewed.length){
+      const percent=Math.round((progress.lessonsViewed.length/course.lessons.length)*100);
+      return`In progress · ${percent}%`;
+    }
     return"Start learning";
   }
 
@@ -558,12 +636,12 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
         <div><strong>${m.completed}</strong><span>Assignments completed</span></div>
         <div><strong>${m.academyXP}</strong><span>Academy XP earned</span></div>
         <div><strong>${passed}</strong><span>Courses passed</span></div>
-        <div><strong>${COURSES.length}</strong><span>Courses prepared</span></div>
+        <div><strong>${passed}</strong><span>Certificates earned</span></div>
       </section>
 
       <section class="apa-panel" id="apa-course-library">
         <div class="apa-heading">
-          <div><small>SHORT COURSES</small><h2>Academy course library</h2><p>Manual Handling and COSHH Awareness are now available. More shared courses will be added using the same course engine.</p></div>
+          <div><small>SHORT COURSES</small><h2>Academy course library</h2><p>Five core Academy courses are now available across every apprenticeship trade.</p></div>
           <span>${COURSES.filter(c=>c.status==="available").length} available</span>
         </div>
         <div class="apa-course-list">${COURSES.map(courseCard).join("")}</div>
@@ -878,7 +956,7 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
   }
 
   window.ApprenticeshipPlusAcademy={
-    version:"phase5-v1",
+    version:"phase6-v1",
     renderInto,
     courses:COURSES
   };

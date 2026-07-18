@@ -79,3 +79,7 @@
 .apa-course-card.available .apa-course-status span{background:#e5f6ee;color:#08704f}
 .apa-course-card.available:hover{transform:translateY(-1px)}
 .apa-course-card{transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}
+
+/* Phase 6 progress refinement */
+.apa-course-card.available .apa-course-status span{min-width:92px;text-align:center}
+.apa-snapshot strong{font-variant-numeric:tabular-nums}
