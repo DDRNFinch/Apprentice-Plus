@@ -1,87 +1,144 @@
 "use strict";
 (function(){
-  if(window.__AP_ROOT_INSTALL_PROMPT__) return;
-  window.__AP_ROOT_INSTALL_PROMPT__=true;
+  if(window.__AP_INSTALL_FIX_V2__) return;
+  window.__AP_INSTALL_FIX_V2__=true;
 
-  const SEEN_KEY="apprenticeshipPlusInstallPromptSeenV1";
+  const SEEN_KEY="apprenticeshipPlusInstallPromptSeenV2";
   let deferredPrompt=null;
+  let promptReady=false;
 
-  function installed(){
-    return window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone===true;
+  const isStandalone=()=>window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
+  const isAndroid=()=>/Android/i.test(navigator.userAgent);
+  const isSamsung=()=>/SamsungBrowser/i.test(navigator.userAgent);
+
+  function overlay(){return document.querySelector("#ap-install-overlay")}
+  function message(text){const el=document.querySelector("#ap-install-message");if(el)el.innerHTML=text}
+  function installButton(){return document.querySelector("#ap-install-now")}
+
+  function updateButton(){
+    const button=installButton();
+    if(!button)return;
+    if(isStandalone()){
+      button.textContent="Apprenticeship+ is installed";
+      button.disabled=true;
+      return;
+    }
+    if(promptReady){
+      button.textContent="Install Apprenticeship+";
+      button.disabled=false;
+    }else{
+      button.textContent=isSamsung()?"Show Samsung install steps":"Show install steps";
+      button.disabled=false;
+    }
   }
 
   function close(){
-    document.querySelector("#ap-install-overlay")?.classList.remove("open");
+    overlay()?.classList.remove("open");
   }
 
   function build(){
-    if(installed()||document.querySelector("#ap-install-overlay"))return;
-    const overlay=document.createElement("div");
-    overlay.id="ap-install-overlay";
-    overlay.className="ap-install-overlay";
-    overlay.innerHTML=`
+    if(isStandalone()||overlay())return;
+    const panel=document.createElement("div");
+    panel.id="ap-install-overlay";
+    panel.className="ap-install-overlay";
+    panel.innerHTML=`
       <div class="ap-install-card">
         <img src="./icon-192.png" alt="Apprenticeship+">
-        <small>INSTALL THE APP</small>
+        <small>INSTALL THE MAIN APP</small>
         <h2>Add Apprenticeship+ to your phone</h2>
-        <p>Install the main Apprenticeship+ app once. All courses open inside the same app, so separate Bench, Site, Brick or PMO apps are not created.</p>
-        <button class="ap-install-primary" id="ap-install-now">Install Apprenticeship+</button>
-        <button class="ap-install-secondary" id="ap-install-help">Show installation steps</button>
+        <p>Install Apprenticeship+ once. Bench, Site, Brick and PMO will all open inside this single app.</p>
+        <button class="ap-install-primary" id="ap-install-now">Preparing installation…</button>
+        <button class="ap-install-secondary" id="ap-install-retry">Check installation again</button>
         <button class="ap-install-later" id="ap-install-later">Not now</button>
         <div class="ap-install-message" id="ap-install-message"></div>
       </div>`;
-    document.body.appendChild(overlay);
-    overlay.querySelector("#ap-install-now").onclick=runInstall;
-    overlay.querySelector("#ap-install-help").onclick=showHelp;
-    overlay.querySelector("#ap-install-later").onclick=()=>{
+    document.body.appendChild(panel);
+
+    panel.querySelector("#ap-install-now").onclick=runInstall;
+    panel.querySelector("#ap-install-retry").onclick=()=>{
+      updateButton();
+      if(!promptReady)showManualSteps();
+    };
+    panel.querySelector("#ap-install-later").onclick=()=>{
       localStorage.setItem(SEEN_KEY,"1");
       close();
     };
+    updateButton();
   }
 
   function show(){
-    if(installed())return;
+    if(isStandalone())return;
     build();
-    document.querySelector("#ap-install-overlay")?.classList.add("open");
+    overlay()?.classList.add("open");
+    setTimeout(()=>{
+      updateButton();
+      if(!promptReady)message("The automatic install button will appear when your browser makes it available.");
+    },500);
+  }
+
+  function showManualSteps(){
+    if(isSamsung()){
+      message("<strong>Samsung Internet:</strong> tap the menu button, choose <strong>Add page to</strong>, then <strong>Home screen</strong>. Make sure this main Apprenticeship+ page is open.");
+    }else if(isAndroid()){
+      message("<strong>Chrome/Android:</strong> tap the browser menu and choose <strong>Install app</strong> or <strong>Add to Home screen</strong>. Make sure this main Apprenticeship+ page is open.");
+    }else{
+      message("Open your browser menu and choose <strong>Install Apprenticeship+</strong> or <strong>Add to Home Screen</strong>.");
+    }
   }
 
   async function runInstall(){
-    const message=document.querySelector("#ap-install-message");
-    if(deferredPrompt){
-      deferredPrompt.prompt();
-      const result=await deferredPrompt.userChoice;
-      deferredPrompt=null;
-      if(message)message.textContent=result.outcome==="accepted"?"Apprenticeship+ is being installed.":"Installation was cancelled.";
-      if(result.outcome==="accepted")setTimeout(close,700);
+    if(isStandalone()){
+      message("Apprenticeship+ is already installed.");
       return;
     }
-    showHelp();
-  }
 
-  function showHelp(){
-    const message=document.querySelector("#ap-install-message");
-    if(!message)return;
-    message.innerHTML=`Open your browser menu and select <strong>Install app</strong> or <strong>Add to Home screen</strong>. Make sure you are on this main Apprenticeship+ page, not inside an individual course.`;
+    if(!deferredPrompt){
+      showManualSteps();
+      return;
+    }
+
+    const button=installButton();
+    button.disabled=true;
+    button.textContent="Opening install…";
+
+    try{
+      deferredPrompt.prompt();
+      const result=await deferredPrompt.userChoice;
+      if(result.outcome==="accepted"){
+        message("Apprenticeship+ is being installed.");
+        localStorage.setItem(SEEN_KEY,"installed");
+        setTimeout(close,900);
+      }else{
+        message("Installation was cancelled. You can try again.");
+      }
+    }catch(error){
+      message("Your browser did not open the automatic installer. Use the browser menu and select <strong>Install app</strong>.");
+    }finally{
+      deferredPrompt=null;
+      promptReady=false;
+      updateButton();
+    }
   }
 
   window.addEventListener("beforeinstallprompt",event=>{
     event.preventDefault();
     deferredPrompt=event;
-    const query=new URLSearchParams(location.search);
-    if(query.get("install")==="1")show();
+    promptReady=true;
+    updateButton();
+    message("Apprenticeship+ is ready to install.");
   });
 
   window.addEventListener("appinstalled",()=>{
     localStorage.setItem(SEEN_KEY,"installed");
-    close();
+    message("Apprenticeship+ has been installed.");
+    setTimeout(close,700);
   });
 
   const query=new URLSearchParams(location.search);
+  const forced=query.get("install")==="1";
   const firstVisit=!localStorage.getItem(SEEN_KEY);
-  if(query.get("install")==="1"){
-    setTimeout(show,350);
-  }else if(firstVisit&&!installed()){
-    setTimeout(show,900);
+
+  if(forced||firstVisit){
+    setTimeout(show,700);
   }
 })();

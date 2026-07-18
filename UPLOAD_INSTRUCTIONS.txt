@@ -1,25 +1,23 @@
-APPRENTICESHIP+ MAIN INSTALL PROMPT
+APPRENTICESHIP+ INSTALL BUTTON FIX
 
-Upload the contents of this ZIP while preserving the folders.
+Upload these files to the ROOT of Apprentice-Plus:
 
-ROOT:
-install-apprenticeship-plus.js
-install-apprenticeship-plus.css
-install-course-option.js
-install-course-option.css
-service-worker.js
-
-COURSES:
-courses/bench/service-worker.js
-courses/site/index.html and service-worker.js
-courses/pmo/index.html and service-worker.js
-courses/brick/index.html and service-worker.js
+- install-apprenticeship-plus.js
+- install-apprenticeship-plus.css
+- install-course-option.js
+- install-course-option.css
+- service-worker.js
 
 Commit message:
-Add main Apprenticeship+ installation prompt
+Fix Apprenticeship+ installation button
 
-This:
-- asks first-time visitors to install Apprenticeship+
-- always installs the root Apprenticeship+ app
-- never installs an individual trade
-- adds an installation option to every trade Options/Profile section
+After committing:
+1. Fully close the browser/app.
+2. Reopen the main Apprenticeship+ website.
+3. Use the install popup again.
+
+The button now:
+- opens the automatic Android installer when the browser supports it
+- waits for the browser installation event correctly
+- shows exact Samsung Internet or Chrome instructions when automatic installation is unavailable
+- always installs the main Apprenticeship+ app, never an individual trade
