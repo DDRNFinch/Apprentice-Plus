@@ -1245,3 +1245,13 @@ ApprenticeshipPlusAcademy.getBadgeProgress = function(){
     total: defs.length
   };
 };
+
+
+// Phase 8.4 - XP progression scaffold
+window.ApprenticeshipPlusAcademy = window.ApprenticeshipPlusAcademy || {};
+(function(api){
+ api.getCurrentLevel=function(xp){return Math.min(20,Math.floor((xp||0)/250)+1);};
+ api.getXPToNextLevel=function(xp){var lvl=api.getCurrentLevel(xp);return Math.max(0,lvl*250-(xp||0));};
+ api.getLearningStreak=function(){return Number(localStorage.getItem('academy_streak')||1);};
+ api.setLearningStreak=function(days){localStorage.setItem('academy_streak',days);};
+})(window.ApprenticeshipPlusAcademy);
