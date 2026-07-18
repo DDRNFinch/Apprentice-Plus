@@ -1,25 +1,23 @@
-SITE CARPENTRY — FREE LOCAL REMINDERS
+SITE CARPENTRY — SINGLE HOME AND FIRST-LOGIN SETUP
 
 Open:
 courses > site
 
 Upload and replace:
-- local-reminders.js
-- local-reminders.css
+- replace-home.js
+- replace-home.css
+- first-login-setup.js
+- first-login-setup.css
 - service-worker.js
 
 Commit message:
-Replace Firebase with free local reminders
+Replace old home and add first login setup
 
-This removes Firebase, Firestore, Cloud Functions and paid background push.
-
-It keeps:
-- reminder bell and inbox
-- reminder settings in Profile / Settings
-- selectable days and time
-- selectable reminder types
-- personalised progress messages
-- evidence, assignment, OTJ, revision, streak and achievement reminders
-- offline support
-
-The reminder is checked whenever Apprentice+ is opened or being used.
+This update:
+- makes the modern dashboard the only home screen
+- removes all remaining old home cards
+- removes the old Smart Reminders card
+- keeps the navigation and notification bell
+- shows a setup popup when learner details are missing
+- shows a setup popup when reminder preferences are missing
+- sends the learner to Profile / Settings to complete setup
