@@ -1,6 +1,6 @@
 "use strict";
 (function(){
-  if(window.ApprenticeshipPlusAcademy?.version==="phase6-v1") return;
+  if(window.ApprenticeshipPlusAcademy?.version==="phase7-v1") return;
 
   const STORAGE_KEY="apprenticeshipPlusAcademyProgressV1";
   const PROFILE_KEY="apprenticeshipPlusAcademyLearnerProfileV1";
@@ -225,8 +225,58 @@
         }
       ]
     },
-    {id:"equality-diversity",title:"Equality and Diversity",category:"Personal Development",minutes:15,xp:500,status:"coming-soon"},
-    {id:"british-values",title:"British Values",category:"Personal Development",minutes:15,xp:500,status:"coming-soon"},
+    {
+      id:"equality-diversity",title:"Equality and Diversity",category:"Personal Development",minutes:15,xp:500,passMark:90,status:"available",
+      description:"Learn how equality, diversity and inclusion support fair treatment, respectful behaviour and stronger workplace teams.",
+      lessons:[
+        {title:"Equality, diversity and inclusion",text:"Equality means fair access and treatment. Diversity recognises differences between people. Inclusion means creating an environment where everyone can participate, contribute and feel respected.",points:["Fair treatment","Value differences","Include everyone"]},
+        {title:"Protected characteristics",text:"The Equality Act protects people from discrimination linked to characteristics such as age, disability, race, religion or belief, sex and sexual orientation.",points:["Understand legal protection","Avoid assumptions","Treat people fairly"]},
+        {title:"Direct discrimination",text:"Direct discrimination happens when someone is treated less favourably because of a protected characteristic.",points:["Recognise unfair treatment","Apply rules consistently","Report concerns"]},
+        {title:"Indirect discrimination",text:"Indirect discrimination can happen when a rule applies to everyone but disadvantages a particular group without objective justification.",points:["Review workplace rules","Consider unintended impact","Use fair alternatives"]},
+        {title:"Harassment and victimisation",text:"Harassment includes unwanted behaviour that violates dignity or creates an intimidating, hostile or offensive environment. Victimisation means treating someone badly because they raised a concern.",points:["Respect dignity","Challenge inappropriate behaviour","Protect people who speak up"]},
+        {title:"Reasonable adjustments",text:"Reasonable adjustments help remove barriers for disabled people. Examples include changes to equipment, working methods, communication or access arrangements.",points:["Identify barriers","Discuss suitable support","Review effectiveness"]},
+        {title:"Inclusive communication",text:"Use respectful language, listen carefully and avoid jokes, stereotypes or comments that may exclude or offend others.",points:["Use clear respectful language","Listen to others","Avoid stereotypes"]},
+        {title:"Unconscious bias",text:"Unconscious bias can affect decisions without us realising. Using evidence, consistent criteria and reflection helps reduce unfair judgement.",points:["Question assumptions","Use objective criteria","Reflect on decisions"]},
+        {title:"Challenging poor behaviour",text:"Challenge inappropriate behaviour calmly and safely where possible. Report serious or repeated concerns through the correct workplace route.",points:["Be respectful","Use reporting procedures","Support affected colleagues"]},
+        {title:"Benefits of inclusion",text:"Inclusive teams can improve trust, safety, communication, problem-solving and retention because people feel able to contribute.",points:["Stronger teamwork","Better communication","Greater wellbeing"]}],
+      questions:[
+        {q:"What does inclusion mean?",options:["Treating everyone identically in all situations","Creating an environment where everyone can participate","Avoiding all workplace discussion","Allowing only senior staff to decide"],answer:1},
+        {q:"Which law protects people from discrimination in Great Britain?",options:["Equality Act 2010","Health and Safety at Work Act only","Building Regulations","Data Protection Act only"],answer:0},
+        {q:"What is direct discrimination?",options:["Treating someone less favourably because of a protected characteristic","Applying a fair rule consistently","Offering reasonable support","Using objective criteria"],answer:0},
+        {q:"What can indirect discrimination involve?",options:["A rule that disadvantages a group","A personal disagreement","A pay rise","A toolbox talk"],answer:0},
+        {q:"What is harassment?",options:["Any performance feedback","Unwanted behaviour that violates dignity or creates an offensive environment","A fair instruction","A risk assessment"],answer:1},
+        {q:"Why are reasonable adjustments used?",options:["To give unfair advantage","To remove barriers for disabled people","To avoid training","To reduce responsibilities"],answer:1},
+        {q:"Which is inclusive communication?",options:["Using stereotypes","Respectful language and active listening","Ignoring concerns","Speaking only to managers"],answer:1},
+        {q:"How can unconscious bias be reduced?",options:["By making faster decisions","By using evidence and consistent criteria","By avoiding records","By relying on first impressions"],answer:1},
+        {q:"What should happen after serious inappropriate behaviour?",options:["Ignore it","Report it through the correct route","Share it as a joke","Post it online"],answer:1},
+        {q:"What is a benefit of an inclusive team?",options:["Reduced communication","Improved trust and teamwork","More conflict","Less participation"],answer:1}]
+    },
+    {
+      id:"british-values",title:"British Values",category:"Personal Development",minutes:15,xp:500,passMark:90,status:"available",
+      description:"Explore democracy, the rule of law, individual liberty, mutual respect and tolerance through practical workplace examples.",
+      lessons:[
+        {title:"What British Values are",text:"The fundamental British Values are democracy, the rule of law, individual liberty, mutual respect and tolerance of different faiths and beliefs.",points:["Democracy","Rule of law","Liberty, respect and tolerance"]},
+        {title:"Democracy",text:"Democracy includes having a voice, contributing to decisions and respecting fair processes. In work this can include consultation, feedback and elected representation.",points:["Have a voice","Listen to others","Respect decisions"]},
+        {title:"Rule of law",text:"The rule of law means laws apply to everyone. Workplace policies, safety rules and professional standards help protect people and create accountability.",points:["Follow laws and rules","Understand consequences","Report unlawful behaviour"]},
+        {title:"Individual liberty",text:"Individual liberty means people can make lawful choices while respecting the rights and safety of others.",points:["Make informed choices","Respect boundaries","Accept responsibility"]},
+        {title:"Mutual respect",text:"Mutual respect means treating others with dignity even when views, roles or backgrounds differ.",points:["Listen respectfully","Avoid intimidation","Value contribution"]},
+        {title:"Tolerance",text:"Tolerance means accepting that people may hold different faiths, beliefs or viewpoints, provided these remain within the law.",points:["Respect difference","Avoid prejudice","Challenge extremism"]},
+        {title:"Workplace communication",text:"British Values can be demonstrated through fair discussion, listening, respectful disagreement and following agreed procedures.",points:["Discuss fairly","Disagree respectfully","Use formal routes"]},
+        {title:"Safeguarding and Prevent",text:"Prevent aims to stop people being drawn into terrorism. Concerns should be reported through safeguarding procedures rather than investigated personally.",points:["Recognise concerns","Report promptly","Do not investigate yourself"]},
+        {title:"Freedom and responsibility",text:"Freedom of expression does not excuse threatening, discriminatory or unlawful behaviour. Rights come with responsibilities.",points:["Stay within the law","Respect others","Take responsibility"]},
+        {title:"Applying values daily",text:"British Values are shown through fair behaviour, professional conduct, following rules and respecting the rights of colleagues and customers.",points:["Act fairly","Follow procedures","Respect rights"]}],
+      questions:[
+        {q:"Which is a fundamental British Value?",options:["Democracy","Profit","Seniority","Competition"],answer:0},
+        {q:"What does democracy involve?",options:["One person making every decision","Having a voice and respecting fair processes","Ignoring feedback","Avoiding consultation"],answer:1},
+        {q:"What does the rule of law mean?",options:["Rules only apply to managers","Laws apply to everyone","Policies are optional","Safety rules can be ignored"],answer:1},
+        {q:"What is individual liberty?",options:["Doing anything without consequence","Making lawful choices while respecting others","Ignoring workplace rules","Avoiding responsibility"],answer:1},
+        {q:"What is mutual respect?",options:["Agreeing with everyone","Treating others with dignity","Avoiding communication","Following only personal views"],answer:1},
+        {q:"What does tolerance involve?",options:["Accepting lawful differences in faith and belief","Ignoring discrimination","Allowing unlawful behaviour","Avoiding diverse teams"],answer:0},
+        {q:"How should a safeguarding concern be handled?",options:["Investigate it personally","Report it through the correct procedure","Share it widely","Ignore it"],answer:1},
+        {q:"Does freedom of expression allow threatening behaviour?",options:["Yes, always","No","Only at work","Only online"],answer:1},
+        {q:"Which behaviour reflects British Values at work?",options:["Respectful discussion and fair processes","Intimidating others","Ignoring rules","Excluding colleagues"],answer:0},
+        {q:"Why are workplace rules important?",options:["They create accountability and protection","They remove all choice","They apply only to apprentices","They replace the law"],answer:0}]
+    },
     {
       id:"fire-safety",title:"Fire Safety Awareness",category:"Health & Safety",minutes:15,xp:500,passMark:90,status:"available",
       description:"Learn how fires start, how to prevent them, what fire signs and alarms mean, and how to respond safely during an emergency.",
@@ -305,7 +355,32 @@
         {q:"Which can cause environmental nuisance?",options:["Noise and unnecessary lighting","Accurate cutting","Waste sorting","Switching equipment off"],answer:0},
         {q:"What is good environmental behaviour?",options:["Ignoring poor practice","Following controls and suggesting improvements","Using drains for disposal","Mixing waste streams"],answer:1}]
     },
-    {id:"mental-health-awareness",title:"Mental Health Awareness",category:"Wellbeing",minutes:20,xp:500,status:"coming-soon"}
+    {
+      id:"mental-health-awareness",title:"Mental Health Awareness",category:"Wellbeing",minutes:20,xp:500,passMark:90,status:"available",
+      description:"Build awareness of stress, anxiety, depression, supportive conversations and practical ways to protect wellbeing at work.",
+      lessons:[
+        {title:"Mental health and wellbeing",text:"Everyone has mental health. It can change over time and can be affected by work, relationships, finances, health and life events.",points:["Mental health affects everyone","It can change","Support is available"]},
+        {title:"Stress",text:"Short-term pressure can sometimes help performance, but prolonged or excessive stress can affect sleep, concentration, mood and physical health.",points:["Notice warning signs","Address causes early","Use healthy coping strategies"]},
+        {title:"Anxiety",text:"Anxiety can involve persistent worry, fear, restlessness or physical symptoms. Support and professional advice can help when anxiety affects daily life.",points:["Recognise symptoms","Avoid judgement","Encourage support"]},
+        {title:"Depression awareness",text:"Depression may involve persistent low mood, loss of interest, tiredness, hopelessness or changes in sleep and appetite.",points:["Take signs seriously","Listen without judgement","Encourage professional help"]},
+        {title:"Construction pressures",text:"Long hours, travel, insecurity, physical demands and workplace culture can affect mental wellbeing. Early conversations and practical support matter.",points:["Recognise industry pressures","Promote open discussion","Use support routes"]},
+        {title:"Supporting a colleague",text:"Choose a private moment, explain what you have noticed, listen carefully and avoid trying to diagnose or solve everything.",points:["Ask openly","Listen","Signpost support"]},
+        {title:"Looking after yourself",text:"Sleep, exercise, routine, breaks, connection and limiting harmful coping behaviours can support wellbeing.",points:["Maintain routines","Take breaks","Stay connected"]},
+        {title:"Boundaries and confidentiality",text:"Respect privacy, but do not promise complete secrecy where there is a risk of serious harm. Follow safeguarding or emergency procedures.",points:["Respect privacy","Know your limits","Escalate serious risk"]},
+        {title:"Urgent help",text:"If someone may be in immediate danger, contact emergency services or the relevant crisis support route. Stay with them where safe.",points:["Treat risk seriously","Get urgent help","Do not leave them unsupported"]},
+        {title:"Creating a healthy culture",text:"Healthy workplaces encourage respectful communication, realistic workloads, early support and zero tolerance of bullying.",points:["Promote respect","Support early action","Challenge stigma"]}],
+      questions:[
+        {q:"Who has mental health?",options:["Only people with a diagnosis","Everyone","Only adults","Only workers under pressure"],answer:1},
+        {q:"What can prolonged stress affect?",options:["Only physical strength","Sleep, mood and concentration","Only pay","Only attendance"],answer:1},
+        {q:"Which may be a sign of anxiety?",options:["Persistent worry","Improved concentration only","Higher wages","New equipment"],answer:0},
+        {q:"Which may be linked to depression?",options:["Persistent low mood and loss of interest","Temporary boredom only","Improved sleep","Increased confidence"],answer:0},
+        {q:"How should you support a colleague?",options:["Diagnose them","Listen and signpost support","Share their information","Tell them to ignore it"],answer:1},
+        {q:"Which can support wellbeing?",options:["Regular sleep and breaks","Avoiding all contact","Working constantly","Using harmful coping behaviours"],answer:0},
+        {q:"When should confidentiality be broken?",options:["For gossip","Where there is serious risk of harm","Whenever a manager asks casually","Never"],answer:1},
+        {q:"What should happen in an immediate crisis?",options:["Wait until next week","Seek urgent help","Post online","Leave the person alone"],answer:1},
+        {q:"What can improve workplace mental-health culture?",options:["Bullying","Respectful communication and early support","Ignoring concerns","Unrealistic workloads"],answer:1},
+        {q:"What should you avoid when supporting someone?",options:["Listening","Trying to diagnose them","Encouraging help","Choosing a private moment"],answer:1}]
+    }
   ];
 
   const esc=value=>String(value??"").replace(/[&<>"']/g,ch=>({
@@ -575,6 +650,18 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
     return"Start learning";
   }
 
+  let libraryFilter="All";
+  let librarySearch="";
+
+  function filteredCourses(){
+    const search=librarySearch.trim().toLowerCase();
+    return COURSES.filter(course=>{
+      const matchesFilter=libraryFilter==="All"||course.category===libraryFilter;
+      const haystack=`${course.title} ${course.category} ${course.description||""}`.toLowerCase();
+      return matchesFilter&&(!search||haystack.includes(search));
+    });
+  }
+
   function courseCard(course){
     const initials=course.title.split(" ").map(word=>word[0]).join("").slice(0,2);
     const progress=courseProgress(course.id);
@@ -641,10 +728,16 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
 
       <section class="apa-panel" id="apa-course-library">
         <div class="apa-heading">
-          <div><small>SHORT COURSES</small><h2>Academy course library</h2><p>Five core Academy courses are now available across every apprenticeship trade.</p></div>
+          <div><small>SHORT COURSES</small><h2>Academy course library</h2><p>All eight Academy courses are now available across every apprenticeship trade.</p></div>
           <span>${COURSES.filter(c=>c.status==="available").length} available</span>
         </div>
-        <div class="apa-course-list">${COURSES.map(courseCard).join("")}</div>
+        <div class="apa-library-tools">
+          <input type="search" placeholder="Search Academy courses" value="${esc(librarySearch)}" data-academy-search>
+          <div class="apa-filter-row">
+            ${["All","Health & Safety","Personal Development","Sustainability","Wellbeing"].map(category=>`<button type="button" class="${libraryFilter===category?"active":""}" data-academy-filter="${esc(category)}">${esc(category)}</button>`).join("")}
+          </div>
+        </div>
+        <div class="apa-course-list">${filteredCourses().map(courseCard).join("")||`<div class="apa-no-results"><h3>No matching courses</h3><p>Try another search or category.</p></div>`}</div>
       </section>
 
       <section class="apa-panel apa-coming">
@@ -864,6 +957,18 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
     container.querySelector("[data-academy-scroll='courses']")?.addEventListener("click",()=>{
       container.querySelector("#apa-course-library")?.scrollIntoView({behavior:"smooth",block:"start"});
     });
+    container.querySelector("[data-academy-search]")?.addEventListener("input",event=>{
+      librarySearch=event.target.value;
+      renderInto(container,"main");
+      requestAnimationFrame(()=>container.querySelector("[data-academy-search]")?.focus());
+    });
+    container.querySelectorAll("[data-academy-filter]").forEach(button=>{
+      button.onclick=()=>{
+        libraryFilter=button.dataset.academyFilter;
+        renderInto(container,"main");
+        requestAnimationFrame(()=>container.querySelector("#apa-course-library")?.scrollIntoView({block:"start"}));
+      };
+    });
     container.querySelectorAll("[data-course-id]").forEach(button=>{
       button.onclick=()=>{
         const course=findCourse(button.dataset.courseId);
@@ -956,7 +1061,7 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
   }
 
   window.ApprenticeshipPlusAcademy={
-    version:"phase6-v1",
+    version:"phase7-v1",
     renderInto,
     courses:COURSES
   };

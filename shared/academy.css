@@ -83,3 +83,13 @@
 /* Phase 6 progress refinement */
 .apa-course-card.available .apa-course-status span{min-width:92px;text-align:center}
 .apa-snapshot strong{font-variant-numeric:tabular-nums}
+
+/* Phase 7 search and category controls */
+.apa-library-tools{display:grid;gap:12px;margin:18px 0}
+.apa-library-tools input{width:100%;border:1px solid #d5e3e0;border-radius:14px;padding:13px 15px;font:inherit;outline:none}
+.apa-library-tools input:focus{border-color:#0a8a68;box-shadow:0 0 0 3px rgba(10,138,104,.12)}
+.apa-filter-row{display:flex;gap:8px;flex-wrap:wrap}
+.apa-filter-row button{border:1px solid #d8e5e2;border-radius:999px;padding:8px 11px;background:#fff;color:#496568;font-weight:800}
+.apa-filter-row button.active{background:#087267;color:#fff;border-color:#087267}
+.apa-no-results{grid-column:1/-1;text-align:center;padding:30px;border:1px dashed #cddbd8;border-radius:18px}
+.apa-no-results h3{margin:0 0 5px}.apa-no-results p{margin:0;color:#75878a}
