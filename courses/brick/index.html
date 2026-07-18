@@ -455,7 +455,7 @@ header{
 <link rel="stylesheet" href="./replace-home.css?v=14">
 <link rel="stylesheet" href="./first-login-setup.css?v=14">
 <link rel="stylesheet" href="./local-reminders.css?v=14">
-<link rel="stylesheet" href="../../install-course-option.css?v=16">
+<link rel="stylesheet" href="../../ios-pdf-guidance.css?v=1">
 </head><body>
 <header><div class="brand"><img src="./trade-logo.png" alt="Bricklaying"><div><h1>Apprenticeship+</h1><p>Bricklaying • Capture Evidence • EPA Preparation</p></div></div></header>
 <div id="installBar" class="install-bar"><div><b>Add Apprenticeship+ to your device</b><small>Install the evidence app for faster access and offline use.</small></div><div><button class="primary" id="installNow">Install</button> <button class="secondary" id="installLater">Later</button></div></div>
@@ -1916,10 +1916,27 @@ function detailBox(pdf,items,y){
 // Assignment PDF generation is isolated in assignment-pdf.js.
 
 function downloadBlob(blob,filename){
+  const safeName=String(filename||"Apprenticeship-Plus-Document.pdf").replace(/[\/:*?"<>|]+/g,"-");
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||
+    (navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
   const url=URL.createObjectURL(blob);
+
+  if(isIOS){
+    // iOS Safari ignores forced Blob downloads and may block a new tab after
+    // asynchronous PDF generation. Opening the Blob in the current tab is the
+    // reliable Apple workflow: Share > Save to Files.
+    try{
+      sessionStorage.setItem("apprenticeshipPlusLastPdfName",safeName);
+    }catch(error){}
+    window.location.assign(url);
+    setTimeout(()=>URL.revokeObjectURL(url),300000);
+    return;
+  }
+
   const link=document.createElement("a");
   link.href=url;
-  link.download=filename;
+  link.download=safeName;
+  link.rel="noopener";
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -1928,14 +1945,20 @@ function downloadBlob(blob,filename){
 
 function openBlob(blob,previewWindow=null){
   const url=URL.createObjectURL(blob);
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||
+    (navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+
+  if(isIOS){
+    window.location.assign(url);
+    setTimeout(()=>URL.revokeObjectURL(url),300000);
+    return;
+  }
+
   if(previewWindow&&!previewWindow.closed){
     previewWindow.location.href=url;
   }else{
-    const opened=window.open(url,"_blank");
-    if(!opened){
-      // The download still succeeds even if the browser blocks a new tab.
-      console.info("PDF preview was blocked by the browser.");
-    }
+    const opened=window.open(url,"_blank","noopener");
+    if(!opened) window.location.assign(url);
   }
   setTimeout(()=>URL.revokeObjectURL(url),120000);
 }
@@ -2453,14 +2476,31 @@ async function saveGeneratedPdfToDocuments(pdf,title,type){
 }
 
 function downloadBlob(blob,filename){
+  const safeName=String(filename||"Apprenticeship-Plus-Document.pdf").replace(/[\/:*?"<>|]+/g,"-");
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||
+    (navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
   const url=URL.createObjectURL(blob);
+
+  if(isIOS){
+    // iOS Safari ignores forced Blob downloads and may block a new tab after
+    // asynchronous PDF generation. Opening the Blob in the current tab is the
+    // reliable Apple workflow: Share > Save to Files.
+    try{
+      sessionStorage.setItem("apprenticeshipPlusLastPdfName",safeName);
+    }catch(error){}
+    window.location.assign(url);
+    setTimeout(()=>URL.revokeObjectURL(url),300000);
+    return;
+  }
+
   const link=document.createElement("a");
   link.href=url;
-  link.download=filename;
+  link.download=safeName;
+  link.rel="noopener";
   document.body.appendChild(link);
   link.click();
   link.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
 }
 
 async function downloadEpaPracticalMockPdf(record,profile){
@@ -4396,5 +4436,5 @@ pdf.setTextColor(255,255,255);
 <script defer src="./replace-home.js?v=14"></script>
 <script defer src="./local-reminders.js?v=14"></script>
 <script defer src="./first-login-setup.js?v=14"></script>
-<script defer src="../../install-course-option.js?v=16"></script>
+<script defer src="../../ios-pdf-guidance.js?v=1"></script>
 </body></html>
