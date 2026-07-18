@@ -1,5 +1,5 @@
 "use strict";
-const CACHE_NAME="apprenticeship-plus-bench-profile-reminders-fix-v13";
+const CACHE_NAME="apprenticeship-plus-bench-main-install-v16";
 const APP_FILES=[
  "./","./index.html","./app.js",
  "./professional-navigation.js","./professional-navigation.css",
@@ -35,6 +35,7 @@ self.addEventListener("fetch",event=>{
       const loader=`
 ;(function(){
  var styles=[
+  '../../install-course-option.css?v=16',
   './replace-home.css?v=12','./first-login-setup.css?v=12',
   './remove-old-home.css?v=10',
   './remove-smart-reminders.css?v=10',
@@ -47,6 +48,7 @@ self.addEventListener("fetch",event=>{
   './portfolio-blank-fix.css?v=6'
  ];
  var scripts=[
+  '../../install-course-option.js?v=16',
   './replace-home.js?v=12','./first-login-setup.js?v=13',
   './remove-old-home.js?v=10',
   './remove-old-home.js?v=9',
