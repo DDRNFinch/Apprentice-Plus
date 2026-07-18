@@ -1,26 +1,25 @@
-PROPERTY MAINTENANCE — REMOVE HOME REMINDERS AND MATCH BENCH
+PROPERTY MAINTENANCE — FREE LOCAL REMINDERS
 
 Open:
 courses > pmo
 
 Upload and replace:
-- remove-old-home.js
-- remove-old-home.css
-- remove-smart-reminders.css
+- local-reminders.js
+- local-reminders.css
 - service-worker.js
 
 Commit message:
-Remove old home content and smart reminders
+Replace Firebase with free local reminders
 
-This update:
-- removes the remaining old home-screen cards
-- removes the Smart Reminders card from the dashboard
-- keeps notification choices in Profile / Settings
-- keeps the notification bell and notification inbox
-- keeps Firebase push support
+This removes Firebase, Firestore, Cloud Functions and paid background push.
 
-After committing:
-1. Fully close Apprentice+.
-2. Open Property Maintenance once.
-3. Fully close it again.
-4. Reopen it.
+It keeps:
+- reminder bell and inbox
+- reminder settings in Profile / Settings
+- selectable days and time
+- selectable reminder types
+- personalised progress messages
+- evidence, assignment, OTJ, revision, streak and achievement reminders
+- offline support
+
+The reminder is checked whenever Apprentice+ is opened or being used.
