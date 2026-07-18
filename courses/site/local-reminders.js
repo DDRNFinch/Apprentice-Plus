@@ -196,9 +196,7 @@
   }
 
   function isProfile(){
-    const headings=[...document.querySelectorAll("h1,h2,h3")].map(el=>normalise(el.textContent));
-    const text=pageText();
-    return headings.some(x=>x==="profile"||x==="settings"||x.includes("profile and settings"))||text.includes("profile settings");
+    return !!document.querySelector("#saveProfile,#profileLearner");
   }
 
   function saveSettings(){
@@ -227,7 +225,12 @@
       <button id="ap-profile-enable-local">${p.enabled?"Reminders enabled":"Enable reminders"}</button>
       <button id="ap-profile-save-prefs" style="margin-top:10px;background:#e7f4f0;color:#075b63">Save reminder settings</button>
       <div class="ap-profile-status"></div>`;
-    (document.querySelector("main")||document.body).appendChild(root);
+    const learnerSection=document.querySelector("#saveProfile")?.closest("section,.card");
+    if(learnerSection && learnerSection.parentNode){
+      learnerSection.insertAdjacentElement("afterend",root);
+    }else{
+      (document.querySelector("main")||document.body).appendChild(root);
+    }
     root.querySelector("#ap-profile-enable-local").onclick=enableLocal;
     root.querySelector("#ap-profile-save-prefs").onclick=saveSettings;
   }
