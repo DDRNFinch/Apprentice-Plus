@@ -1215,3 +1215,33 @@ h1{font-size:42px;margin:12px 0 8px;color:#075e59}
     courses:COURSES,getBadges,saveBadges,defaultBadges:DEFAULT_BADGES
   };
 })();
+
+// ===== Phase 8.3 Badge Intelligence =====
+window.ApprenticeshipPlusAcademy = window.ApprenticeshipPlusAcademy || {};
+
+ApprenticeshipPlusAcademy.getUnlockedBadges = function(){
+  const badges = JSON.parse(localStorage.getItem('ap_badges')||'{}');
+  return Object.keys(badges).filter(k=>badges[k]===true);
+};
+
+ApprenticeshipPlusAcademy.unlockBadge = function(id){
+  const badges = JSON.parse(localStorage.getItem('ap_badges')||'{}');
+  if(!badges[id]){
+    badges[id]=true;
+    localStorage.setItem('ap_badges',JSON.stringify(badges));
+  }
+};
+
+ApprenticeshipPlusAcademy.getNextBadge = function(){
+  const defs = ApprenticeshipPlusAcademy.badgeDatabase || [];
+  const unlocked = ApprenticeshipPlusAcademy.getUnlockedBadges();
+  return defs.find(b=>!unlocked.includes(b.id)) || null;
+};
+
+ApprenticeshipPlusAcademy.getBadgeProgress = function(){
+  const defs = ApprenticeshipPlusAcademy.badgeDatabase || [];
+  return {
+    unlocked: ApprenticeshipPlusAcademy.getUnlockedBadges().length,
+    total: defs.length
+  };
+};
