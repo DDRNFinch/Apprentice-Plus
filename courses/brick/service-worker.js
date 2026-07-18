@@ -1,5 +1,5 @@
 "use strict";
-const CACHE_NAME="apprenticeship-plus-brick-single-home-setup-v12";
+const CACHE_NAME="apprenticeship-plus-brick-direct-index-v14";
 const APP_FILES=[
  "./","./index.html",
  './professional-navigation.js','./professional-navigation.css','./remove-workbench.js','./modern-dashboard.js','./modern-dashboard.css','./section-grid-force-fix.js','./section-grid-force-fix.css','./section-grid-cleanup.js','./section-grid-cleanup.css','./portfolio-blank-fix.js','./portfolio-blank-fix.css',
@@ -23,15 +23,15 @@ self.addEventListener("fetch",event=>{
     './replace-home.css?v=12','./first-login-setup.css?v=12',
     './remove-old-home.css?v=10',
     './remove-smart-reminders.css?v=10',
-    './legacy-home-cleanup.css?v=8','./local-reminders.css?v=11',
+    './legacy-home-cleanup.css?v=8','./local-reminders.css?v=13',
     './professional-navigation.css?v=1','./modern-dashboard.css?v=1',
     './section-grid-force-fix.css?v=1','./section-grid-cleanup.css?v=1',
     './portfolio-blank-fix.css?v=1'
    ];
    const scripts=[
-    './replace-home.js?v=12','./first-login-setup.js?v=12',
+    './replace-home.js?v=12','./first-login-setup.js?v=13',
     './remove-old-home.js?v=10',
-    './legacy-home-cleanup.js?v=8','./local-reminders.js?v=11',
+    './legacy-home-cleanup.js?v=8','./local-reminders.js?v=13',
     './professional-navigation.js?v=1','./remove-workbench.js?v=1',
     './modern-dashboard.js?v=1','./section-grid-force-fix.js?v=1',
     './section-grid-cleanup.js?v=1','./portfolio-blank-fix.js?v=1'

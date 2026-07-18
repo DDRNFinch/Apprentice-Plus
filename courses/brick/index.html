@@ -447,6 +447,14 @@ header{
 
 .signature-pad{touch-action:none!important;user-select:none!important;-webkit-user-select:none!important;-webkit-touch-callout:none!important;caret-color:transparent!important;cursor:crosshair!important}.signature-pad:focus{outline:none!important}
 </style>
+<link rel="stylesheet" href="./professional-navigation.css?v=14">
+<link rel="stylesheet" href="./modern-dashboard.css?v=14">
+<link rel="stylesheet" href="./section-grid-force-fix.css?v=14">
+<link rel="stylesheet" href="./section-grid-cleanup.css?v=14">
+<link rel="stylesheet" href="./portfolio-blank-fix.css?v=14">
+<link rel="stylesheet" href="./replace-home.css?v=14">
+<link rel="stylesheet" href="./first-login-setup.css?v=14">
+<link rel="stylesheet" href="./local-reminders.css?v=14">
 </head><body>
 <header><div class="brand"><img src="./trade-logo.png" alt="Bricklaying"><div><h1>Apprenticeship+</h1><p>Bricklaying • Capture Evidence • EPA Preparation</p></div></div></header>
 <div id="installBar" class="install-bar"><div><b>Add Apprenticeship+ to your device</b><small>Install the evidence app for faster access and offline use.</small></div><div><button class="primary" id="installNow">Install</button> <button class="secondary" id="installLater">Later</button></div></div>
@@ -4378,113 +4386,13 @@ pdf.setTextColor(255,255,255);
 </div>
 
 <script src="../../course-bridge.js"></script>
-
-<script>
-/* Apprenticeship+: reliable Continue Assignment navigation */
-(function(){
-  function continueToAssignment(button){
-    const match = (button?.textContent || "").match(/Assignment\s+(\d+)/i);
-    const assignmentId = Number(button?.dataset?.openAssignment || (match && match[1]));
-    if (!Number.isFinite(assignmentId) || assignmentId < 1) return false;
-
-    try {
-      if (typeof openAssignmentId !== "undefined") openAssignmentId = assignmentId;
-      if (typeof state === "object" && state) {
-        state.lastAssignment = assignmentId;
-        if (typeof saveState === "function") saveState(state);
-      }
-
-      if (typeof go === "function") {
-        go("evidence");
-        return true;
-      }
-
-      const evidenceTab =
-        document.querySelector('[data-route="evidence"]') ||
-        document.querySelector('[data-tab="evidence"]') ||
-        [...document.querySelectorAll("button")].find(
-          el => /assignments|evidence/i.test(el.textContent || "")
-        );
-
-      if (evidenceTab) {
-        evidenceTab.click();
-        setTimeout(() => {
-          const assignmentButton =
-            document.querySelector(`[data-open-assignment="${assignmentId}"]`) ||
-            document.querySelector(`[data-assignment-id="${assignmentId}"]`);
-          if (assignmentButton && assignmentButton !== button) assignmentButton.click();
-        }, 100);
-        return true;
-      }
-    } catch (error) {
-      console.error("Continue Assignment navigation error:", error);
-    }
-    return false;
-  }
-
-  document.addEventListener("click", function(event){
-    const button = event.target.closest(
-      '[data-open-assignment], button, a'
-    );
-    if (!button || !/Continue\s+Assignment\s+\d+/i.test(button.textContent || "")) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    continueToAssignment(button);
-  }, true);
-
-  window.continueToAssignment = continueToAssignment;
-})();
-</script>
-
-<script>
-/* Apprenticeship+: make browser/gesture Back return to the course Home dropdown */
-(function(){
-  let handlingBackGesture = false;
-
-  function returnToCourseHome(){
-    if (handlingBackGesture) return;
-    handlingBackGesture = true;
-
-    try {
-      if (typeof openAssignmentId !== "undefined") openAssignmentId = null;
-
-      if (typeof go === "function") {
-        go("home");
-      } else {
-        const homeControl =
-          document.querySelector('[data-route="home"]') ||
-          document.querySelector('[data-tab="home"]') ||
-          [...document.querySelectorAll("button, a, select option")].find(
-            element => /^home$/i.test((element.textContent || "").trim())
-          );
-
-        if (homeControl) {
-          if (homeControl.tagName === "OPTION") {
-            const select = homeControl.closest("select");
-            if (select) {
-              select.value = homeControl.value;
-              select.dispatchEvent(new Event("change", { bubbles:true }));
-            }
-          } else {
-            homeControl.click();
-          }
-        }
-      }
-    } catch (error) {
-      console.error("Back gesture navigation error:", error);
-    }
-
-    history.pushState({ apprenticeshipPlusCourse:true }, "", location.href);
-    setTimeout(() => { handlingBackGesture = false; }, 50);
-  }
-
-  if (!history.state || !history.state.apprenticeshipPlusCourse) {
-    history.replaceState({ apprenticeshipPlusCourse:true }, "", location.href);
-  }
-  history.pushState({ apprenticeshipPlusCourse:true }, "", location.href);
-
-  window.addEventListener("popstate", returnToCourseHome);
-  window.returnToCourseHome = returnToCourseHome;
-})();
-</script>
+<script defer src="./professional-navigation.js?v=14"></script>
+<script defer src="./remove-workbench.js?v=14"></script>
+<script defer src="./modern-dashboard.js?v=14"></script>
+<script defer src="./section-grid-force-fix.js?v=14"></script>
+<script defer src="./section-grid-cleanup.js?v=14"></script>
+<script defer src="./portfolio-blank-fix.js?v=14"></script>
+<script defer src="./replace-home.js?v=14"></script>
+<script defer src="./local-reminders.js?v=14"></script>
+<script defer src="./first-login-setup.js?v=14"></script>
 </body></html>

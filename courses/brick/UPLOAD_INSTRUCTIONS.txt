@@ -1,23 +1,20 @@
-BRICKLAYING — SINGLE HOME AND FIRST-LOGIN SETUP
+BRICKLAYING — DIRECT INDEX BENCH-MATCHING UPDATE
+
+Brick is built differently from Bench, Site and PMO. Its interface is inside index.html.
 
 Open:
 courses > brick
 
-Upload and replace:
-- replace-home.js
-- replace-home.css
-- first-login-setup.js
-- first-login-setup.css
-- service-worker.js
+Upload and replace every file in this ZIP, including index.html.
 
 Commit message:
-Replace old home and add first login setup
+Update Brick directly to match Bench
 
-This update:
-- makes the modern dashboard the only home screen
-- removes all remaining old home cards
-- removes the old Smart Reminders card
-- keeps the navigation and notification bell
-- shows a setup popup when learner details are missing
-- shows a setup popup when reminder preferences are missing
-- sends the learner to Profile / Settings to complete setup
+This direct update:
+- links the professional navigation and modern dashboard in index.html
+- removes the remaining old Brick home screen
+- adds free local reminders
+- places reminder types, days and preferred time below learner details
+- fixes saved learner-profile detection
+- adds the first-login setup prompt
+- no longer depends on the service worker injecting the interface files
